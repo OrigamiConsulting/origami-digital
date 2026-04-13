@@ -34,7 +34,7 @@ const budgetOptions = [
 ];
 
 const inputClasses =
-  'w-full rounded-lg border border-[#DEDEDE] bg-white px-4 py-3 text-[#1E1E1E] placeholder-[#8A8A8A] transition-all duration-200 focus:border-[#0A8FBF] focus:outline-none focus:ring-2 focus:ring-[#0A8FBF]/30';
+  'w-full rounded-xl border border-[#DEDEDE] bg-white px-4 py-3 font-[family-name:var(--font-body)] text-[#1E1E1E] placeholder-[#8A8A8A] transition-all duration-200 focus:border-[#0A8FBF] focus:outline-none focus:ring-2 focus:ring-[#0A8FBF]';
 
 const labelClasses = 'mb-1.5 block text-sm font-semibold text-[#1E1E1E]';
 
@@ -214,7 +214,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="inline-flex w-full items-center justify-center rounded-lg bg-[#EF6351] px-8 py-4 text-lg font-semibold text-white transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-[#D94F3F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EF6351] focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
+        className="inline-flex w-full items-center justify-center rounded-xl bg-[#EF6351] px-8 py-4 text-lg font-semibold text-white transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-[#D94F3F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EF6351] focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
       >
         {status === 'submitting' ? (
           <>

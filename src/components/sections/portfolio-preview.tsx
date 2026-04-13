@@ -2,8 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { FadeIn } from '@/components/ui/fade-in'
-import { SectionWrapper } from '@/components/ui/section-wrapper'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 
 interface Project {
   title: string
@@ -41,85 +40,82 @@ const projects: Project[] = [
 
 export function PortfolioPreview() {
   return (
-    <SectionWrapper dark id="work">
-      <div className="text-center mb-16">
-        <FadeIn>
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <span className="block h-px w-12 bg-[#0A8FBF]" />
+    <section id="work" className="noise-texture bg-[#1E1E1E] py-24 md:py-32 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <ScrollReveal>
             <span className="text-sm font-semibold uppercase tracking-widest text-[#0A8FBF]">
-              Portfolio
+              PORTFOLIO
             </span>
-            <span className="block h-px w-12 bg-[#0A8FBF]" />
-          </div>
-        </FadeIn>
-        <FadeIn delay={0.1}>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Selected Work
-          </h2>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <p className="text-lg text-[#8A8A8A] max-w-2xl mx-auto">
-            Real projects. Real results.
-          </p>
-        </FadeIn>
-      </div>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <h2 className="section-heading text-white mt-4">
+              Selected Work
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={200}>
+            <p className="text-lg text-[#B0B0B0] mt-4">
+              Real projects. Real results.
+            </p>
+          </ScrollReveal>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {projects.map((project, index) => (
-          <FadeIn key={project.title} delay={0.1 * index}>
-            <div
-              className="group relative rounded-2xl bg-[#2A2A2A] overflow-hidden
-                         transition-all duration-300 ease-out
-                         hover:scale-[1.02] hover:shadow-2xl"
-            >
-              <div className="aspect-video w-full relative overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} — ${project.description}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-[#8A8A8A] text-sm mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs font-medium px-3 py-1 rounded-full
-                                 bg-white/5 text-[#DEDEDE] border border-white/10"
-                    >
-                      {tag}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <ScrollReveal key={project.title} delay={100 * index}>
+              <div className="group relative rounded-2xl bg-[#2A2A2A] overflow-hidden">
+                <div className="aspect-video w-full relative overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} — ${project.description}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white font-semibold text-lg">
+                      View Project &rarr;
                     </span>
-                  ))}
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-white font-[family-name:var(--font-display)]">
+                    {project.title}
+                  </h3>
+                  <p className="text-[#8A8A8A] text-sm mt-2">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-xs bg-white/5 border border-white/10 text-[#DEDEDE] rounded-full px-3 py-1"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </FadeIn>
-        ))}
-      </div>
-
-      <FadeIn delay={0.5}>
-        <div className="text-center mt-14">
-          <Link
-            href="/work"
-            className="inline-flex items-center gap-2 text-[#0A8FBF] font-semibold
-                       transition-colors duration-200 hover:text-[#087CA7] group"
-          >
-            View All Projects
-            <span className="transition-transform duration-200 group-hover:translate-x-1">
-              &rarr;
-            </span>
-          </Link>
+            </ScrollReveal>
+          ))}
         </div>
-      </FadeIn>
-    </SectionWrapper>
+
+        <ScrollReveal delay={500}>
+          <div className="text-center mt-14">
+            <Link
+              href="/work"
+              className="inline-flex items-center gap-2 text-[#0A8FBF] font-semibold transition-colors duration-200 hover:text-[#087CA7] group"
+            >
+              View All Projects
+              <span className="transition-transform duration-200 group-hover:translate-x-1">
+                &rarr;
+              </span>
+            </Link>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
   )
 }

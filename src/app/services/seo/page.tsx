@@ -1,5 +1,4 @@
-import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { FadeIn } from "@/components/ui/fade-in";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { Button } from "@/components/ui/button";
 import { generatePageMetadata } from "@/lib/metadata";
 
@@ -68,127 +67,139 @@ export default function SeoPage() {
   return (
     <>
       {/* Hero */}
-      <SectionWrapper dark>
-        <div className="max-w-3xl">
-          <FadeIn>
-            <span className="inline-block text-sm font-semibold tracking-widest uppercase text-[#297373] mb-4">
-              Grow
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              SEO &amp; Generative Engine Optimisation
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <p className="mt-6 text-lg md:text-xl text-[#DEDEDE] max-w-2xl">
-              Get found on Google and AI search engines. We optimise your
-              digital presence for where your customers are searching today —
-              and where they will be searching tomorrow.
-            </p>
-          </FadeIn>
+      <section className="noise-texture bg-[#141414] py-24 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl">
+            <ScrollReveal>
+              <span className="inline-block text-sm font-semibold tracking-widest uppercase text-[#297373] mb-4">
+                Grow
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
+                SEO &amp; Generative Engine Optimisation
+              </h1>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <p className="mt-6 text-lg md:text-xl text-[#B0B0B0] max-w-2xl">
+                Get found on Google and AI search engines. We optimise your
+                digital presence for where your customers are searching today —
+                and where they will be searching tomorrow.
+              </p>
+            </ScrollReveal>
+          </div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* Problem / Solution */}
-      <SectionWrapper>
-        <div className="grid md:grid-cols-2 gap-12 md:gap-16">
-          <FadeIn>
-            <h2 className="text-3xl font-bold mb-4">The Problem</h2>
-            <p className="text-[#4A4A4A] text-lg">
-              You have a great business, but potential customers cannot find you
-              online. Your competitors rank higher on Google, and now AI search
-              tools are changing the game entirely. Without a clear SEO strategy,
-              you are leaving revenue on the table every single day.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h2 className="text-3xl font-bold mb-4">Our Solution</h2>
-            <p className="text-[#4A4A4A] text-lg">
-              We combine traditional SEO with Generative Engine Optimisation to
-              ensure your business appears in both Google results and AI-powered
-              search responses. From technical fixes to content strategy, we
-              build visibility that compounds over time.
-            </p>
-          </FadeIn>
+      <section className="bg-white py-24 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+            <ScrollReveal>
+              <h2 className="text-3xl font-bold mb-4 text-[#1E1E1E]">The Problem</h2>
+              <p className="text-[#4A4A4A] text-lg">
+                You have a great business, but potential customers cannot find you
+                online. Your competitors rank higher on Google, and now AI search
+                tools are changing the game entirely. Without a clear SEO strategy,
+                you are leaving revenue on the table every single day.
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <h2 className="text-3xl font-bold mb-4 text-[#1E1E1E]">Our Solution</h2>
+              <p className="text-[#4A4A4A] text-lg">
+                We combine traditional SEO with Generative Engine Optimisation to
+                ensure your business appears in both Google results and AI-powered
+                search responses. From technical fixes to content strategy, we
+                build visibility that compounds over time.
+              </p>
+            </ScrollReveal>
+          </div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* What's Included */}
-      <SectionWrapper dark>
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">
-            What&apos;s Included
-          </h2>
-        </FadeIn>
-        <div className="grid md:grid-cols-2 gap-6">
-          {includes.map((item, index) => (
-            <FadeIn key={index} delay={index * 0.05}>
-              <div className="flex items-start gap-4 p-6 rounded-xl bg-[#2A2A2A]">
-                <span className="mt-1 flex-shrink-0 h-5 w-5 rounded-full bg-[#297373] flex items-center justify-center text-xs font-bold">
-                  &#10003;
-                </span>
-                <p className="text-[#DEDEDE]">{item}</p>
-              </div>
-            </FadeIn>
-          ))}
+      <section className="noise-texture bg-[#141414] py-24 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-white">
+              What&apos;s Included
+            </h2>
+          </ScrollReveal>
+          <div className="grid md:grid-cols-2 gap-6">
+            {includes.map((item, index) => (
+              <ScrollReveal key={index} delay={index * 50}>
+                <div className="flex items-start gap-4 p-6 rounded-xl bg-[#2A2A2A]">
+                  <span className="mt-1 flex-shrink-0 h-5 w-5 rounded-full bg-[#297373] flex items-center justify-center text-xs font-bold">
+                    &#10003;
+                  </span>
+                  <p className="text-[#B0B0B0]">{item}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* Process */}
-      <SectionWrapper>
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">How We Work</h2>
-        </FadeIn>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {process.map((item, index) => (
-            <FadeIn key={item.step} delay={index * 0.1}>
-              <div>
-                <span className="text-5xl font-bold text-[#297373]/20">
-                  {item.step}
-                </span>
-                <h3 className="text-xl font-bold mt-2 mb-3">{item.title}</h3>
-                <p className="text-[#4A4A4A]">{item.description}</p>
-              </div>
-            </FadeIn>
-          ))}
+      <section className="bg-white py-24 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-[#1E1E1E]">How We Work</h2>
+          </ScrollReveal>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {process.map((item, index) => (
+              <ScrollReveal key={item.step} delay={index * 100}>
+                <div>
+                  <span className="text-5xl font-bold text-[#297373]/20">
+                    {item.step}
+                  </span>
+                  <h3 className="text-xl font-bold mt-2 mb-3 text-[#1E1E1E]">{item.title}</h3>
+                  <p className="text-[#4A4A4A]">{item.description}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* FAQ */}
-      <SectionWrapper dark>
-        <FadeIn>
-          <h2 className="text-3xl md:text-4xl font-bold mb-12">
-            Frequently Asked Questions
-          </h2>
-        </FadeIn>
-        <div className="max-w-3xl space-y-8">
-          {faqs.map((faq, index) => (
-            <FadeIn key={index} delay={index * 0.1}>
-              <div>
-                <h3 className="text-xl font-semibold mb-3">{faq.question}</h3>
-                <p className="text-[#DEDEDE]">{faq.answer}</p>
-              </div>
-            </FadeIn>
-          ))}
+      <section className="noise-texture bg-[#141414] py-24 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-white">
+              Frequently Asked Questions
+            </h2>
+          </ScrollReveal>
+          <div className="max-w-3xl space-y-8">
+            {faqs.map((faq, index) => (
+              <ScrollReveal key={index} delay={index * 100}>
+                <div>
+                  <h3 className="text-xl font-semibold mb-3 text-white">{faq.question}</h3>
+                  <p className="text-[#B0B0B0]">{faq.answer}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* CTA */}
-      <SectionWrapper>
-        <div className="text-center max-w-2xl mx-auto">
-          <FadeIn>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to get started?
-            </h2>
-            <p className="text-lg text-[#4A4A4A] mb-8">
-              Request a free SEO audit and find out where your biggest growth
-              opportunities are.
-            </p>
-            <Button href="/contact" size="lg">
-              Get a Free SEO Audit
-            </Button>
-          </FadeIn>
+      <section className="bg-white py-24 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto">
+            <ScrollReveal>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#1E1E1E]">
+                Ready to get started?
+              </h2>
+              <p className="text-lg text-[#4A4A4A] mb-8">
+                Request a free SEO audit and find out where your biggest growth
+                opportunities are.
+              </p>
+              <Button href="/contact" size="lg">
+                Get a Free SEO Audit
+              </Button>
+            </ScrollReveal>
+          </div>
         </div>
-      </SectionWrapper>
+      </section>
     </>
   );
 }

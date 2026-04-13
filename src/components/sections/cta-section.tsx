@@ -1,74 +1,48 @@
-'use client';
+'use client'
 
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { FadeIn } from '@/components/ui/fade-in';
+import Link from 'next/link'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 
 export function CTASection() {
   return (
-    <section
-      id="cta"
-      className="relative overflow-hidden px-4 py-20 md:py-28 lg:py-32"
-      style={{
-        background: 'linear-gradient(135deg, #141414 0%, #1a2a35 50%, #141414 100%)',
-      }}
-    >
-      {/* Decorative gradient orbs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <motion.div
-          className="absolute -left-40 top-1/4 h-[400px] w-[400px] rounded-full opacity-15 blur-[120px]"
-          style={{ background: 'radial-gradient(circle, #0A8FBF, transparent 70%)' }}
-          animate={{
-            x: [0, 40, -20, 0],
-            y: [0, -30, 20, 0],
-            scale: [1, 1.1, 0.95, 1],
-          }}
-          transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute -right-40 bottom-1/4 h-[350px] w-[350px] rounded-full opacity-15 blur-[100px]"
-          style={{ background: 'radial-gradient(circle, #297373, transparent 70%)' }}
-          animate={{
-            x: [0, -30, 20, 0],
-            y: [0, 20, -30, 0],
-            scale: [1, 0.9, 1.1, 1],
-          }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
+    <section id="cta" className="relative overflow-hidden py-24 md:py-32 px-6">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0A8FBF] to-[#297373] noise-texture" />
+      <div className="absolute inset-0 bg-[#141414]/30" />
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto max-w-3xl text-center">
-        <FadeIn>
-          <h2 className="mb-6 font-display text-3xl font-bold text-white md:text-4xl lg:text-5xl">
-            Ready to Transform Your Digital Presence?
+      <div className="relative z-10 max-w-3xl mx-auto text-center">
+        <ScrollReveal>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-display)] text-white">
+            Ready to Build Something Exceptional?
           </h2>
-        </FadeIn>
+        </ScrollReveal>
 
-        <FadeIn delay={0.15}>
-          <p className="mx-auto mb-10 max-w-xl text-lg text-neutral-300 md:text-xl">
-            Let&apos;s discuss how we can help your business build, grow, and
-            automate.
+        <ScrollReveal delay={150}>
+          <p className="text-lg text-white/80 mt-6 max-w-xl mx-auto">
+            Let&apos;s discuss how we can help your business build, grow, and automate.
           </p>
-        </FadeIn>
+        </ScrollReveal>
 
-        <FadeIn delay={0.3}>
-          <div className="flex flex-col items-center gap-6">
-            <Button href="/contact" variant="primary" size="lg">
-              Get a Free Consultation
-            </Button>
-            <p className="text-sm text-neutral-400">
-              Or email us directly at{' '}
-              <a
-                href="mailto:hello@origami-digital.co.za"
-                className="text-[#0A8FBF] underline underline-offset-2 transition-colors hover:text-[#087CA7]"
-              >
-                hello@origami-digital.co.za
-              </a>
-            </p>
-          </div>
-        </FadeIn>
+        <ScrollReveal delay={300}>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center bg-[#EF6351] text-white rounded-full px-10 py-5 text-lg font-semibold mt-10 shadow-[0_0_40px_rgba(239,99,81,0.3)] hover:bg-[#D94F3F] hover:shadow-[0_0_50px_rgba(239,99,81,0.4)] hover:scale-[1.02] transition-all duration-200"
+          >
+            Get a Free Consultation
+          </Link>
+        </ScrollReveal>
+
+        <ScrollReveal delay={400}>
+          <p className="text-white/60 text-sm mt-6">
+            Or email us at{' '}
+            <a
+              href="mailto:hello@origami-digital.co.za"
+              className="text-white hover:text-white/80 transition-colors underline underline-offset-2"
+            >
+              hello@origami-digital.co.za
+            </a>
+          </p>
+        </ScrollReveal>
       </div>
     </section>
-  );
+  )
 }

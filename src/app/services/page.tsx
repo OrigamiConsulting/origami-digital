@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { FadeIn } from "@/components/ui/fade-in";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { Button } from "@/components/ui/button";
 import { generatePageMetadata } from "@/lib/metadata";
 
@@ -75,106 +74,163 @@ export default function ServicesPage() {
   return (
     <>
       {/* Hero */}
-      <SectionWrapper dark>
-        <div className="text-center max-w-3xl mx-auto">
-          <FadeIn>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              Our Services
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <p className="mt-6 text-lg md:text-xl text-[#DEDEDE]">
-              Build. Grow. Automate. — Everything you need for digital success.
-            </p>
-          </FadeIn>
+      <section className="noise-texture bg-[#141414] py-24 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto">
+            <ScrollReveal>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
+                Our Services
+              </h1>
+            </ScrollReveal>
+            <ScrollReveal delay={100}>
+              <p className="mt-6 text-lg md:text-xl text-[#B0B0B0]">
+                Build. Grow. Automate. — Everything you need for digital success.
+              </p>
+            </ScrollReveal>
+          </div>
         </div>
-      </SectionWrapper>
+      </section>
 
       {/* Pillars */}
-      {pillars.map((pillar, pillarIndex) => (
-        <SectionWrapper key={pillar.name} dark={pillarIndex % 2 !== 0}>
-          <FadeIn>
-            <div className="mb-12">
-              <span
-                className="inline-block text-sm font-semibold tracking-widest uppercase mb-2"
-                style={{ color: pillar.colour }}
-              >
-                {pillar.name}
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold">
-                {pillar.tagline}
-              </h2>
-            </div>
-          </FadeIn>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pillar.services.map((service, serviceIndex) => (
-              <FadeIn
-                key={service.href}
-                delay={serviceIndex * 0.1}
-              >
-                <Link
-                  href={service.href}
-                  className="group block h-full rounded-2xl border border-[#DEDEDE]/20 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                  style={{
-                    backgroundColor:
-                      pillarIndex % 2 !== 0
-                        ? "rgba(255,255,255,0.05)"
-                        : "rgba(30,30,30,0.03)",
-                  }}
-                >
-                  <div
-                    className="mb-4 h-12 w-12 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: `${pillar.colour}20` }}
-                  >
-                    <div
-                      className="h-5 w-5 rounded-sm"
-                      style={{ backgroundColor: pillar.colour }}
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-                  <p
-                    className={`text-base mb-6 ${
-                      pillarIndex % 2 !== 0
-                        ? "text-[#DEDEDE]"
-                        : "text-[#4A4A4A]"
-                    }`}
-                  >
-                    {service.description}
-                  </p>
+      {pillars.map((pillar, pillarIndex) =>
+        pillarIndex % 2 !== 0 ? (
+          <section key={pillar.name} className="noise-texture bg-[#141414] py-24 md:py-32 px-6">
+            <div className="max-w-7xl mx-auto">
+              <ScrollReveal>
+                <div className="mb-12">
                   <span
-                    className="inline-flex items-center text-sm font-semibold transition-colors"
+                    className="inline-block text-sm font-semibold tracking-widest uppercase mb-2"
                     style={{ color: pillar.colour }}
                   >
-                    Learn More
-                    <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">
-                      &rarr;
-                    </span>
+                    {pillar.name}
                   </span>
-                </Link>
-              </FadeIn>
-            ))}
-          </div>
-        </SectionWrapper>
-      ))}
+                  <h2 className="text-3xl md:text-4xl font-bold text-white">
+                    {pillar.tagline}
+                  </h2>
+                </div>
+              </ScrollReveal>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {pillar.services.map((service, serviceIndex) => (
+                  <ScrollReveal
+                    key={service.href}
+                    delay={serviceIndex * 100}
+                  >
+                    <Link
+                      href={service.href}
+                      className="group block h-full rounded-2xl border border-[#DEDEDE]/20 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                      style={{
+                        backgroundColor: "rgba(255,255,255,0.05)",
+                      }}
+                    >
+                      <div
+                        className="mb-4 h-12 w-12 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: `${pillar.colour}20` }}
+                      >
+                        <div
+                          className="h-5 w-5 rounded-sm"
+                          style={{ backgroundColor: pillar.colour }}
+                        />
+                      </div>
+                      <h3 className="text-xl font-bold mb-3 text-white">{service.title}</h3>
+                      <p className="text-base mb-6 text-[#B0B0B0]">
+                        {service.description}
+                      </p>
+                      <span
+                        className="inline-flex items-center text-sm font-semibold transition-colors"
+                        style={{ color: pillar.colour }}
+                      >
+                        Learn More
+                        <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">
+                          &rarr;
+                        </span>
+                      </span>
+                    </Link>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : (
+          <section key={pillar.name} className="bg-white py-24 md:py-32 px-6">
+            <div className="max-w-7xl mx-auto">
+              <ScrollReveal>
+                <div className="mb-12">
+                  <span
+                    className="inline-block text-sm font-semibold tracking-widest uppercase mb-2"
+                    style={{ color: pillar.colour }}
+                  >
+                    {pillar.name}
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-bold text-[#1E1E1E]">
+                    {pillar.tagline}
+                  </h2>
+                </div>
+              </ScrollReveal>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {pillar.services.map((service, serviceIndex) => (
+                  <ScrollReveal
+                    key={service.href}
+                    delay={serviceIndex * 100}
+                  >
+                    <Link
+                      href={service.href}
+                      className="group block h-full rounded-2xl border border-[#DEDEDE]/20 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                      style={{
+                        backgroundColor: "rgba(30,30,30,0.03)",
+                      }}
+                    >
+                      <div
+                        className="mb-4 h-12 w-12 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: `${pillar.colour}20` }}
+                      >
+                        <div
+                          className="h-5 w-5 rounded-sm"
+                          style={{ backgroundColor: pillar.colour }}
+                        />
+                      </div>
+                      <h3 className="text-xl font-bold mb-3 text-[#1E1E1E]">{service.title}</h3>
+                      <p className="text-base mb-6 text-[#4A4A4A]">
+                        {service.description}
+                      </p>
+                      <span
+                        className="inline-flex items-center text-sm font-semibold transition-colors"
+                        style={{ color: pillar.colour }}
+                      >
+                        Learn More
+                        <span className="ml-1 transition-transform duration-200 group-hover:translate-x-1">
+                          &rarr;
+                        </span>
+                      </span>
+                    </Link>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      )}
 
       {/* CTA */}
-      <SectionWrapper dark>
-        <div className="text-center max-w-2xl mx-auto">
-          <FadeIn>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Not sure where to start?
-            </h2>
-            <p className="text-lg text-[#DEDEDE] mb-8">
-              Book a free consultation and we will help you identify the highest-impact
-              opportunities for your business.
-            </p>
-            <Button href="/contact" size="lg">
-              Get a Free Consultation
-            </Button>
-          </FadeIn>
+      <section className="noise-texture bg-[#141414] py-24 md:py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto">
+            <ScrollReveal>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
+                Not sure where to start?
+              </h2>
+              <p className="text-lg text-[#B0B0B0] mb-8">
+                Book a free consultation and we will help you identify the highest-impact
+                opportunities for your business.
+              </p>
+              <Button href="/contact" size="lg">
+                Get a Free Consultation
+              </Button>
+            </ScrollReveal>
+          </div>
         </div>
-      </SectionWrapper>
+      </section>
     </>
   );
 }

@@ -2,9 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Button } from '@/components/ui/button'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 type NavLink = {
   label: string
@@ -65,10 +63,13 @@ export function Header() {
     }
   }, [mobileMenuOpen])
 
-  function isActive(href: string): boolean {
-    if (href === '/') return pathname === '/'
-    return pathname.startsWith(href)
-  }
+  const isActive = useCallback(
+    (href: string): boolean => {
+      if (href === '/') return pathname === '/'
+      return pathname.startsWith(href)
+    },
+    [pathname]
+  )
 
   function handleDropdownEnter() {
     if (dropdownTimeout.current) {
@@ -90,7 +91,7 @@ export function Header() {
         className={[
           'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
           scrolled
-            ? 'bg-[#141414]/95 backdrop-blur-md shadow-lg'
+            ? 'bg-[#141414]/80 backdrop-blur-xl border-b border-white/5 shadow-lg'
             : 'bg-transparent',
         ].join(' ')}
       >
@@ -98,40 +99,17 @@ export function Header() {
           className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
           aria-label="Main navigation"
         >
-          {/* Logo */}
+          {/* Logo — text only */}
           <Link
             href="/"
-            className="flex items-center gap-2 transition-opacity hover:opacity-80"
+            className="flex items-center gap-0.5 transition-opacity hover:opacity-80"
             aria-label="Origami Digital - Home"
           >
-            {/* Origami-style decorative diamond */}
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-              className="shrink-0"
-            >
-              <path
-                d="M14 2L26 14L14 26L2 14L14 2Z"
-                fill="#0A8FBF"
-                opacity="0.9"
-              />
-              <path
-                d="M14 2L26 14L14 14L2 14L14 2Z"
-                fill="#297373"
-                opacity="0.7"
-              />
-              <path
-                d="M14 14L26 14L14 26Z"
-                fill="#0A8FBF"
-                opacity="0.5"
-              />
-            </svg>
-            <span className="text-xl font-bold text-white font-[family-name:var(--font-display)]">
-              Origami Digital
+            <span className="text-xl text-white font-[family-name:var(--font-display)] font-bold">
+              Origami
+            </span>
+            <span className="text-xl text-white font-[family-name:var(--font-display)] font-normal ml-1.5">
+              Digital
             </span>
           </Link>
 
@@ -151,16 +129,19 @@ export function Header() {
                 <Link
                   href={link.href}
                   className={[
-                    'relative px-4 py-2 text-sm font-medium transition-colors duration-200',
+                    'relative px-4 py-2 text-sm font-medium tracking-wide font-[family-name:var(--font-body)] transition-colors duration-200',
                     isActive(link.href)
                       ? 'text-white'
-                      : 'text-neutral-300 hover:text-white',
+                      : 'text-neutral-400 hover:text-white',
                   ].join(' ')}
                 >
                   {link.label}
                   {link.dropdown && (
                     <svg
-                      className="ml-1 inline-block h-3 w-3"
+                      className={[
+                        'ml-1 inline-block h-3 w-3 transition-transform duration-200',
+                        dropdownOpen ? 'rotate-180' : '',
+                      ].join(' ')}
                       fill="none"
                       viewBox="0 0 12 12"
                       aria-hidden="true"
@@ -174,42 +155,39 @@ export function Header() {
                       />
                     </svg>
                   )}
-                  {/* Active indicator */}
+                  {/* Active indicator — small centered dot */}
                   {isActive(link.href) && (
-                    <span className="absolute bottom-0 left-4 right-4 h-0.5 rounded-full bg-[#0A8FBF]" />
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-[#0A8FBF]" />
                   )}
                 </Link>
 
                 {/* Dropdown */}
                 {link.dropdown && (
-                  <AnimatePresence>
-                    {dropdownOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.15, ease: 'easeOut' }}
-                        className="absolute left-0 top-full pt-2"
-                      >
-                        <div className="min-w-[200px] rounded-lg border border-white/10 bg-[#1E1E1E] p-2 shadow-xl">
-                          {link.dropdown.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={[
-                                'block rounded-md px-4 py-2.5 text-sm transition-colors duration-150',
-                                isActive(item.href)
-                                  ? 'bg-[#0A8FBF]/15 text-[#0A8FBF]'
-                                  : 'text-neutral-300 hover:bg-white/5 hover:text-white',
-                              ].join(' ')}
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <div
+                    className={[
+                      'absolute left-0 top-full pt-2 transition-all duration-200',
+                      dropdownOpen
+                        ? 'opacity-100 translate-y-0 pointer-events-auto'
+                        : 'opacity-0 translate-y-2 pointer-events-none',
+                    ].join(' ')}
+                  >
+                    <div className="min-w-[220px] rounded-xl border border-white/10 bg-[#1E1E1E]/95 backdrop-blur-lg p-2 shadow-2xl">
+                      {link.dropdown.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={[
+                            'block rounded-lg px-4 py-2.5 text-sm font-[family-name:var(--font-body)] transition-colors duration-150',
+                            isActive(item.href)
+                              ? 'bg-[#0A8FBF]/15 text-[#0A8FBF]'
+                              : 'text-neutral-400 hover:bg-white/5 hover:text-white',
+                          ].join(' ')}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             ))}
@@ -218,39 +196,42 @@ export function Header() {
           {/* Desktop CTA + Mobile Hamburger */}
           <div className="flex items-center gap-4">
             <div className="hidden lg:block">
-              <Button variant="primary" size="sm" href="/contact">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#EF6351] px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#D94F3F] hover:scale-[1.02] active:scale-[0.98]"
+              >
                 Get Started
-              </Button>
+              </Link>
             </div>
 
             {/* Mobile hamburger */}
             <button
               type="button"
-              className="flex h-10 w-10 items-center justify-center rounded-md text-white transition-colors hover:bg-white/10 lg:hidden"
+              className="relative flex h-10 w-10 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10 lg:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
             >
-              <div className="flex w-6 flex-col gap-1.5">
+              <div className="flex w-5 flex-col items-center justify-center gap-[5px]">
                 <span
                   className={[
-                    'block h-0.5 w-full rounded-full bg-white transition-all duration-300',
+                    'block h-[2px] w-full rounded-full bg-white transition-all duration-300 origin-center',
                     mobileMenuOpen
-                      ? 'translate-y-2 rotate-45'
+                      ? 'translate-y-[7px] rotate-45'
                       : '',
                   ].join(' ')}
                 />
                 <span
                   className={[
-                    'block h-0.5 w-full rounded-full bg-white transition-all duration-300',
-                    mobileMenuOpen ? 'opacity-0' : '',
+                    'block h-[2px] w-full rounded-full bg-white transition-all duration-300',
+                    mobileMenuOpen ? 'opacity-0 scale-x-0' : '',
                   ].join(' ')}
                 />
                 <span
                   className={[
-                    'block h-0.5 w-full rounded-full bg-white transition-all duration-300',
+                    'block h-[2px] w-full rounded-full bg-white transition-all duration-300 origin-center',
                     mobileMenuOpen
-                      ? '-translate-y-2 -rotate-45'
+                      ? '-translate-y-[7px] -rotate-45'
                       : '',
                   ].join(' ')}
                 />
@@ -260,86 +241,85 @@ export function Header() {
         </nav>
       </header>
 
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-[#141414]/98 backdrop-blur-sm lg:hidden"
-          >
-            <nav
-              className="flex flex-col items-center gap-2"
-              aria-label="Mobile navigation"
+      {/* Mobile Menu Overlay — CSS transitions only, no Framer Motion */}
+      <div
+        className={[
+          'fixed inset-0 z-40 flex flex-col items-center justify-center bg-[#141414]/98 backdrop-blur-sm lg:hidden transition-all duration-300',
+          mobileMenuOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none',
+        ].join(' ')}
+        aria-hidden={!mobileMenuOpen}
+      >
+        <nav
+          className="flex flex-col items-center gap-2"
+          aria-label="Mobile navigation"
+        >
+          {navLinks.map((link, index) => (
+            <div
+              key={link.href}
+              className="flex flex-col items-center"
+              style={{
+                transition: `opacity 0.4s ease ${index * 0.06}s, transform 0.4s ease ${index * 0.06}s`,
+                opacity: mobileMenuOpen ? 1 : 0,
+                transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
+              }}
             >
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{
-                    duration: 0.3,
-                    delay: index * 0.06,
-                    ease: 'easeOut',
-                  }}
-                  className="flex flex-col items-center"
-                >
-                  <Link
-                    href={link.href}
-                    className={[
-                      'px-4 py-3 text-2xl font-medium transition-colors duration-200 font-[family-name:var(--font-display)]',
-                      isActive(link.href)
-                        ? 'text-[#0A8FBF]'
-                        : 'text-white hover:text-[#0A8FBF]',
-                    ].join(' ')}
-                  >
-                    {link.label}
-                  </Link>
-
-                  {/* Mobile dropdown sub-links */}
-                  {link.dropdown && isActive(link.href) && (
-                    <div className="flex flex-col items-center gap-1 pb-2">
-                      {link.dropdown.map((item) => (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          className={[
-                            'px-4 py-1.5 text-base transition-colors duration-150',
-                            isActive(item.href)
-                              ? 'text-[#0A8FBF]'
-                              : 'text-neutral-400 hover:text-white',
-                          ].join(' ')}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{
-                  duration: 0.3,
-                  delay: navLinks.length * 0.06,
-                  ease: 'easeOut',
-                }}
-                className="mt-6"
+              <Link
+                href={link.href}
+                className={[
+                  'px-4 py-3 text-2xl md:text-3xl font-medium font-[family-name:var(--font-display)] transition-colors duration-200',
+                  isActive(link.href)
+                    ? 'text-[#0A8FBF]'
+                    : 'text-white hover:text-[#0A8FBF]',
+                ].join(' ')}
+                tabIndex={mobileMenuOpen ? 0 : -1}
               >
-                <Button variant="primary" size="lg" href="/contact">
-                  Get Started
-                </Button>
-              </motion.div>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {link.label}
+              </Link>
+
+              {/* Mobile dropdown sub-links */}
+              {link.dropdown && isActive(link.href) && (
+                <div className="flex flex-col items-center gap-1 pb-2">
+                  {link.dropdown.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={[
+                        'px-4 py-1.5 text-base font-[family-name:var(--font-body)] transition-colors duration-150',
+                        isActive(item.href)
+                          ? 'text-[#0A8FBF]'
+                          : 'text-neutral-400 hover:text-white',
+                      ].join(' ')}
+                      tabIndex={mobileMenuOpen ? 0 : -1}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Mobile CTA */}
+          <div
+            style={{
+              transition: `opacity 0.4s ease ${navLinks.length * 0.06}s, transform 0.4s ease ${navLinks.length * 0.06}s`,
+              opacity: mobileMenuOpen ? 1 : 0,
+              transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(20px)',
+            }}
+            className="mt-8"
+          >
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-full bg-[#EF6351] px-8 py-3 text-lg font-semibold text-white transition-all duration-200 hover:bg-[#D94F3F] hover:scale-[1.02] active:scale-[0.98]"
+              tabIndex={mobileMenuOpen ? 0 : -1}
+            >
+              Get Started
+            </Link>
+          </div>
+        </nav>
+      </div>
     </>
   )
 }

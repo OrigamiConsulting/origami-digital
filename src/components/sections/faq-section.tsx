@@ -1,9 +1,8 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { SectionWrapper } from '@/components/ui/section-wrapper';
-import { FadeIn } from '@/components/ui/fade-in';
+import { useState } from 'react'
+import Link from 'next/link'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
 
 const faqs = [
   {
@@ -36,7 +35,7 @@ const faqs = [
     answer:
       'AI automation uses artificial intelligence to handle repetitive tasks, process documents, respond to customer enquiries, and streamline workflows. For example, we can set up AI-powered chatbots, automated email responses, intelligent document processing, and custom dashboards \u2014 saving your team hours of manual work every week.',
   },
-];
+]
 
 function FAQItem({
   question,
@@ -44,21 +43,23 @@ function FAQItem({
   isOpen,
   onToggle,
 }: {
-  question: string;
-  answer: string;
-  isOpen: boolean;
-  onToggle: () => void;
+  question: string
+  answer: string
+  isOpen: boolean
+  onToggle: () => void
 }) {
   return (
-    <div className="border-b border-[#DEDEDE]">
+    <div className="border-b border-[#DEDEDE] py-5">
       <button
-        className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-[#0A8FBF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A8FBF] focus-visible:ring-offset-2"
+        className="w-full text-left flex justify-between items-center gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A8FBF] focus-visible:ring-offset-2"
         onClick={onToggle}
         aria-expanded={isOpen}
       >
-        <span className="text-lg font-semibold">{question}</span>
+        <span className="font-[family-name:var(--font-display)] font-semibold text-[#1E1E1E] text-base md:text-lg">
+          {question}
+        </span>
         <span
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#DEDEDE] text-xl transition-transform duration-200"
+          className="flex h-8 w-8 shrink-0 items-center justify-center text-xl text-[#4A4A4A] transition-transform duration-200"
           aria-hidden="true"
           style={{ transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)' }}
         >
@@ -66,57 +67,68 @@ function FAQItem({
         </span>
       </button>
 
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="overflow-hidden"
-          >
-            <p className="pb-5 pr-12 leading-relaxed text-[#4A4A4A]">
-              {answer}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div
+        className="grid transition-all duration-300 ease-out"
+        style={{
+          gridTemplateRows: isOpen ? '1fr' : '0fr',
+        }}
+      >
+        <div className="overflow-hidden">
+          <p className="text-[#4A4A4A] text-base leading-relaxed pt-3 pb-1">
+            {answer}
+          </p>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
 export function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const handleToggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+    setOpenIndex(openIndex === index ? null : index)
+  }
 
   return (
-    <SectionWrapper id="faq">
-      <div className="mx-auto max-w-3xl">
-        <FadeIn>
-          <div className="mb-12 text-center md:mb-16">
-            <h2 className="font-display text-3xl font-bold md:text-4xl">
-              Frequently Asked Questions
-            </h2>
-          </div>
-        </FadeIn>
+    <section id="faq" className="bg-white py-24 md:py-32 px-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-[1fr_1.5fr] gap-12 md:gap-16">
+          <ScrollReveal>
+            <div className="md:sticky md:top-32 md:self-start">
+              <span className="text-sm font-semibold uppercase tracking-widest text-[#0A8FBF]">
+                FAQ
+              </span>
+              <h2 className="section-heading text-[#1E1E1E] mt-4">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-[#4A4A4A] mt-4">
+                Everything you need to know about working with us. Can&apos;t find what you&apos;re looking for? Get in touch.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-1 text-[#0A8FBF] font-semibold mt-4 transition-colors hover:text-[#087CA7]"
+              >
+                Contact us &rarr;
+              </Link>
+            </div>
+          </ScrollReveal>
 
-        <FadeIn delay={0.15}>
-          <div className="border-t border-[#DEDEDE]">
-            {faqs.map((faq, index) => (
-              <FAQItem
-                key={index}
-                question={faq.question}
-                answer={faq.answer}
-                isOpen={openIndex === index}
-                onToggle={() => handleToggle(index)}
-              />
-            ))}
-          </div>
-        </FadeIn>
+          <ScrollReveal delay={150}>
+            <div>
+              {faqs.map((faq, index) => (
+                <FAQItem
+                  key={index}
+                  question={faq.question}
+                  answer={faq.answer}
+                  isOpen={openIndex === index}
+                  onToggle={() => handleToggle(index)}
+                />
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
       </div>
-    </SectionWrapper>
-  );
+    </section>
+  )
 }
