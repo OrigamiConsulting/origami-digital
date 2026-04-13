@@ -198,7 +198,7 @@ export function Header() {
             <div className="hidden lg:block">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#EF6351] px-6 py-2.5 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#D94F3F] hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-bold text-[#D14535] transition-all duration-200 hover:bg-neutral-100 hover:scale-[1.02] active:scale-[0.98]"
               >
                 Get Started
               </Link>
@@ -312,7 +312,7 @@ export function Header() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-full bg-[#EF6351] px-8 py-3 text-lg font-semibold text-white transition-all duration-200 hover:bg-[#D94F3F] hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center justify-center rounded-full bg-[#E8503E] px-8 py-3 text-lg font-bold text-white transition-all duration-200 hover:bg-[#D14535] hover:scale-[1.02] active:scale-[0.98]"
               tabIndex={mobileMenuOpen ? 0 : -1}
             >
               Get Started

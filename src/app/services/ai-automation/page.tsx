@@ -71,7 +71,7 @@ export default function AiAutomationPage() {
         <div className="max-w-7xl mx-auto">
           <div className="max-w-3xl">
             <ScrollReveal>
-              <span className="inline-block text-sm font-semibold tracking-widest uppercase text-[#EF6351] mb-4">
+              <span className="inline-block text-sm font-semibold tracking-widest uppercase text-[#E8503E] mb-4">
                 Automate
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
@@ -128,7 +128,7 @@ export default function AiAutomationPage() {
             {includes.map((item, index) => (
               <ScrollReveal key={index} delay={index * 50}>
                 <div className="flex items-start gap-4 p-6 rounded-xl bg-[#2A2A2A]">
-                  <span className="mt-1 flex-shrink-0 h-5 w-5 rounded-full bg-[#EF6351] flex items-center justify-center text-xs font-bold">
+                  <span className="mt-1 flex-shrink-0 h-5 w-5 rounded-full bg-[#E8503E] flex items-center justify-center text-xs font-bold">
                     &#10003;
                   </span>
                   <p className="text-[#B0B0B0]">{item}</p>
@@ -149,7 +149,7 @@ export default function AiAutomationPage() {
             {process.map((item, index) => (
               <ScrollReveal key={item.step} delay={index * 100}>
                 <div>
-                  <span className="text-5xl font-bold text-[#EF6351]/20">
+                  <span className="text-5xl font-bold text-[#E8503E]/20">
                     {item.step}
                   </span>
                   <h3 className="text-xl font-bold mt-2 mb-3 text-[#1E1E1E]">{item.title}</h3>

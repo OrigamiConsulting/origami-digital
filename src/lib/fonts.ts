@@ -1,10 +1,10 @@
-import { Syne, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
+import { Instrument_Sans, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
 
-export const fontDisplay = Syne({
+export const fontDisplay = Instrument_Sans({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['400', '500', '600', '700'],
 })
 
 export const fontBody = Plus_Jakarta_Sans({

@@ -58,7 +58,7 @@ const pillars = [
   {
     name: "Automate",
     tagline: "AI-Powered Business Solutions",
-    colour: "#EF6351",
+    colour: "#E8503E",
     services: [
       {
         title: "AI Automation & Business Solutions",

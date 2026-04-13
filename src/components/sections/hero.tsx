@@ -95,7 +95,7 @@ export function Hero() {
           >
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center rounded-full bg-[#EF6351] px-8 py-4 text-base font-semibold text-white shadow-[0_0_30px_rgba(239,99,81,0.2)] transition-colors duration-200 hover:bg-[#D94F3F]"
+              className="inline-flex items-center justify-center rounded-full bg-[#E8503E] px-8 py-4 text-base font-bold text-white shadow-[0_0_30px_rgba(239,99,81,0.2)] transition-colors duration-200 hover:bg-[#D14535]"
             >
               Get a Free Consultation
             </Link>

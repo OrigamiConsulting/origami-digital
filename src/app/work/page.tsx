@@ -148,7 +148,7 @@ export default function WorkPage() {
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-lg bg-[#EF6351] px-8 py-4 text-lg font-semibold text-white transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-[#D94F3F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EF6351] focus-visible:ring-offset-2 active:scale-[0.98]"
+                className="inline-flex items-center justify-center rounded-lg bg-[#E8503E] px-8 py-4 text-lg font-bold text-white transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-[#D14535] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8503E] focus-visible:ring-offset-2 active:scale-[0.98]"
               >
                 Get in Touch
               </Link>

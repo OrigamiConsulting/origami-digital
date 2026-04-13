@@ -105,7 +105,7 @@ export function ContactForm() {
       {/* Name */}
       <div>
         <label htmlFor="name" className={labelClasses}>
-          Name <span className="text-[#EF6351]">*</span>
+          Name <span className="text-[#E8503E]">*</span>
         </label>
         <input
           type="text"
@@ -122,7 +122,7 @@ export function ContactForm() {
       {/* Email */}
       <div>
         <label htmlFor="email" className={labelClasses}>
-          Email <span className="text-[#EF6351]">*</span>
+          Email <span className="text-[#E8503E]">*</span>
         </label>
         <input
           type="email"
@@ -155,7 +155,7 @@ export function ContactForm() {
       {/* Service Interest */}
       <div>
         <label htmlFor="service" className={labelClasses}>
-          Service Interest <span className="text-[#EF6351]">*</span>
+          Service Interest <span className="text-[#E8503E]">*</span>
         </label>
         <select
           id="service"
@@ -196,7 +196,7 @@ export function ContactForm() {
       {/* Message */}
       <div>
         <label htmlFor="message" className={labelClasses}>
-          Message <span className="text-[#EF6351]">*</span>
+          Message <span className="text-[#E8503E]">*</span>
         </label>
         <textarea
           id="message"
@@ -214,7 +214,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="inline-flex w-full items-center justify-center rounded-xl bg-[#EF6351] px-8 py-4 text-lg font-semibold text-white transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-[#D94F3F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#EF6351] focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
+        className="inline-flex w-full items-center justify-center rounded-xl bg-[#E8503E] px-8 py-4 text-lg font-bold text-white transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-[#D14535] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8503E] focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
       >
         {status === 'submitting' ? (
           <>

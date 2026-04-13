@@ -25,7 +25,7 @@ export function CTASection() {
         <ScrollReveal delay={300}>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center bg-[#EF6351] text-white rounded-full px-10 py-5 text-lg font-semibold mt-10 shadow-[0_0_40px_rgba(239,99,81,0.3)] hover:bg-[#D94F3F] hover:shadow-[0_0_50px_rgba(239,99,81,0.4)] hover:scale-[1.02] transition-all duration-200"
+            className="inline-flex items-center justify-center bg-[#E8503E] text-white rounded-full px-10 py-5 text-lg font-bold mt-10 shadow-[0_0_40px_rgba(239,99,81,0.3)] hover:bg-[#D14535] hover:shadow-[0_0_50px_rgba(239,99,81,0.4)] hover:scale-[1.02] transition-all duration-200"
           >
             Get a Free Consultation
           </Link>

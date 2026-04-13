@@ -123,15 +123,15 @@ export function ServicesOverview() {
         {/* AUTOMATE Card — full width */}
         <div className="mt-6">
           <ScrollReveal delay={200}>
-            <div className="relative bg-[#F8F8F8] border border-neutral-200/50 rounded-3xl p-8 md:p-10 overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:border-[#EF6351]/30 transition-all duration-300">
+            <div className="relative bg-[#F8F8F8] border border-neutral-200/50 rounded-3xl p-8 md:p-10 overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:border-[#E8503E]/30 transition-all duration-300">
               {/* Corner gradient blob */}
-              <div className="absolute -top-24 -left-24 w-[200px] h-[200px] rounded-full bg-[#EF6351] opacity-[0.05] blur-3xl pointer-events-none" />
+              <div className="absolute -top-24 -left-24 w-[200px] h-[200px] rounded-full bg-[#E8503E] opacity-[0.05] blur-3xl pointer-events-none" />
 
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 {/* Left column */}
                 <div>
                   {/* Overline */}
-                  <p className="font-[family-name:var(--font-body)] font-semibold text-xs tracking-[0.15em] uppercase text-[#EF6351] mb-2">
+                  <p className="font-[family-name:var(--font-body)] font-semibold text-xs tracking-[0.15em] uppercase text-[#E8503E] mb-2">
                     AUTOMATE
                   </p>
 
@@ -144,7 +144,7 @@ export function ServicesOverview() {
                   <ul className="grid grid-cols-2 gap-2.5 mb-6">
                     {['Workflow Automation', 'AI Chatbots', 'Document Processing', 'Custom Business Tools'].map((item) => (
                       <li key={item} className="flex items-center gap-2.5">
-                        <span className="block h-1.5 w-1.5 rounded-full bg-[#EF6351] shrink-0" />
+                        <span className="block h-1.5 w-1.5 rounded-full bg-[#E8503E] shrink-0" />
                         <span className="text-[#4A4A4A] text-sm">{item}</span>
                       </li>
                     ))}
@@ -153,7 +153,7 @@ export function ServicesOverview() {
                   {/* Arrow link */}
                   <Link
                     href="/services"
-                    className="inline-flex items-center gap-1 text-[#EF6351] font-semibold text-sm group/link"
+                    className="inline-flex items-center gap-1 text-[#E8503E] font-semibold text-sm group/link"
                   >
                     Explore Automation Services
                     <span className="transition-transform duration-200 group-hover/link:translate-x-1">&rarr;</span>
