@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef, useCallback } from 'react'
 
@@ -99,17 +100,24 @@ export function Header() {
           className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
           aria-label="Main navigation"
         >
-          {/* Logo — text only */}
+          {/* Logo — horse emblem + text */}
           <Link
             href="/"
-            className="flex items-center gap-0.5 transition-opacity hover:opacity-80"
+            className="flex items-center gap-2 transition-opacity hover:opacity-80"
             aria-label="Origami Digital - Home"
           >
-            <span className="text-xl text-white font-[family-name:var(--font-display)] font-bold">
-              Origami
-            </span>
-            <span className="text-xl text-white font-[family-name:var(--font-display)] font-normal ml-1.5">
-              Digital
+            <Image
+              src="/images/logo/origami-horse.png"
+              alt=""
+              width={32}
+              height={18}
+              className="h-[18px] w-auto brightness-0 invert"
+              aria-hidden="true"
+              priority
+            />
+            <span className="text-xl text-white font-[family-name:var(--font-display)]">
+              <span className="font-bold">Origami</span>{' '}
+              <span className="font-normal">Digital</span>
             </span>
           </Link>
 
