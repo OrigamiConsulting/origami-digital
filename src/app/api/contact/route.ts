@@ -62,9 +62,12 @@ export async function POST(request: Request) {
 
     const resend = getResendClient()
 
+    // Use verified domain or Resend onboarding address as fallback
+    const fromAddress = process.env.RESEND_FROM_EMAIL || 'Origami Digital <onboarding@resend.dev>'
+
     // Send notification email to Origami Digital
     await resend.emails.send({
-      from: 'Origami Digital <notifications@origami-digital.co.za>',
+      from: fromAddress,
       to: ['hello@origami-digital.co.za'],
       replyTo: body.email,
       subject: `New Enquiry: ${serviceLabel} — ${body.name}`,
@@ -113,7 +116,7 @@ export async function POST(request: Request) {
 
     // Send confirmation email to the enquirer
     await resend.emails.send({
-      from: 'Origami Digital <hello@origami-digital.co.za>',
+      from: fromAddress,
       to: [body.email],
       subject: `Thanks for reaching out, ${body.name.split(' ')[0]}!`,
       html: `
