@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
+import { MagneticButton } from '@/components/ui/magnetic-button'
 
 export function CTASection() {
   return (
@@ -15,6 +16,7 @@ export function CTASection() {
         }}
         aria-hidden="true"
       />
+
       {/* Subtle pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.04]"
@@ -25,6 +27,25 @@ export function CTASection() {
           backgroundSize: '32px 32px',
         }}
       />
+
+      {/* Decorative rotating rings */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+        <div
+          className="absolute w-[500px] h-[500px] md:w-[700px] md:h-[700px] rounded-full border border-white/[0.06]"
+          style={{ animation: 'cta-spin-slow 60s linear infinite' }}
+        />
+        <div
+          className="absolute w-[350px] h-[350px] md:w-[500px] md:h-[500px] rounded-full border border-white/[0.08]"
+          style={{ animation: 'cta-spin-slow 45s linear infinite reverse' }}
+        />
+      </div>
+
+      <style>{`
+        @keyframes cta-spin-slow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         <ScrollReveal>
@@ -40,12 +61,13 @@ export function CTASection() {
         </ScrollReveal>
 
         <ScrollReveal delay={300}>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center bg-white text-[#1E1E1E] rounded-full px-10 py-5 text-lg font-bold mt-10 shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:bg-neutral-100 hover:shadow-[0_0_50px_rgba(255,255,255,0.25)] hover:scale-[1.02] transition-all duration-200"
-          >
-            Get a Free Consultation
-          </Link>
+          <div className="mt-10">
+            <MagneticButton href="/contact">
+              <span className="inline-flex items-center justify-center bg-white text-[#1E1E1E] rounded-full px-10 py-5 text-lg font-bold shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:bg-neutral-100 hover:shadow-[0_0_60px_rgba(255,255,255,0.25)] hover:scale-[1.02] transition-all duration-200">
+                Get a Free Consultation
+              </span>
+            </MagneticButton>
+          </div>
         </ScrollReveal>
 
         <ScrollReveal delay={400}>

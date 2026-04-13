@@ -1,178 +1,156 @@
 'use client'
 
-import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import Link from 'next/link'
-import Image from 'next/image'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
+
+const pillars = [
+  {
+    number: '01',
+    overline: 'BUILD',
+    heading: 'Digital Product Development',
+    description:
+      'From concept to launch, we craft high-performance digital products that set you apart.',
+    services: [
+      'Website Design & Development',
+      'Mobile App Development',
+      'Custom Software & SaaS',
+      'UI/UX Design',
+    ],
+    color: '#0A8FBF',
+    href: '/services',
+  },
+  {
+    number: '02',
+    overline: 'GROW',
+    heading: 'Search & Digital Visibility',
+    description:
+      'Get found by the right people. We drive organic and paid traffic that converts.',
+    services: [
+      'SEO & Generative Engine Optimisation',
+      'Google Ads Management',
+      'Content Strategy',
+      'Analytics & Optimisation',
+    ],
+    color: '#297373',
+    href: '/services',
+  },
+  {
+    number: '03',
+    overline: 'AUTOMATE',
+    heading: 'AI-Powered Business Solutions',
+    description:
+      'Streamline operations and unlock new capabilities with intelligent automation.',
+    services: [
+      'Workflow Automation',
+      'AI Chatbots',
+      'Document Processing',
+      'Custom Business Tools',
+    ],
+    color: '#E8503E',
+    href: '/services',
+  },
+]
 
 export function ServicesOverview() {
   return (
-    <section id="services" className="bg-white py-24 md:py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
+    <section id="services" className="relative bg-white py-24 md:py-32">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Section Header */}
         <ScrollReveal>
-          <p className="font-[family-name:var(--font-body)] font-semibold text-xs tracking-[0.15em] uppercase text-[#0A8FBF]">
-            WHAT WE DO
-          </p>
-          <h2 className="section-heading text-[#1E1E1E] mt-3">
-            Three pillars. One mission.
-          </h2>
-          <p className="text-[#4A4A4A] text-lg max-w-2xl mt-4">
-            Everything you need to build, grow, and automate your digital presence.
-          </p>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="font-[family-name:var(--font-body)] text-sm font-semibold uppercase tracking-[0.2em] text-[#0A8FBF]">
+              What We Do
+            </p>
+            <h2 className="mt-4 font-[family-name:var(--font-display)] text-4xl font-bold tracking-tight text-[#1E1E1E] md:text-5xl">
+              Three pillars. One mission.
+            </h2>
+            <p className="mt-4 font-[family-name:var(--font-body)] text-lg leading-relaxed text-[#4A4A4A]">
+              We combine design, technology, and AI to deliver digital solutions
+              that help your business build momentum, reach new audiences, and
+              operate smarter.
+            </p>
+          </div>
         </ScrollReveal>
 
-        {/* Bento Grid */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-5 gap-6">
-          {/* BUILD Card — 3 of 5 columns */}
-          <ScrollReveal delay={0} className="md:col-span-3">
-            <div className="relative bg-[#F8F8F8] border border-neutral-200/50 rounded-3xl p-8 md:p-10 overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
-              {/* Corner gradient blob */}
-              <div className="absolute -top-24 -left-24 w-[200px] h-[200px] rounded-full bg-[#0A8FBF] opacity-[0.06] blur-3xl pointer-events-none" />
+        {/* Decorative Divider */}
+        <ScrollReveal delay={100}>
+          <div className="mx-auto mt-14 mb-16 flex max-w-md items-center gap-4">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#DEDEDE]" />
+            <div className="h-2 w-2 rotate-45 border border-[#DEDEDE] bg-white" />
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#DEDEDE]" />
+          </div>
+        </ScrollReveal>
 
-              {/* Image */}
-              <div className="relative rounded-2xl overflow-hidden aspect-[16/10] mb-6">
-                <Image
-                  src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80"
-                  alt="Code on screen representing digital product development"
-                  fill
-                  className="object-cover"
-                  unoptimized
+        {/* Pillar Cards */}
+        <div className="grid gap-8 md:grid-cols-3">
+          {pillars.map((pillar, index) => (
+            <ScrollReveal key={pillar.number} delay={150 + index * 100}>
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-[#EBEBEB] bg-[#FAFAFA] p-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:border-[#DEDEDE] hover:bg-white hover:shadow-lg md:p-10">
+                {/* Accent Strip — left border that scales on hover */}
+                <div
+                  className="absolute top-0 left-0 h-full w-1 origin-top scale-y-0 transition-transform duration-500 ease-out group-hover:scale-y-100"
+                  style={{ backgroundColor: pillar.color }}
                 />
-              </div>
 
-              {/* Overline */}
-              <p className="font-[family-name:var(--font-body)] font-semibold text-xs tracking-[0.15em] uppercase text-[#0A8FBF] mb-2">
-                BUILD
-              </p>
+                {/* Large Faded Number */}
+                <span
+                  className="pointer-events-none absolute top-4 right-6 select-none font-[family-name:var(--font-display)] text-[8rem] font-bold leading-none opacity-[0.04]"
+                  aria-hidden="true"
+                >
+                  {pillar.number}
+                </span>
 
-              {/* Heading */}
-              <h3 className="text-xl font-bold font-[family-name:var(--font-display)] text-[#1E1E1E] mb-4">
-                Digital Product Development
-              </h3>
+                {/* Overline */}
+                <p
+                  className="relative font-[family-name:var(--font-body)] text-xs font-bold uppercase tracking-[0.25em]"
+                  style={{ color: pillar.color }}
+                >
+                  {pillar.overline}
+                </p>
 
-              {/* Service items */}
-              <ul className="space-y-2.5 mb-6">
-                {['Website Design & Development', 'Mobile App Development', 'Custom Software & SaaS', 'UI/UX Design'].map((item) => (
-                  <li key={item} className="flex items-center gap-2.5">
-                    <span className="block h-1.5 w-1.5 rounded-full bg-[#0A8FBF] shrink-0" />
-                    <span className="text-[#4A4A4A] text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
+                {/* Heading */}
+                <h3 className="relative mt-4 font-[family-name:var(--font-display)] text-2xl font-bold leading-tight text-[#1E1E1E]">
+                  {pillar.heading}
+                </h3>
 
-              {/* Arrow link */}
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-1 text-[#0A8FBF] font-semibold text-sm group/link"
-              >
-                Explore Build Services
-                <span className="transition-transform duration-200 group-hover/link:translate-x-1">&rarr;</span>
-              </Link>
-            </div>
-          </ScrollReveal>
+                {/* Description */}
+                <p className="relative mt-3 font-[family-name:var(--font-body)] text-sm leading-relaxed text-[#8A8A8A]">
+                  {pillar.description}
+                </p>
 
-          {/* GROW Card — 2 of 5 columns */}
-          <ScrollReveal delay={100} className="md:col-span-2">
-            <div className="relative bg-[#F8F8F8] border border-neutral-200/50 rounded-3xl p-8 md:p-10 overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 h-full">
-              {/* Corner gradient blob */}
-              <div className="absolute -top-24 -left-24 w-[200px] h-[200px] rounded-full bg-[#297373] opacity-[0.06] blur-3xl pointer-events-none" />
+                {/* Service List */}
+                <ul className="relative mt-8 flex-1 space-y-3.5">
+                  {pillar.services.map((service) => (
+                    <li
+                      key={service}
+                      className="flex items-start gap-3 font-[family-name:var(--font-body)] text-sm text-[#4A4A4A]"
+                    >
+                      <span
+                        className="mt-[7px] block h-1.5 w-1.5 flex-shrink-0 rounded-full transition-transform duration-300 group-hover:scale-125"
+                        style={{ backgroundColor: pillar.color }}
+                        aria-hidden="true"
+                      />
+                      {service}
+                    </li>
+                  ))}
+                </ul>
 
-              {/* Image */}
-              <div className="relative rounded-2xl overflow-hidden aspect-[16/10] mb-6">
-                <Image
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
-                  alt="Analytics dashboard representing search and digital visibility"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-
-              {/* Overline */}
-              <p className="font-[family-name:var(--font-body)] font-semibold text-xs tracking-[0.15em] uppercase text-[#297373] mb-2">
-                GROW
-              </p>
-
-              {/* Heading */}
-              <h3 className="text-xl font-bold font-[family-name:var(--font-display)] text-[#1E1E1E] mb-4">
-                Search & Digital Visibility
-              </h3>
-
-              {/* Service items */}
-              <ul className="space-y-2.5 mb-6">
-                {['SEO & GEO', 'Google Ads', 'Content Strategy', 'Analytics & Optimisation'].map((item) => (
-                  <li key={item} className="flex items-center gap-2.5">
-                    <span className="block h-1.5 w-1.5 rounded-full bg-[#297373] shrink-0" />
-                    <span className="text-[#4A4A4A] text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Arrow link */}
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-1 text-[#297373] font-semibold text-sm group/link"
-              >
-                Explore Grow Services
-                <span className="transition-transform duration-200 group-hover/link:translate-x-1">&rarr;</span>
-              </Link>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        {/* AUTOMATE Card — full width */}
-        <div className="mt-6">
-          <ScrollReveal delay={200}>
-            <div className="relative bg-[#F8F8F8] border border-neutral-200/50 rounded-3xl p-8 md:p-10 overflow-hidden hover:-translate-y-1 hover:shadow-xl hover:border-[#E8503E]/30 transition-all duration-300">
-              {/* Corner gradient blob */}
-              <div className="absolute -top-24 -left-24 w-[200px] h-[200px] rounded-full bg-[#E8503E] opacity-[0.05] blur-3xl pointer-events-none" />
-
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                {/* Left column */}
-                <div>
-                  {/* Overline */}
-                  <p className="font-[family-name:var(--font-body)] font-semibold text-xs tracking-[0.15em] uppercase text-[#E8503E] mb-2">
-                    AUTOMATE
-                  </p>
-
-                  {/* Heading */}
-                  <h3 className="text-xl font-bold font-[family-name:var(--font-display)] text-[#1E1E1E] mb-4">
-                    AI-Powered Business Solutions
-                  </h3>
-
-                  {/* Service items in 2-column grid */}
-                  <ul className="grid grid-cols-2 gap-2.5 mb-6">
-                    {['Workflow Automation', 'AI Chatbots', 'Document Processing', 'Custom Business Tools'].map((item) => (
-                      <li key={item} className="flex items-center gap-2.5">
-                        <span className="block h-1.5 w-1.5 rounded-full bg-[#E8503E] shrink-0" />
-                        <span className="text-[#4A4A4A] text-sm">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Arrow link */}
+                {/* Explore Link */}
+                <div className="relative mt-10 border-t border-[#EBEBEB] pt-6">
                   <Link
-                    href="/services"
-                    className="inline-flex items-center gap-1 text-[#E8503E] font-semibold text-sm group/link"
+                    href={pillar.href}
+                    className="inline-flex items-center gap-2 font-[family-name:var(--font-body)] text-sm font-semibold transition-colors duration-300"
+                    style={{ color: pillar.color }}
                   >
-                    Explore Automation Services
-                    <span className="transition-transform duration-200 group-hover/link:translate-x-1">&rarr;</span>
+                    Explore
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                      &rarr;
+                    </span>
                   </Link>
                 </div>
-
-                {/* Right column — Image */}
-                <div className="relative rounded-2xl overflow-hidden aspect-[16/10]">
-                  <Image
-                    src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80"
-                    alt="Abstract AI technology visual representing automation solutions"
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
-                </div>
               </div>
-            </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          ))}
         </div>
       </div>
     </section>

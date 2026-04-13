@@ -3,16 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
+import { HorizontalScroll } from '@/components/ui/horizontal-scroll'
 
-interface Project {
-  title: string
-  description: string
-  tags: string[]
-  image: string
-  url: string
-}
-
-const projects: Project[] = [
+const projects = [
   {
     title: 'Origami Finance',
     description: 'SaaS invoicing platform for South African businesses',
@@ -43,90 +36,117 @@ const projects: Project[] = [
   },
 ]
 
-export function PortfolioPreview() {
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: (typeof projects)[number]
+  index: number
+}) {
+  const number = String(index + 1).padStart(2, '0')
+
   return (
-    <section id="work" className="noise-texture bg-[#1E1E1E] py-24 md:py-32 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <ScrollReveal>
-            <span className="text-sm font-semibold uppercase tracking-widest text-[#0A8FBF]">
-              PORTFOLIO
+    <a
+      href={project.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative flex-shrink-0 w-[340px] h-[380px] sm:w-[450px] sm:h-[420px] md:w-[550px] md:h-[450px] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-[#2A2A2A]"
+    >
+      {/* Project image */}
+      <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+        <Image
+          src={project.image}
+          alt={`${project.title} — ${project.description}`}
+          fill
+          className="object-cover"
+          sizes="(max-width: 640px) 340px, (max-width: 768px) 450px, 550px"
+        />
+      </div>
+
+      {/* Permanent bottom gradient for readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+      {/* Hover tint overlay */}
+      <div className="absolute inset-0 bg-[#0A8FBF]/40 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+      {/* Large faded project number */}
+      <span className="absolute top-4 right-5 font-[family-name:var(--font-display)] text-[7rem] sm:text-[8rem] md:text-[9rem] font-bold leading-none text-white/[0.06] select-none pointer-events-none transition-colors duration-500 group-hover:text-white/[0.12]">
+        {number}
+      </span>
+
+      {/* "View Project" hover indicator */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100">
+        <span className="font-[family-name:var(--font-display)] text-lg md:text-xl font-semibold text-white tracking-wide translate-y-3 transition-transform duration-500 group-hover:translate-y-0">
+          View Project &rarr;
+        </span>
+      </div>
+
+      {/* Bottom content overlay */}
+      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 md:p-8 flex flex-col gap-3">
+        <h3 className="font-[family-name:var(--font-display)] text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight tracking-tight">
+          {project.title}
+        </h3>
+        <p className="text-sm sm:text-base text-white/70 leading-relaxed max-w-[90%]">
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-2 mt-1">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-xs font-medium text-white/80 bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 transition-colors duration-300 group-hover:bg-white/15"
+            >
+              {tag}
             </span>
-          </ScrollReveal>
-          <ScrollReveal delay={100}>
-            <h2 className="section-heading text-white mt-4">
-              Selected Work
-            </h2>
-          </ScrollReveal>
-          <ScrollReveal delay={200}>
-            <p className="text-lg text-[#B0B0B0] mt-4">
-              Real projects. Real results.
-            </p>
-          </ScrollReveal>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <ScrollReveal key={project.title} delay={100 * index}>
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block relative rounded-2xl bg-[#2A2A2A] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#0A8FBF]/10"
-              >
-                <div className="aspect-video w-full relative overflow-hidden">
-                  <Image
-                    src={project.image}
-                    alt={`${project.title} — ${project.description}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white font-bold text-lg flex items-center gap-2">
-                      View Project
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-white font-[family-name:var(--font-display)]">
-                    {project.title}
-                  </h3>
-                  <p className="text-[#B0B0B0] text-sm mt-2">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs bg-white/5 border border-white/10 text-[#DEDEDE] rounded-full px-3 py-1"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </a>
-            </ScrollReveal>
           ))}
         </div>
+      </div>
+    </a>
+  )
+}
 
-        <ScrollReveal delay={500}>
-          <div className="text-center mt-14">
-            <Link
-              href="/work"
-              className="inline-flex items-center gap-2 text-[#0A8FBF] font-semibold transition-colors duration-200 hover:text-[#087CA7] group"
-            >
-              View All Projects
-              <span className="transition-transform duration-200 group-hover:translate-x-1">
-                &rarr;
-              </span>
-            </Link>
-          </div>
+export function PortfolioPreview() {
+  return (
+    <section id="work" className="relative bg-[#1E1E1E] noise-texture overflow-hidden">
+      {/* Section header */}
+      <div className="max-w-7xl mx-auto px-6 md:px-16 pt-24 md:pt-32 pb-8 md:pb-12">
+        <ScrollReveal>
+          <p className="text-[#0A8FBF] font-[family-name:var(--font-display)] text-sm font-semibold tracking-[0.25em] uppercase mb-4">
+            Portfolio
+          </p>
+        </ScrollReveal>
+        <ScrollReveal delay={100}>
+          <h2 className="font-[family-name:var(--font-display)] text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight mb-4">
+            Selected Work
+          </h2>
+        </ScrollReveal>
+        <ScrollReveal delay={200}>
+          <p className="text-lg md:text-xl text-white/50 max-w-xl">
+            Real projects. Real results.
+          </p>
+        </ScrollReveal>
+      </div>
+
+      {/* Horizontal scroll cards */}
+      <HorizontalScroll>
+        {projects.map((project, index) => (
+          <ProjectCard key={project.title} project={project} index={index} />
+        ))}
+        {/* End spacer so last card has room */}
+        <div className="flex-shrink-0 w-16 md:w-32" aria-hidden="true" />
+      </HorizontalScroll>
+
+      {/* View All link */}
+      <div className="max-w-7xl mx-auto px-6 md:px-16 py-16 md:py-24">
+        <ScrollReveal>
+          <Link
+            href="/work"
+            className="inline-flex items-center gap-3 font-[family-name:var(--font-display)] text-lg md:text-xl font-semibold text-white group/link transition-colors duration-300 hover:text-[#0A8FBF]"
+          >
+            <span>View All Projects</span>
+            <span className="inline-block transition-transform duration-300 group-hover/link:translate-x-1.5">
+              &rarr;
+            </span>
+          </Link>
         </ScrollReveal>
       </div>
     </section>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { fontVariables } from '@/lib/fonts'
 import { Header, Footer } from '@/components/layout'
+import { SmoothScrollProvider } from '@/components/ui/smooth-scroll-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -39,9 +40,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-[family-name:var(--font-body)]">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SmoothScrollProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </SmoothScrollProvider>
       </body>
     </html>
   )
