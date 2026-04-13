@@ -62,13 +62,22 @@ export function ContactForm() {
     e.preventDefault();
     setStatus('submitting');
 
-    // TODO: Wire up to API route
-    console.log('Contact form submission:', formData);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-    // Simulate a brief delay
-    await new Promise((resolve) => setTimeout(resolve, 800));
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
 
-    setStatus('success');
+      setStatus('success');
+    } catch (error) {
+      console.error('Contact form error:', error);
+      setStatus('error');
+    }
   }
 
   if (status === 'success') {
@@ -102,6 +111,14 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {status === 'error' && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+          Something went wrong. Please try again or email us directly at{' '}
+          <a href="mailto:hello@origami-digital.co.za" className="font-semibold underline">
+            hello@origami-digital.co.za
+          </a>
+        </div>
+      )}
       {/* Name */}
       <div>
         <label htmlFor="name" className={labelClasses}>

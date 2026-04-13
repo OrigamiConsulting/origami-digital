@@ -6,13 +6,6 @@ import { ScrollReveal } from '@/components/ui/scroll-reveal'
 
 const projects = [
   {
-    title: 'Origami Finance',
-    description: 'SaaS invoicing platform for South African businesses',
-    tags: ['Next.js', 'SaaS', 'Fintech'],
-    image: '/images/portfolio/origami-finance.png',
-    url: 'https://origami-finance.co.za',
-  },
-  {
     title: 'Origami Pay',
     description: 'Payslip generator for SA businesses',
     tags: ['React', 'SaaS', 'HR Tech'],
@@ -32,6 +25,13 @@ const projects = [
     tags: ['Web Design', 'B2B'],
     image: '/images/portfolio/impactroots.png',
     url: 'https://www.impactroots.co.za',
+  },
+  {
+    title: 'Origami Finance',
+    description: 'SaaS invoicing platform for South African businesses',
+    tags: ['Next.js', 'SaaS', 'Fintech'],
+    image: '/images/portfolio/origami-finance.png',
+    url: 'https://origami-finance.co.za',
   },
 ]
 

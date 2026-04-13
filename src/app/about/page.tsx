@@ -153,8 +153,8 @@ export default function AboutPage() {
                   Tinashe Munyaka
                 </h2>
                 <p className="text-[#4A4A4A] text-lg leading-relaxed mb-4 font-[family-name:var(--font-body)]">
-                  Senior UI/UX Designer and Full-Stack Developer based in
-                  Johannesburg, South Africa. Since 2015, I&apos;ve been designing
+                  Expert UI/UX Designer and Full-Stack Developer based in
+                  Johannesburg, South Africa. Since 2010, I&apos;ve been designing
                   and building digital products — from complex enterprise
                   platforms to lean SaaS applications.
                 </p>
@@ -165,19 +165,24 @@ export default function AboutPage() {
                   scalable, performant, and designed with real users in mind.
                 </p>
                 <p className="text-[#4A4A4A] text-lg leading-relaxed mb-6 font-[family-name:var(--font-body)]">
-                  Now, I&apos;ve channelled that experience into Origami Digital
-                  — an AI-augmented one-person agency that delivers
-                  enterprise-quality results without agency overhead. I specialise
-                  in Next.js, React, TypeScript, and integrating AI into every
-                  stage of the development and design workflow.
+                  Now, I&apos;ve channelled over 16 years of experience into
+                  Origami Digital — an AI-augmented studio that delivers
+                  enterprise-quality results without the agency overhead. By
+                  operating lean and leveraging AI across every stage of design
+                  and development, we move faster, build smarter, and keep costs
+                  competitive — across web, mobile, and any platform your
+                  business needs.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   {[
-                    "Next.js",
-                    "React",
-                    "TypeScript",
                     "UI/UX Design",
+                    "Web Development",
+                    "Mobile Apps",
+                    "React / Next.js",
+                    "iOS / Android",
                     "AI Integration",
+                    "E-Commerce",
+                    "SaaS",
                   ].map((skill) => (
                     <span
                       key={skill}

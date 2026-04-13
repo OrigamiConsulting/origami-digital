@@ -8,7 +8,7 @@ import { MagneticButton } from '@/components/ui/magnetic-button'
 const HEADLINE_WORDS = ['We', 'Build', 'Digital', 'Products', 'That', 'Perform']
 
 const STATS = [
-  { value: 10, suffix: '+', label: 'Years Experience' },
+  { value: 16, suffix: '+', label: 'Years Experience' },
   { value: 50, suffix: '+', label: 'Projects Delivered' },
   { value: 95, suffix: '+', label: 'Lighthouse Scores' },
 ]

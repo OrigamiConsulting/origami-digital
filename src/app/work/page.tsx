@@ -21,15 +21,6 @@ interface Project {
 
 const projects: Project[] = [
   {
-    slug: 'origami-finance',
-    title: 'Origami Finance',
-    description:
-      'Built a comprehensive invoicing solution tailored for South African businesses with automated tax calculations and multi-currency support.',
-    tags: ['Next.js', 'SaaS', 'Fintech'],
-    image: '/images/portfolio/origami-finance.png',
-    url: 'https://origami-finance.co.za',
-  },
-  {
     slug: 'origami-pay',
     title: 'Origami Pay',
     description:
@@ -55,6 +46,15 @@ const projects: Project[] = [
     tags: ['Web Design', 'B2B'],
     image: '/images/portfolio/impactroots.png',
     url: 'https://www.impactroots.co.za',
+  },
+  {
+    slug: 'origami-finance',
+    title: 'Origami Finance',
+    description:
+      'Built a comprehensive invoicing solution tailored for South African businesses with automated tax calculations and multi-currency support.',
+    tags: ['Next.js', 'SaaS', 'Fintech'],
+    image: '/images/portfolio/origami-finance.png',
+    url: 'https://origami-finance.co.za',
   },
 ];
 

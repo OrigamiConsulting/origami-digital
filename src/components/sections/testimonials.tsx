@@ -5,7 +5,7 @@ import { AnimatedCounter } from '@/components/ui/animated-counter'
 import { Marquee } from '@/components/ui/marquee'
 
 const metrics = [
-  { target: 10, suffix: '+', label: 'Years of Design & Development Experience' },
+  { target: 16, suffix: '+', label: 'Years of Design & Development Experience' },
   { target: 50, suffix: '+', label: 'Projects Delivered' },
   { target: 95, suffix: '+', label: 'Average Lighthouse Performance Score' },
   { target: 24, suffix: 'h', label: 'Average Response Time' },
@@ -14,14 +14,26 @@ const metrics = [
 const marqueeItems = [
   'Next.js',
   'React',
+  'React Native',
   'TypeScript',
+  'JavaScript',
+  'HTML / CSS',
   'Tailwind CSS',
-  'Vercel',
-  'AI-Powered',
-  'Framer Motion',
   'Node.js',
+  'Python',
+  'Swift / iOS',
+  'Kotlin / Android',
+  'Flutter',
+  'PHP',
+  '.NET',
   'PostgreSQL',
+  'MongoDB',
+  'WordPress',
+  'Shopify',
   'Figma',
+  'AI-Powered',
+  'Vercel',
+  'AWS',
 ]
 
 export function WhyWorkWithUs() {
@@ -75,7 +87,7 @@ export function WhyWorkWithUs() {
         {/* Tech Stack Text */}
         <ScrollReveal delay={300}>
           <p className="text-sm text-[#8A8A8A] text-center tracking-wide mt-12">
-            Next.js &bull; React &bull; TypeScript &bull; Tailwind CSS &bull; Vercel &bull; AI-Powered
+            Web &bull; Mobile &bull; Desktop &bull; SaaS &bull; E-Commerce &bull; AI &bull; Any Platform
           </p>
         </ScrollReveal>
 
