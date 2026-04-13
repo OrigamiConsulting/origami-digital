@@ -1,48 +1,43 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { FadeIn } from "@/components/ui/fade-in";
-import { SectionWrapper } from "@/components/ui/section-wrapper";
+import Image from 'next/image'
+import Link from 'next/link'
+import { FadeIn } from '@/components/ui/fade-in'
+import { SectionWrapper } from '@/components/ui/section-wrapper'
 
 interface Project {
-  title: string;
-  description: string;
-  tags: string[];
-  gradientFrom: string;
-  gradientTo: string;
+  title: string
+  description: string
+  tags: string[]
+  image: string
 }
 
 const projects: Project[] = [
   {
-    title: "Origami Finance",
-    description: "SaaS invoicing platform for South African businesses",
-    tags: ["Next.js", "SaaS", "Fintech"],
-    gradientFrom: "#0A8FBF",
-    gradientTo: "#297373",
+    title: 'Origami Finance',
+    description: 'SaaS invoicing platform for South African businesses',
+    tags: ['Next.js', 'SaaS', 'Fintech'],
+    image: '/images/portfolio/origami-finance.png',
   },
   {
-    title: "Origami Pay",
-    description: "Payslip generator for SA businesses",
-    tags: ["React", "SaaS", "HR Tech"],
-    gradientFrom: "#297373",
-    gradientTo: "#0A8FBF",
+    title: 'Origami Pay',
+    description: 'Payslip generator for SA businesses',
+    tags: ['React', 'SaaS', 'HR Tech'],
+    image: '/images/portfolio/origami-pay.png',
   },
   {
-    title: "EV Connect",
-    description:
-      "Electric vehicle charging platform with CPMS dashboard",
-    tags: ["Next.js", "IoT", "Dashboard"],
-    gradientFrom: "#1E1E1E",
-    gradientTo: "#0A8FBF",
+    title: 'EV Connect',
+    description: 'Electric vehicle charging platform with CPMS dashboard',
+    tags: ['Next.js', 'IoT', 'Dashboard'],
+    image: '/images/portfolio/ev-connect.png',
   },
   {
-    title: "ImpactRoots",
-    description: "B2B consulting site for skills development",
-    tags: ["Web Design", "B2B"],
-    gradientFrom: "#297373",
-    gradientTo: "#1E1E1E",
+    title: 'ImpactRoots',
+    description: 'B2B consulting site for skills development',
+    tags: ['Web Design', 'B2B'],
+    image: '/images/portfolio/impactroots.png',
   },
-];
+]
 
 export function PortfolioPreview() {
   return (
@@ -77,19 +72,16 @@ export function PortfolioPreview() {
                          transition-all duration-300 ease-out
                          hover:scale-[1.02] hover:shadow-2xl"
             >
-              {/* Placeholder image area */}
-              <div
-                className="aspect-video w-full flex items-center justify-center"
-                style={{
-                  background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})`,
-                }}
-              >
-                <span className="text-white/30 text-xl font-bold tracking-wider select-none">
-                  {project.title}
-                </span>
+              <div className="aspect-video w-full relative overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={`${project.title} — ${project.description}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
 
-              {/* Content */}
               <div className="p-6">
                 <h3 className="text-xl font-bold text-white mb-2">
                   {project.title}
@@ -129,5 +121,5 @@ export function PortfolioPreview() {
         </div>
       </FadeIn>
     </SectionWrapper>
-  );
+  )
 }

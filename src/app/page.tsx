@@ -2,7 +2,7 @@ import {
   Hero,
   ServicesOverview,
   PortfolioPreview,
-  Testimonials,
+  WhyWorkWithUs,
   CTASection,
   FAQSection,
 } from '@/components/sections'
@@ -15,7 +15,7 @@ export default function HomePage() {
       <Hero />
       <ServicesOverview />
       <PortfolioPreview />
-      <Testimonials />
+      <WhyWorkWithUs />
       <FAQSection />
       <CTASection />
     </>

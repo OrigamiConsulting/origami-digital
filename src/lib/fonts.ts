@@ -1,8 +1,8 @@
-import { Space_Grotesk, DM_Sans, JetBrains_Mono } from 'next/font/google'
+import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google'
 
-export const fontDisplay = Space_Grotesk({
+export const fontDisplay = Syne({
   subsets: ['latin'],
-  weight: ['500', '600', '700'],
+  weight: ['500', '600', '700', '800'],
   variable: '--font-display',
   display: 'swap',
 })

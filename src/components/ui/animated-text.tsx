@@ -1,23 +1,33 @@
-"use client";
+'use client'
 
-import { motion } from "framer-motion";
-import { type ElementType } from "react";
+import { motion } from 'framer-motion'
+import { type ElementType, useState, useEffect } from 'react'
 
 interface AnimatedTextProps {
-  text: string;
-  className?: string;
-  delay?: number;
-  tag?: "h1" | "h2" | "h3" | "p";
+  text: string
+  className?: string
+  delay?: number
+  tag?: 'h1' | 'h2' | 'h3' | 'p'
 }
 
 export function AnimatedText({
   text,
-  className = "",
+  className = '',
   delay = 0,
-  tag = "h2",
+  tag = 'h2',
 }: AnimatedTextProps) {
-  const Tag = tag as ElementType;
-  const words = text.split(" ");
+  const Tag = tag as ElementType
+  const words = text.split(' ')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Before hydration, render fully visible
+  if (!mounted) {
+    return <Tag className={className}>{text}</Tag>
+  }
 
   return (
     <Tag className={className}>
@@ -41,5 +51,5 @@ export function AnimatedText({
         ))}
       </span>
     </Tag>
-  );
+  )
 }

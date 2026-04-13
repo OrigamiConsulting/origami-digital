@@ -15,10 +15,73 @@ const trustIndicators = [
 export function Hero() {
   return (
     <section className="noise-texture relative min-h-screen flex items-center justify-center overflow-hidden bg-primary-darker">
-      {/* Animated gradient orbs */}
+      {/* ===== BACKGROUND VISUAL LAYERS ===== */}
+
+      {/* Layer 1: Animated dot grid */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <svg className="hero-dot-grid absolute inset-0 h-full w-full" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              id="hero-dots"
+              x="0"
+              y="0"
+              width="40"
+              height="40"
+              patternUnits="userSpaceOnUse"
+            >
+              <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.06)" />
+            </pattern>
+            <linearGradient id="dot-pulse-mask" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="white" stopOpacity="0">
+                <animate
+                  attributeName="stopOpacity"
+                  values="0;0.6;0"
+                  dur="8s"
+                  repeatCount="indefinite"
+                />
+              </stop>
+              <stop offset="30%" stopColor="white" stopOpacity="0.5">
+                <animate
+                  attributeName="offset"
+                  values="0.1;0.5;0.9;0.5;0.1"
+                  dur="8s"
+                  repeatCount="indefinite"
+                />
+                <animate
+                  attributeName="stopOpacity"
+                  values="0.3;0.7;0.3"
+                  dur="8s"
+                  repeatCount="indefinite"
+                />
+              </stop>
+              <stop offset="100%" stopColor="white" stopOpacity="0">
+                <animate
+                  attributeName="stopOpacity"
+                  values="0;0.4;0"
+                  dur="8s"
+                  repeatCount="indefinite"
+                />
+              </stop>
+            </linearGradient>
+            <mask id="dot-wave-mask">
+              <rect width="100%" height="100%" fill="url(#dot-pulse-mask)" />
+            </mask>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#hero-dots)" opacity="0.5" />
+          <rect
+            width="100%"
+            height="100%"
+            fill="url(#hero-dots)"
+            mask="url(#dot-wave-mask)"
+            opacity="0.8"
+          />
+        </svg>
+      </div>
+
+      {/* Layer 2: Gradient orbs (slightly more prominent) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <motion.div
-          className="absolute -left-32 top-1/4 h-[500px] w-[500px] rounded-full opacity-20 blur-[120px]"
+          className="absolute -left-32 top-1/4 h-[500px] w-[500px] rounded-full opacity-25 blur-[120px]"
           style={{ background: 'radial-gradient(circle, #0A8FBF, transparent 70%)' }}
           animate={{
             x: [0, 60, -30, 0],
@@ -28,7 +91,7 @@ export function Hero() {
           transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute -right-32 bottom-1/4 h-[500px] w-[500px] rounded-full opacity-20 blur-[120px]"
+          className="absolute -right-32 bottom-1/4 h-[500px] w-[500px] rounded-full opacity-25 blur-[120px]"
           style={{ background: 'radial-gradient(circle, #297373, transparent 70%)' }}
           animate={{
             x: [0, -50, 40, 0],
@@ -38,7 +101,7 @@ export function Hero() {
           transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute left-1/3 top-2/3 h-[350px] w-[350px] rounded-full opacity-10 blur-[100px]"
+          className="absolute left-1/3 top-2/3 h-[350px] w-[350px] rounded-full opacity-15 blur-[100px]"
           style={{ background: 'radial-gradient(circle, #0A8FBF, transparent 70%)' }}
           animate={{
             x: [0, 40, -20, 0],
@@ -48,7 +111,108 @@ export function Hero() {
         />
       </div>
 
-      {/* Content */}
+      {/* Layer 3: Geometric origami horse */}
+      <div
+        className="pointer-events-none absolute inset-0 flex items-center justify-center md:justify-end md:pr-[8%]"
+        aria-hidden="true"
+      >
+        <motion.svg
+          viewBox="0 0 500 500"
+          className="h-[320px] w-[320px] md:h-[450px] md:w-[450px] lg:h-[500px] lg:w-[500px]"
+          style={{ opacity: 0 }}
+          animate={{
+            opacity: 0.07,
+            y: [0, -12, 0],
+            rotate: [0, 1.5, -1, 0],
+          }}
+          transition={{
+            opacity: { duration: 1.5, delay: 0.3 },
+            y: { duration: 10, repeat: Infinity, ease: 'easeInOut' },
+            rotate: { duration: 14, repeat: Infinity, ease: 'easeInOut' },
+          }}
+        >
+          {/* Head and ears */}
+          <polygon points="320,80 350,30 360,90" fill="#0A8FBF" opacity="0.9" />
+          <polygon points="350,30 380,25 360,90" fill="#297373" opacity="0.85" />
+          <polygon points="290,120 320,80 360,90" fill="#0A8FBF" opacity="0.8" />
+          <polygon points="360,90 390,70 380,130" fill="#297373" opacity="0.7" />
+          <polygon points="290,120 360,90 380,130" fill="#0A8FBF" opacity="0.75" />
+
+          {/* Neck */}
+          <polygon points="250,180 290,120 380,130" fill="#297373" opacity="0.8" />
+          <polygon points="250,180 380,130 340,200" fill="#0A8FBF" opacity="0.7" />
+          <polygon points="220,220 250,180 340,200" fill="#297373" opacity="0.75" />
+
+          {/* Body - upper */}
+          <polygon points="220,220 340,200 380,260" fill="#0A8FBF" opacity="0.65" />
+          <polygon points="220,220 380,260 350,310" fill="#297373" opacity="0.7" />
+          <polygon points="160,280 220,220 350,310" fill="#0A8FBF" opacity="0.6" />
+
+          {/* Body - lower */}
+          <polygon points="160,280 350,310 320,360" fill="#297373" opacity="0.65" />
+          <polygon points="160,280 320,360 200,370" fill="#0A8FBF" opacity="0.55" />
+          <polygon points="350,310 380,260 400,320" fill="#297373" opacity="0.6" />
+
+          {/* Tail */}
+          <polygon points="130,250 160,280 120,310" fill="#0A8FBF" opacity="0.7" />
+          <polygon points="100,230 130,250 120,310" fill="#297373" opacity="0.65" />
+          <polygon points="80,270 100,230 120,310" fill="#0A8FBF" opacity="0.5" />
+
+          {/* Front legs */}
+          <polygon points="320,360 350,310 360,400" fill="#0A8FBF" opacity="0.6" />
+          <polygon points="360,400 350,310 400,320" fill="#297373" opacity="0.55" />
+          <polygon points="340,430 320,360 360,400" fill="#0A8FBF" opacity="0.65" />
+          <polygon points="355,430 360,400 370,460" fill="#297373" opacity="0.6" />
+
+          {/* Back legs */}
+          <polygon points="200,370 230,400 180,420" fill="#297373" opacity="0.6" />
+          <polygon points="200,370 160,280 180,420" fill="#0A8FBF" opacity="0.5" />
+          <polygon points="180,420 200,460 165,450" fill="#297373" opacity="0.55" />
+          <polygon points="230,400 250,460 215,445" fill="#0A8FBF" opacity="0.6" />
+
+          {/* Geometric detail lines (wireframe effect) */}
+          <g stroke="rgba(255,255,255,0.12)" strokeWidth="0.5" fill="none">
+            <line x1="250" y1="180" x2="380" y2="130" />
+            <line x1="220" y1="220" x2="380" y2="260" />
+            <line x1="160" y1="280" x2="350" y2="310" />
+            <line x1="290" y1="120" x2="380" y2="130" />
+            <line x1="320" y1="360" x2="200" y2="370" />
+          </g>
+        </motion.svg>
+      </div>
+
+      {/* Layer 4: Animated gradient sweep lines */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+        {/* Line 1 — sweeps top-left to bottom-right */}
+        <div
+          className="hero-sweep-line absolute h-[1px] w-[140%] -left-[20%] top-[25%] -rotate-12"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent 0%, #0A8FBF 30%, #297373 70%, transparent 100%)',
+            opacity: 0.04,
+          }}
+        />
+        {/* Line 2 — sweeps across the middle */}
+        <div
+          className="hero-sweep-line hero-sweep-line--delay-1 absolute h-[1px] w-[130%] -left-[15%] top-[55%] rotate-6"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent 0%, #297373 40%, #0A8FBF 60%, transparent 100%)',
+            opacity: 0.035,
+          }}
+        />
+        {/* Line 3 — sweeps lower third */}
+        <div
+          className="hero-sweep-line hero-sweep-line--delay-2 absolute h-[1px] w-[120%] -left-[10%] top-[78%] -rotate-3"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent 0%, #0A8FBF 50%, #297373 80%, transparent 100%)',
+            opacity: 0.045,
+          }}
+        />
+      </div>
+
+      {/* ===== CONTENT ===== */}
       <div className="relative z-10 mx-auto max-w-4xl px-6 py-24 text-center">
         {/* Badge */}
         <motion.div
@@ -162,6 +326,38 @@ export function Hero() {
           </svg>
         </motion.div>
       </motion.div>
+
+      {/* CSS animations for sweep lines and reduced-motion */}
+      <style jsx>{`
+        .hero-sweep-line {
+          animation: hero-sweep 12s ease-in-out infinite;
+        }
+        .hero-sweep-line--delay-1 {
+          animation-delay: -4s;
+        }
+        .hero-sweep-line--delay-2 {
+          animation-delay: -8s;
+        }
+        @keyframes hero-sweep {
+          0%,
+          100% {
+            transform: translateX(-15%) rotate(var(--tw-rotate, 0deg));
+            opacity: 0.02;
+          }
+          50% {
+            transform: translateX(10%) rotate(var(--tw-rotate, 0deg));
+            opacity: 0.06;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-sweep-line {
+            animation: none;
+          }
+          .hero-dot-grid * {
+            animation: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

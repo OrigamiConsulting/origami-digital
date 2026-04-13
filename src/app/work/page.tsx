@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { SectionWrapper } from '@/components/ui/section-wrapper';
 import { FadeIn } from '@/components/ui/fade-in';
 import { generatePageMetadata } from '@/lib/metadata';
@@ -15,8 +16,7 @@ interface Project {
   title: string;
   description: string;
   tags: string[];
-  gradientFrom: string;
-  gradientTo: string;
+  image: string;
 }
 
 const projects: Project[] = [
@@ -26,8 +26,7 @@ const projects: Project[] = [
     description:
       'Built a comprehensive invoicing solution tailored for South African businesses with automated tax calculations and multi-currency support.',
     tags: ['Next.js', 'SaaS', 'Fintech'],
-    gradientFrom: '#0A8FBF',
-    gradientTo: '#297373',
+    image: '/images/portfolio/origami-finance.png',
   },
   {
     slug: 'origami-pay',
@@ -35,8 +34,7 @@ const projects: Project[] = [
     description:
       'Streamlined payslip generation for SA businesses with automated calculations, SARS compliance, and bulk processing.',
     tags: ['React', 'SaaS', 'HR Tech'],
-    gradientFrom: '#297373',
-    gradientTo: '#0A8FBF',
+    image: '/images/portfolio/origami-pay.png',
   },
   {
     slug: 'ev-connect',
@@ -44,8 +42,7 @@ const projects: Project[] = [
     description:
       'Developed a charge point management system with real-time monitoring, payment integration, and fleet management.',
     tags: ['Next.js', 'IoT', 'Dashboard'],
-    gradientFrom: '#1E1E1E',
-    gradientTo: '#0A8FBF',
+    image: '/images/portfolio/ev-connect.png',
   },
   {
     slug: 'impactroots',
@@ -53,8 +50,7 @@ const projects: Project[] = [
     description:
       'Designed and built a professional web presence for a skills development consultancy.',
     tags: ['Web Design', 'B2B'],
-    gradientFrom: '#297373',
-    gradientTo: '#1E1E1E',
+    image: '/images/portfolio/impactroots.png',
   },
 ];
 
@@ -94,16 +90,14 @@ export default function WorkPage() {
                 href={`/work/${project.slug}`}
                 className="group block overflow-hidden rounded-2xl bg-[#F5F5F5] transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl"
               >
-                {/* Gradient placeholder image */}
-                <div
-                  className="flex aspect-video items-center justify-center"
-                  style={{
-                    background: `linear-gradient(135deg, ${project.gradientFrom}, ${project.gradientTo})`,
-                  }}
-                >
-                  <span className="select-none text-xl font-bold tracking-wider text-white/30">
-                    {project.title}
-                  </span>
+                <div className="relative aspect-video overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} — ${project.description}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
 
                 {/* Content */}
