@@ -117,36 +117,19 @@ export default function ContactPage() {
                     </p>
                   </div>
 
-                  {/* Map placeholder */}
-                  <div className="overflow-hidden rounded-2xl">
-                    <div className="flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-[#0A8FBF] to-[#297373] p-8">
-                      <div className="text-center">
-                        <svg
-                          className="mx-auto mb-3 h-10 w-10 text-white/60"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={1.5}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                          />
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                          />
-                        </svg>
-                        <p className="text-lg font-bold text-white">
-                          Bedfordview, Johannesburg
-                        </p>
-                        <p className="mt-1 text-sm text-white/60">
-                          Gauteng, South Africa
-                        </p>
-                      </div>
-                    </div>
+                  {/* Google Maps Embed */}
+                  <div className="overflow-hidden rounded-2xl ring-1 ring-[#DEDEDE]">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28603.71392164706!2d28.12!3d-26.18!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950e547e2fe7e1%3A0x622880b3b6e15aef!2sBedfordview%2C%20Germiston!5e0!3m2!1sen!2sza!4v1713000000000!5m2!1sen!2sza"
+                      width="100%"
+                      height="300"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Origami Digital location — Bedfordview, Johannesburg"
+                      className="w-full"
+                    />
                   </div>
                 </div>
               </ScrollReveal>
