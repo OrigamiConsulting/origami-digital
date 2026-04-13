@@ -16,6 +16,7 @@ interface Project {
   description: string;
   tags: string[];
   image: string;
+  url: string;
 }
 
 const projects: Project[] = [
@@ -26,6 +27,7 @@ const projects: Project[] = [
       'Built a comprehensive invoicing solution tailored for South African businesses with automated tax calculations and multi-currency support.',
     tags: ['Next.js', 'SaaS', 'Fintech'],
     image: '/images/portfolio/origami-finance.png',
+    url: 'https://origami-finance.co.za',
   },
   {
     slug: 'origami-pay',
@@ -34,6 +36,7 @@ const projects: Project[] = [
       'Streamlined payslip generation for SA businesses with automated calculations, SARS compliance, and bulk processing.',
     tags: ['React', 'SaaS', 'HR Tech'],
     image: '/images/portfolio/origami-pay.png',
+    url: 'https://origami-pay.co.za',
   },
   {
     slug: 'ev-connect',
@@ -42,6 +45,7 @@ const projects: Project[] = [
       'Developed a charge point management system with real-time monitoring, payment integration, and fleet management.',
     tags: ['Next.js', 'IoT', 'Dashboard'],
     image: '/images/portfolio/ev-connect.png',
+    url: 'https://www.origamievconnect.com',
   },
   {
     slug: 'impactroots',
@@ -50,6 +54,7 @@ const projects: Project[] = [
       'Designed and built a professional web presence for a skills development consultancy.',
     tags: ['Web Design', 'B2B'],
     image: '/images/portfolio/impactroots.png',
+    url: 'https://www.impactroots.co.za',
   },
 ];
 
@@ -88,8 +93,10 @@ export default function WorkPage() {
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {projects.map((project, index) => (
               <ScrollReveal key={project.slug} delay={100 * index}>
-                <Link
-                  href={`/work/${project.slug}`}
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group block overflow-hidden rounded-2xl bg-[#F5F5F5] transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl"
                 >
                   <div className="relative aspect-video overflow-hidden">
@@ -120,14 +127,14 @@ export default function WorkPage() {
                         </span>
                       ))}
                     </div>
-                    <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#0A8FBF] transition-colors group-hover:text-[#087CA7]">
-                      View Case Study
-                      <span className="transition-transform duration-200 group-hover:translate-x-1">
-                        &rarr;
-                      </span>
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#0A8FBF] transition-colors group-hover:text-[#087CA7]">
+                      Visit Live Site
+                      <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
                     </span>
                   </div>
-                </Link>
+                </a>
               </ScrollReveal>
             ))}
           </div>

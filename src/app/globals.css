@@ -73,12 +73,11 @@ body {
   line-height: 1.7;
 }
 
-/* Headings — Syne, bold, tight */
+/* Headings — Instrument Sans, bold, tight */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
   line-height: 1.1;
-  color: var(--color-primary-dark);
   letter-spacing: -0.02em;
 }
 
@@ -91,12 +90,8 @@ h6 { font-size: var(--font-size-base); }
 
 /* Links */
 a {
-  color: var(--color-accent-blue);
   text-decoration: none;
   transition: color 0.2s ease;
-}
-a:hover {
-  color: var(--color-accent-blue-dark);
 }
 
 /* Code */
@@ -144,7 +139,6 @@ code, pre {
   font-weight: 400;
   font-size: 1.0625rem;
   line-height: 1.7;
-  color: #4A4A4A;
 }
 
 .overline {

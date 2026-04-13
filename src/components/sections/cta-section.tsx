@@ -5,9 +5,26 @@ import { ScrollReveal } from '@/components/ui/scroll-reveal'
 
 export function CTASection() {
   return (
-    <section id="cta" className="relative overflow-hidden py-24 md:py-32 px-6">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0A8FBF] to-[#297373] noise-texture" />
-      <div className="absolute inset-0 bg-[#141414]/30" />
+    <section id="cta" className="noise-texture relative overflow-hidden py-24 md:py-32 px-6 bg-[#141414]">
+      {/* Gradient background layer */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(135deg, #0A8FBF 0%, #297373 40%, #1E1E1E 100%)',
+        }}
+        aria-hidden="true"
+      />
+      {/* Subtle pattern overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)',
+          backgroundSize: '32px 32px',
+        }}
+      />
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         <ScrollReveal>
@@ -25,7 +42,7 @@ export function CTASection() {
         <ScrollReveal delay={300}>
           <Link
             href="/contact"
-            className="inline-flex items-center justify-center bg-[#E8503E] text-white rounded-full px-10 py-5 text-lg font-bold mt-10 shadow-[0_0_40px_rgba(239,99,81,0.3)] hover:bg-[#D14535] hover:shadow-[0_0_50px_rgba(239,99,81,0.4)] hover:scale-[1.02] transition-all duration-200"
+            className="inline-flex items-center justify-center bg-white text-[#1E1E1E] rounded-full px-10 py-5 text-lg font-bold mt-10 shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:bg-neutral-100 hover:shadow-[0_0_50px_rgba(255,255,255,0.25)] hover:scale-[1.02] transition-all duration-200"
           >
             Get a Free Consultation
           </Link>

@@ -9,6 +9,7 @@ interface Project {
   description: string
   tags: string[]
   image: string
+  url: string
 }
 
 const projects: Project[] = [
@@ -17,24 +18,28 @@ const projects: Project[] = [
     description: 'SaaS invoicing platform for South African businesses',
     tags: ['Next.js', 'SaaS', 'Fintech'],
     image: '/images/portfolio/origami-finance.png',
+    url: 'https://origami-finance.co.za',
   },
   {
     title: 'Origami Pay',
     description: 'Payslip generator for SA businesses',
     tags: ['React', 'SaaS', 'HR Tech'],
     image: '/images/portfolio/origami-pay.png',
+    url: 'https://origami-pay.co.za',
   },
   {
     title: 'EV Connect',
     description: 'Electric vehicle charging platform with CPMS dashboard',
     tags: ['Next.js', 'IoT', 'Dashboard'],
     image: '/images/portfolio/ev-connect.png',
+    url: 'https://www.origamievconnect.com',
   },
   {
     title: 'ImpactRoots',
     description: 'B2B consulting site for skills development',
     tags: ['Web Design', 'B2B'],
     image: '/images/portfolio/impactroots.png',
+    url: 'https://www.impactroots.co.za',
   },
 ]
 
@@ -63,7 +68,12 @@ export function PortfolioPreview() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
             <ScrollReveal key={project.title} delay={100 * index}>
-              <div className="group relative rounded-2xl bg-[#2A2A2A] overflow-hidden">
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block relative rounded-2xl bg-[#2A2A2A] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-[#0A8FBF]/10"
+              >
                 <div className="aspect-video w-full relative overflow-hidden">
                   <Image
                     src={project.image}
@@ -72,9 +82,12 @@ export function PortfolioPreview() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                     className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white font-semibold text-lg">
-                      View Project &rarr;
+                  <div className="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white font-bold text-lg flex items-center gap-2">
+                      View Project
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
                     </span>
                   </div>
                 </div>
@@ -83,7 +96,7 @@ export function PortfolioPreview() {
                   <h3 className="text-xl font-bold text-white font-[family-name:var(--font-display)]">
                     {project.title}
                   </h3>
-                  <p className="text-[#8A8A8A] text-sm mt-2">
+                  <p className="text-[#B0B0B0] text-sm mt-2">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mt-4">
@@ -97,7 +110,7 @@ export function PortfolioPreview() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </a>
             </ScrollReveal>
           ))}
         </div>
