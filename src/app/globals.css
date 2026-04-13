@@ -1,26 +1,203 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================
+   Origami Digital — Design System
+   Build. Grow. Automate.
+   ============================================ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Brand Colours */
+  --color-primary-dark: #1E1E1E;
+  --color-primary-darker: #141414;
+  --color-surface-dark: #2A2A2A;
+
+  --color-accent-blue: #0A8FBF;
+  --color-accent-blue-dark: #087CA7;
+  --color-accent-teal: #297373;
+  --color-accent-teal-light: #347F7F;
+
+  --color-coral: #EF6351;
+  --color-coral-dark: #D94F3F;
+
+  --color-neutral-100: #FFFFFF;
+  --color-neutral-200: #F5F5F5;
+  --color-neutral-300: #DEDEDE;
+  --color-neutral-400: #8A8A8A;
+  --color-neutral-500: #4A4A4A;
+
+  /* Font Families */
+  --font-display: var(--font-display-family), sans-serif;
+  --font-body: var(--font-body-family), sans-serif;
+  --font-mono: var(--font-mono-family), monospace;
+
+  /* Font Size Scale */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+  --font-size-4xl: 2.5rem;
+  --font-size-5xl: 3.5rem;
+  --font-size-6xl: 4.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================
+   CSS Custom Properties (non-Tailwind)
+   ============================================ */
+
+:root {
+  --font-display-family: 'Cabinet Grotesk', sans-serif;
+  --font-body-family: 'Satoshi', sans-serif;
+  --font-mono-family: 'JetBrains Mono', monospace;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  color: var(--color-primary-dark);
+  background-color: var(--color-neutral-100);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: var(--font-size-5xl);
+}
+
+h2 {
+  font-size: var(--font-size-3xl);
+}
+
+h3 {
+  font-size: var(--font-size-2xl);
+}
+
+h4 {
+  font-size: var(--font-size-xl);
+}
+
+h5 {
+  font-size: var(--font-size-lg);
+}
+
+h6 {
+  font-size: var(--font-size-base);
+}
+
+/* Links */
+a {
+  color: var(--color-accent-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-accent-blue-dark);
+}
+
+/* Code */
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-accent-blue);
+  color: var(--color-neutral-100);
+}
+
+::-moz-selection {
+  background-color: var(--color-accent-blue);
+  color: var(--color-neutral-100);
+}
+
+/* Focus indicators */
+:focus-visible {
+  outline: 2px solid var(--color-accent-blue);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/* Subtle noise texture overlay for dark sections */
+.noise-texture {
+  position: relative;
+}
+
+.noise-texture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  z-index: 1;
+}
+
+.noise-texture > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   Responsive Typography
+   ============================================ */
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: var(--font-size-4xl);
+  }
+
+  h2 {
+    font-size: var(--font-size-2xl);
+  }
+
+  h3 {
+    font-size: var(--font-size-xl);
+  }
 }

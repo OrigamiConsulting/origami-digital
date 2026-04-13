@@ -1,0 +1,6 @@
+export { Hero } from './hero'
+export { ServicesOverview } from './services-overview'
+export { PortfolioPreview } from './portfolio-preview'
+export { Testimonials } from './testimonials'
+export { CTASection } from './cta-section'
+export { FAQSection } from './faq-section'
