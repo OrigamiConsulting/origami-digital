@@ -5,6 +5,7 @@ import { Header, Footer } from '@/components/layout'
 import './globals.css'
 
 const GA_MEASUREMENT_ID = 'G-X38KXW2JYC'
+const AW_CONVERSION_ID = 'AW-17524264437'
 
 export const metadata: Metadata = {
   title: {
@@ -52,6 +53,7 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', '${GA_MEASUREMENT_ID}');
+            gtag('config', '${AW_CONVERSION_ID}');
           `}
         </Script>
       </head>

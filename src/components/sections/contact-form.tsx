@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import { trackConversion, trackEvent } from '@/lib/analytics';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -74,6 +75,14 @@ export function ContactForm() {
       }
 
       setStatus('success');
+
+      // Fire Google Ads conversion + GA4 event
+      trackConversion('contact');
+      trackEvent('generate_lead', {
+        event_category: 'contact',
+        event_label: formData.service || 'general',
+        value: 1,
+      });
     } catch (error) {
       console.error('Contact form error:', error);
       setStatus('error');

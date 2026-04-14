@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
+import { trackConversion, trackEvent } from '@/lib/analytics'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -69,6 +70,13 @@ export function AiConsultationForm() {
 
       if (!response.ok) throw new Error('Failed to send')
       setStatus('success')
+
+      trackConversion('lead_form')
+      trackEvent('generate_lead', {
+        event_category: 'landing_page',
+        event_label: 'ai-consultation',
+        value: 1,
+      })
     } catch {
       setStatus('error')
     }
