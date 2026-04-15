@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { createContact } from '@/lib/brevo'
 
 function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY
@@ -139,6 +140,23 @@ export async function POST(request: Request) {
           </div>
         </div>
       `,
+    })
+
+    // Add contact to Brevo for email marketing (non-blocking)
+    const nameParts = body.name.trim().split(/\s+/)
+    const firstName = nameParts[0]
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : undefined
+
+    createContact({
+      email: body.email,
+      firstName,
+      lastName,
+      phone: body.phone,
+      service: serviceLabel,
+      budget: budgetLabel,
+      source: 'contact_form',
+    }).catch((err) => {
+      console.error('Brevo contact creation failed (non-blocking):', err)
     })
 
     return NextResponse.json({ success: true })
