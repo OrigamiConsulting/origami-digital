@@ -521,22 +521,161 @@ When working in Claude Code, these MCP integrations are available and should be 
 ## Launch Checklist
 
 Before going live, verify:
-- [ ] All pages have unique meta titles and descriptions
-- [ ] JSON-LD structured data on all pages (Organisation, Service, BlogPosting, BreadcrumbList)
-- [ ] robots.txt allows crawling of all public pages
-- [ ] XML sitemap generated and submitted to Google Search Console
-- [ ] Google Analytics 4 tracking verified
-- [ ] Google Search Console property created and verified
-- [ ] Google Business Profile created and linked
-- [ ] Favicon and apple-touch-icon configured
-- [ ] Open Graph images generated for all key pages (1200x630px)
-- [ ] Contact form tested end-to-end (submission → email notification)
-- [ ] All images optimised with proper alt text
-- [ ] Lighthouse scores: Performance 95+, Accessibility 100, SEO 100
+- [x] All pages have unique meta titles and descriptions
+- [x] JSON-LD structured data on all pages (Organisation, Service, BlogPosting, BreadcrumbList)
+- [x] robots.txt allows crawling of all public pages
+- [x] XML sitemap generated and submitted to Google Search Console
+- [x] Google Analytics 4 tracking verified (G-X38KXW2JYC)
+- [x] Google Search Console property created and verified
+- [x] Google Business Profile created and linked (needs photos + description update)
+- [x] Favicon and apple-touch-icon configured
+- [x] Open Graph images generated for all key pages (1200x630px)
+- [x] Contact form tested end-to-end (submission → email notification via Resend)
+- [x] All images optimised with proper alt text
+- [ ] Lighthouse scores: Performance 95+, Accessibility 100, SEO 100 (needs verification)
 - [ ] Mobile responsive tested on actual devices (not just browser dev tools)
-- [ ] 404 page designed and functional
-- [ ] SSL certificate active (Vercel handles this automatically)
+- [x] 404 page designed and functional
+- [x] SSL certificate active (Vercel handles this automatically)
 - [ ] Email capture / newsletter signup functional
 - [ ] Cross-browser testing (Chrome, Safari, Firefox, Edge)
-- [ ] Reduced-motion preference respected
+- [x] Reduced-motion preference respected
 - [ ] Print stylesheet (basic)
+
+---
+
+## COMPLETED WORK LOG
+
+> **Last updated:** 2026-04-15
+> **Purpose:** This section documents all development and marketing work completed to date, so that any Claude agent (local or cloud) can understand the current state of the project and continue from where the last session left off.
+
+### Website Development — COMPLETED
+
+**Stack:** Next.js 15 (App Router), TypeScript, Tailwind CSS v4, Framer Motion, deployed on Vercel.
+
+#### Pages Built (all live at origami-digital.co.za)
+
+| Page | Route | Status |
+|---|---|---|
+| Homepage | `/` | ✅ Live |
+| About | `/about` | ✅ Live |
+| Services Overview | `/services` | ✅ Live |
+| Website Design | `/services/website-design` | ✅ Live |
+| Mobile Apps | `/services/mobile-apps` | ✅ Live |
+| Custom Software | `/services/custom-software` | ✅ Live |
+| SEO | `/services/seo` | ✅ Live |
+| AI Automation | `/services/ai-automation` | ✅ Live |
+| Google Ads | `/services/google-ads` | ✅ Live |
+| Portfolio / Work | `/work` | ✅ Live |
+| Journal (Blog) | `/journal` | ✅ Live |
+| Journal Post (dynamic) | `/journal/[slug]` | ✅ Live |
+| Contact | `/contact` | ✅ Live |
+| Landing: Website Design | `/get-started/website-design` | ✅ Live |
+| Landing: SEO Audit | `/get-started/seo-audit` | ✅ Live |
+| Landing: AI Consultation | `/get-started/ai-consultation` | ✅ Live |
+
+#### Key Development Milestones
+
+1. **Initial build** — Complete website built with all pages, components, and sections
+2. **Visual overhaul** — Multiple rounds of design refinement: contrast fixes, font fixes, CTA improvements, portfolio section polish
+3. **Cinematic hero** — Animated hero section with kinetic typography, gradient backgrounds
+4. **Horizontal scroll portfolio** — Interactive portfolio showcase
+5. **Horse logo & branding** — Origami horse logo integrated across site with favicon
+6. **Contact form** — Working form via `/api/contact` using Resend email service, wired to `hello@origami-digital.co.za`
+7. **Blog infrastructure** — MDX-based blog with 5 published posts (see below)
+8. **Google Analytics 4** — Measurement ID `G-X38KXW2JYC` installed in root layout
+9. **Google Ads conversion tracking** — Conversion ID `AW-17524264437` with conversion label `uT42CPTpjo0cEPWbnKRB`, tracking on all forms
+10. **Google Ads landing pages** — 3 conversion-optimised landing pages built (website-design, seo-audit, ai-consultation) with stripped navigation and focused CTAs
+11. **Experience updated** — 16+ years displayed across the site
+12. **Smooth scroll fix** — Removed Lenis (was causing blank page), hero visibility fix
+
+#### Blog Posts Published (5 posts in `src/content/posts/`)
+
+| Post | Slug | Target Keyword |
+|---|---|---|
+| What to Look for When Hiring a Web Design Company in Johannesburg | `web-design-company-johannesburg` | "web design company Johannesburg" |
+| How AI Automation Is Helping South African Businesses Save Time and Money | `ai-automation-business-south-africa` | "AI automation for business South Africa" |
+| How Much Does a Website Cost in South Africa? | `website-cost-south-africa` | "how much does a website cost South Africa" |
+| What Is Generative Engine Optimisation (GEO)? | `generative-engine-optimisation-south-africa` | "generative engine optimisation South Africa" |
+| GEO vs SEO: What's the Difference? | `geo-vs-seo-difference` | "GEO vs SEO difference" |
+
+#### Conversion Tracking Implementation
+
+- **File:** `src/lib/analytics.ts`
+- **GA4 Measurement ID:** `G-X38KXW2JYC`
+- **Google Ads Conversion ID:** `AW-17524264437`
+- **Conversion Label:** `uT42CPTpjo0cEPWbnKRB` (used for all 4 conversion types)
+- **Conversion types tracked:** `contact`, `lead_form`, `landing_page_cta`, `sign_up`
+- **Forms with tracking:** Contact form (`src/components/sections/contact-form.tsx`), Website Design form, SEO Audit form, AI Consultation form (all in `src/app/get-started/*/form.tsx`)
+- Both `trackConversion()` (Google Ads) and `trackEvent()` (GA4) fire on successful form submission
+
+### Deployment — COMPLETED
+
+- **Platform:** Vercel
+- **Production URL:** https://origami-digital.co.za (custom domain)
+- **Staging URL:** https://origami-digital-tan.vercel.app
+- **Vercel Project ID:** `prj_sArKOerqR2aE613wPkUx8tvUrKzi`
+- **GitHub Repo:** https://github.com/OrigamiConsulting/origami-digital.git
+- **Branch:** `main` (single branch)
+- **Auto-deploy:** Yes, on push to main
+
+### Google Ads — COMPLETED & CONFIGURED
+
+**Account ID:** 702-187-8945
+
+#### Active Campaigns (as of 2026-04-15)
+
+| Campaign | Type | Bid Strategy | Budget/Day | Avg CPC | Status |
+|---|---|---|---|---|---|
+| OrigamiPay - Search - Payslip Generator SA | Search | Maximize conversions | R60 | R3.62 | ✅ Active |
+| Origami Finance - Search - Sign-ups | Search | Maximize conversions | R100 | R24.02 | ✅ Active |
+| Search - AI Automation SA | Search | **Maximize clicks (R15 max CPC)** | R150 | — (new) | ✅ Active (Learning) |
+| Search - Website Design JHB | Search | Maximize conversions | R150 | — | ⏸️ Paused |
+| Home EV Charger Installers | Performance Max | Maximize conversions | R50 | R0.54 | ⏸️ Paused |
+| CPMS Platform - South Africa | Performance Max | Maximize conversions | R25 | R0.95 | ✅ Active (Limited) |
+
+#### Key Google Ads Decisions Made
+
+1. **AI Automation campaign bidding changed** (2026-04-15): Switched from "Maximize conversions" to **"Maximize clicks" with R15.00 max CPC cap**. Reason: User concerned about click fraud and high per-click costs burning the R4,500/month budget. With R15 max CPC and R150/day budget, guaranteed minimum 10 clicks/day.
+
+2. **EV Connect campaigns left as-is** (2026-04-15): Performance Max campaigns cannot be changed to "Maximize clicks" (Google limitation). Actual cost per interaction is very low (R0.54 and R0.95), so they're not budget-burning. Home EV Charger Installers is already paused.
+
+3. **Conversion value:** All conversions have a fixed label value of ZAR 2,500 per conversion. This is a tracking/optimization label, NOT actual cost. 89 conversions × R2,500 = R222,500 total value shown in the account — purely a metric.
+
+4. **Total account spend to date:** ~R6,400.80 across all campaigns
+
+### Google Search Console — COMPLETED
+
+- **Property:** https://origami-digital.co.za (verified)
+- **Sitemap submitted:** https://origami-digital.co.za/sitemap.xml
+- **Status:** Active, indexing pages
+
+### Google Analytics 4 — COMPLETED
+
+- **Property:** Origami Digital (ID: `G-X38KXW2JYC`)
+- **Account:** `a391214008p532842239`
+- **Data stream ID:** `14364948603`
+- **Tracking:** Installed in `src/app/layout.tsx`, firing on all pages
+
+### Google Business Profile — IN PROGRESS
+
+- Profile created and linked
+- **Pending:** Description needs updating, photos need uploading
+
+### Bing Webmaster Tools — IN PROGRESS
+
+- Account created, site import started
+- **Pending:** Complete setup and sitemap submission
+
+### Remaining Tasks (Not Yet Done)
+
+- [ ] Bing Webmaster Tools — complete setup and submit sitemap
+- [ ] Google Business Profile — update description, add photos
+- [ ] Directory listings (Clutch, GoodFirms, DesignRush, TechBehemoths, Sortlist) — not yet submitted
+- [ ] LinkedIn profile and company page — not yet optimised
+- [ ] Email marketing (Brevo) — not yet set up
+- [ ] Lead magnet PDF — not yet created
+- [ ] GEO audit landing page (`/get-started/geo-audit`) — not yet built
+- [ ] Email nurture sequence automation — content drafted but not deployed
+- [ ] Print stylesheet
+- [ ] Cross-browser testing on actual devices
+- [ ] POPIA / privacy policy page
