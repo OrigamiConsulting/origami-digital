@@ -4,7 +4,7 @@
 
 ---
 
-## EXECUTION STATUS (Last updated: 2026-04-15)
+## EXECUTION STATUS (Last updated: 2026-04-16)
 
 | Phase | Task | Status | Notes |
 |---|---|---|---|
@@ -14,13 +14,14 @@
 | **Phase 3** | Bing Webmaster Tools | 🟡 Partial | Account created, site import started. Pending: complete setup, submit sitemap |
 | **Phase 4** | Blog Content | ✅ Done | All 5 blog posts published (see `src/content/posts/`) |
 | **Phase 5** | LinkedIn | ❌ Not started | Profile and company page not yet optimised |
-| **Phase 6** | Email Marketing (Brevo) | ❌ Not started | |
+| **Phase 6** | Email Marketing (Brevo) | ✅ Done | API key configured, contact form integration live, welcome automation active |
 | **Phase 7** | Lead Magnet PDF | ❌ Not started | Content for email nurture + checklist drafted but PDF not generated |
 | **Phase 8** | Google Ads Landing Pages | ✅ Done | 3 landing pages live: `/get-started/website-design`, `/get-started/seo-audit`, `/get-started/ai-consultation` |
 | **Phase 8** | Google Ads Campaigns | ✅ Done | 6 campaigns configured in account 702-187-8945 (see details below) |
 | **Phase 8** | GEO Audit Landing Page | ❌ Not started | `/get-started/geo-audit` not yet built |
 | **Phase 9** | Google Analytics 4 | ✅ Done | GA4 property `G-X38KXW2JYC` installed and verified |
 | **Phase 9** | Conversion Tracking | ✅ Done | Google Ads conversion tracking (`AW-17524264437`) on all forms |
+| **Phase 10** | Lead Generation Strategy | ✅ Drafted | See Phase 10 section below — ready for execution |
 
 ### Google Ads Campaign Details (Account: 702-187-8945)
 
@@ -540,46 +541,56 @@ Save all posts to a file: `marketing/linkedin-posts.md`
 
 ---
 
-## PHASE 6: EMAIL MARKETING SETUP
+## PHASE 6: EMAIL MARKETING SETUP ✅ COMPLETED (2026-04-16)
 
-**Priority: MEDIUM | Time: 30 minutes | Cost: Free (Brevo free tier)**
+**Status: DONE**
 
-### Task 6.1: Create Brevo Account
+### What was set up:
 
-1. Navigate to `https://www.brevo.com`
-2. Sign up for free account with hello@origami-digital.co.za
-3. PAUSE for user to verify email and complete setup
+1. **Brevo account** — Active at app.brevo.com
+2. **API key** — `BREVO_API_KEY` configured in both `.env.local` and Vercel production
+3. **Contact lists created:**
+   - List #3: Origami Digital Leads (form submissions)
+   - List #4: Newsletter Subscribers (future use)
+4. **Code integration** — `src/lib/brevo.ts` created with `createContact()` and `sendTransactionalEmail()` functions
+5. **Contact form wired** — `src/app/api/contact/route.ts` updated to create Brevo contacts on every form submission (non-blocking, fire-and-forget pattern)
+6. **Contact attributes captured:** FIRSTNAME, LASTNAME, SMS (phone), SERVICE_INTEREST, BUDGET, LEAD_SOURCE
+7. **Welcome automation** — Active in Brevo Automations:
+   - Trigger: Contact added to Origami Digital Leads list (#3)
+   - Wait: 1 hour
+   - Send email: "Thanks for reaching out to Origami Digital" — personalised with FIRSTNAME, links to portfolio, signed by Tinashe Munyaka
+   - Re-entry: Disabled (one welcome email per contact)
 
-### Task 6.2: Create Email List
+### Email flow (end-to-end):
+1. Visitor submits any form on the site (contact, website design, SEO audit, AI consultation)
+2. **Instant** — Resend sends notification to hello@origami-digital.co.za + confirmation to the lead
+3. **Instant** — Brevo creates/updates contact in Leads list with service interest, budget, source
+4. **+1 hour** — Brevo sends automated welcome/nurture email
+5. Contact is now in Brevo CRM for future campaigns
 
-1. Create a list called "Origami Digital Leads"
-2. Create a list called "Newsletter Subscribers"
+### Still TODO for email marketing:
+- [ ] Build out the full 5-email nurture sequence (Emails 2-5 below)
+- [ ] Create newsletter signup form on the website
+- [ ] Set up Brevo domain authentication (DNS records added, awaiting propagation)
+- [ ] Consolidate duplicate DMARC DNS records
 
-### Task 6.3: Draft Welcome Email Sequence
-
-Write 5 emails for an automated welcome sequence. Save to `marketing/email-sequence.md`:
-
-**Email 1 (Immediate — after contact form submission):**
-- Subject: "Thanks for reaching out — here's what happens next"
-- Body: Confirm receipt, set expectations (we'll respond within 24 hours), brief intro to Origami Digital, link to portfolio
+### Planned nurture sequence (Emails 2-5 — not yet built):
 
 **Email 2 (Day 3 — if no response yet):**
 - Subject: "Quick question about your project"
-- Body: Ask a simple qualifying question (What's the biggest challenge with your current website?), share a relevant blog post
+- Body: Ask a qualifying question, share a relevant blog post
 
 **Email 3 (Day 7):**
 - Subject: "How [client name] transformed their online presence"
-- Body: Share a case study (ImpactRoots or Origami Finance), results achieved, subtle CTA to book a call
+- Body: Case study, results achieved, subtle CTA to book a call
 
 **Email 4 (Day 14):**
 - Subject: "Is your website costing you clients?"
-- Body: Share the "Website Cost in South Africa" blog post, frame it as educational value, include free audit offer
+- Body: Share "Website Cost in South Africa" blog post, free audit offer
 
 **Email 5 (Day 30):**
 - Subject: "Still thinking about your digital project?"
-- Body: Friendly follow-up, offer a no-obligation 15-minute consultation, mention that projects book up in advance
-
-Save the full email content to `marketing/email-sequence.md`
+- Body: Friendly follow-up, no-obligation 15-minute consultation offer
 
 ---
 
@@ -779,9 +790,379 @@ In GA4, create these conversion events:
 
 ---
 
+## PHASE 10: LEAD GENERATION STRATEGY
+
+**Priority: HIGH | Time: Ongoing | Cost: Mix of free and paid**
+
+This phase is about proactively generating leads rather than waiting for them. The website, SEO, and ads create passive inflow — this phase creates active outbound and high-conversion inbound strategies.
+
+### IMPORTANT: Agent Autonomy Guidelines
+
+This document is designed to be executed by a Claude agent (cloud or local) with **minimal human intervention**. Each task is tagged with an autonomy level:
+
+- 🤖 **AUTONOMOUS** — The agent should execute this entirely on its own. No human input needed. Just do it.
+- 👁️ **REVIEW-ONLY** — The agent drafts/builds everything, then presents the final result for a quick yes/no approval before publishing or sending. Tinashe should NOT need to write, edit, or research anything — just approve.
+- 🔐 **REQUIRES AUTH** — The agent needs login credentials or account access that only Tinashe can provide. Once access is granted, the agent completes the task autonomously.
+- 🧑 **HUMAN REQUIRED** — Genuinely needs Tinashe's personal involvement (e.g., attending a meeting, recording a video with his face/voice).
+
+**Default behaviour:** If a task is tagged 🤖 or 👁️, the agent should proceed without asking questions. Don't ask "would you like me to..." — just do it. If something is ambiguous, make a reasonable decision and note what you chose. Tinashe will correct course if needed.
+
+**Content voice:** When drafting any content (LinkedIn posts, emails, blog posts, audit reports), write in Tinashe's voice as defined in CLAUDE.md — confident, clear, direct, warm but professional. Use "we" for Origami Digital. South African English spelling. The agent has full authority to write and publish content that matches this voice without line-by-line approval.
+
+**Scheduling:** For recurring tasks (LinkedIn posts, GBP posts, newsletter), the agent should batch-create content for the week/month ahead so Tinashe only needs to do a single review session rather than being interrupted daily.
+
+### Strategy Overview: The Lead Generation Flywheel
+
+```
+┌─────────────────────────────────────────────────┐
+│                LEAD GENERATION FLYWHEEL          │
+│                                                  │
+│   ATTRACT ──→ CAPTURE ──→ NURTURE ──→ CONVERT   │
+│      ↑                                    │      │
+│      └────────── REFERRAL ←───────────────┘      │
+└─────────────────────────────────────────────────┘
+
+ATTRACT:  Content, SEO, LinkedIn, Google Ads, Directories, Outreach
+CAPTURE:  Lead magnets, free audits, contact forms, newsletter
+NURTURE:  Brevo email sequences, LinkedIn follow-ups, retargeting
+CONVERT:  Consultations, proposals, project kickoffs
+REFERRAL: Happy clients refer others, case studies attract similar leads
+```
+
+---
+
+### Task 10.1: Free Website/SEO/GEO Audit Offer (HIGH PRIORITY)
+
+**The single most effective lead generation tactic for a web agency.** Offer a free, personalised audit that demonstrates expertise and creates obligation.
+
+**Step 1: Build audit landing page** 🤖 AUTONOMOUS
+- Create `/get-started/free-audit` following the same pattern as existing landing pages in `src/app/get-started/`
+- Headline: "Find Out What's Holding Your Website Back — Free"
+- Subheadline: "Get a personalised audit covering performance, SEO, design, and AI search readiness. No obligation. No sales pitch. Just actionable insights."
+- Form fields: Name, Email, Website URL, "What's your biggest digital challenge right now?"
+- Single CTA: "Get My Free Audit"
+- Form POSTs to `/api/contact` with `service: 'free-audit'`
+- Add Google Ads conversion tracking (same pattern as other landing page forms)
+- No main navigation — stripped layout like existing landing pages
+
+**Step 2: Build audit report generator** 🤖 AUTONOMOUS
+- Create an API route or script that, given a URL, runs checks and generates a report
+- Checks to automate: Lighthouse scores (via PageSpeed Insights API), meta tag presence, schema markup, mobile responsiveness, SSL, sitemap existence, page load speed
+- Generate a branded PDF report using the brand colours from CLAUDE.md
+- Template sections: Performance score, SEO health, Mobile/UX issues, AI Search/GEO readiness, Top 5 quick wins, "Want us to fix these?" CTA
+- Store template in `src/lib/audit-report.ts` or similar
+
+**Step 3: Automate audit delivery via Brevo** 🤖 AUTONOMOUS
+- When a free-audit form is submitted, trigger the audit generation
+- Send the PDF report via Brevo transactional email within 24 hours
+- Set up a follow-up automation: 3 days after audit delivery, send "Let's discuss your results" email
+- Add to Brevo Leads list with `source: 'free_audit'`
+
+**Step 4: Promote the audit offer** 🤖 AUTONOMOUS
+- Update blog post CTAs to include audit offer link
+- Create a Google Ads campaign for the audit page (draft ad copy, save to `marketing/google-ads-plan.md`)
+- Draft 2 LinkedIn posts promoting the free audit offer
+- Create a GBP post about the free audit
+
+### Task 10.2: LinkedIn Outreach Strategy (HIGH PRIORITY)
+
+LinkedIn is the #1 B2B lead generation channel for a service business like Origami Digital. This is where the target market (SME owners and decision-makers) spends time.
+
+**Step 1: Batch-create weekly LinkedIn content** 👁️ REVIEW-ONLY
+- Every Sunday/Monday, the agent drafts 3 LinkedIn posts for the week and saves them to `marketing/linkedin-posts-week-[N].md`
+- Tinashe reviews the batch once (5 min) and approves or flags edits
+- Agent then schedules/publishes them throughout the week
+- Post schedule:
+  - Monday: Educational post (web design tips, SEO insights, AI trends)
+  - Wednesday: Case study or portfolio showcase (before/after, results)
+  - Friday: Thought leadership or industry commentary (GEO, AI in business)
+- Every post ends with a soft CTA: "DM me if you want to discuss X" or "Drop your URL and I'll give you a quick tip"
+
+**Step 2: Engagement and commenting** 🔐 REQUIRES AUTH (LinkedIn login needed once)
+- Agent logs into LinkedIn and spends 15 minutes engaging:
+  - Comment thoughtfully on 5-10 posts from target prospects (MD/CEO/Marketing Manager at SA SMEs)
+  - React to and share relevant content from potential clients and partners
+- If the agent cannot access LinkedIn directly, it drafts comments and Tinashe posts them (but aim for direct access)
+
+**Step 3: Connection outreach** 🔐 REQUIRES AUTH
+- Agent identifies 10-15 target connections per week in these verticals: law firms, property developers, healthcare, accounting firms, engineering companies in Gauteng
+- Agent sends connection requests using this template (personalised per person):
+  ```
+  Hi [Name], I noticed [something specific about their company/recent post/shared connection]. I run Origami Digital — we help SA businesses build better websites and grow their online visibility. Would love to connect and follow your work.
+  ```
+- Agent tracks connections in a simple spreadsheet or `marketing/linkedin-outreach-tracker.md`
+- After 1-2 weeks of engagement, agent sends a value message: "I took a quick look at [their website] — noticed a few things that could improve your Google rankings. Happy to share if you're interested?"
+- **DO NOT pitch immediately.** The agent must follow the warm-up sequence.
+
+**LinkedIn post ideas bank** (agent should rotate these themes when generating weekly content):
+- "I audited a Johannesburg business's website this week. Here are the 3 issues I found on 90% of SA websites..."
+- "Your website loads in X seconds? Here's why that's costing you R[amount] in lost business per month..."
+- "This is what happens when you search for [industry] + Johannesburg on ChatGPT. Is your business showing up?"
+- "We just launched a new site for [client]. Here's the before vs after..."
+- "Most web agencies won't tell you this, but [honest insight about the industry]..."
+- Screenshot of a Lighthouse score improvement (before: 35, after: 97)
+- "I asked ChatGPT to recommend a [industry] company in Johannesburg. Here's what it said..."
+- Share a blog post with a personal angle/story
+- Repurpose any new blog post into a LinkedIn-native format
+
+### Task 10.3: Google Business Profile — Active Lead Generation
+
+GBP isn't just a listing — it's a lead generation tool when used actively.
+
+**Step 1: Complete GBP setup** 🔐 REQUIRES AUTH (Google login needed once)
+- Update business description (use long description from business info section above)
+- Upload photos: logo, hero screenshot from website, 3-5 portfolio screenshots
+- Add all services with descriptions
+- Set business hours, attributes
+
+**Step 2: Weekly GBP posts** 🤖 AUTONOMOUS (after initial auth)
+- Agent creates and publishes 1 post per week directly to GBP
+- Rotate post types: blog post shares, portfolio updates, service highlights, free audit offer
+- Always include a CTA button (Book Online, Learn More, Call Now)
+- Agent batch-creates 4 posts per month
+
+**Step 3: Seed Q&A section** 🤖 AUTONOMOUS
+- Agent posts these FAQ questions and answers on the GBP listing:
+  - "How much does a website cost?" → concise answer linking to blog post
+  - "Do you work with businesses outside Johannesburg?" → "Yes, we work with businesses across South Africa..."
+  - "What is GEO / Generative Engine Optimisation?" → concise answer linking to blog post
+
+**Step 4: Review management** 👁️ REVIEW-ONLY
+- After each project, agent drafts a review request email and sends to Tinashe for approval
+- Template: "Hi [Name], thanks for working with us on [project]. If you had a good experience, a Google review would mean a lot — here's the link: [review URL]"
+- Agent drafts responses to all reviews (positive and negative) for Tinashe to approve before posting
+
+### Task 10.4: Strategic Partnerships & Referral Network
+
+Build relationships with complementary service providers who serve the same clients but don't compete.
+
+**Step 1: Build the partners page** 🤖 AUTONOMOUS
+- Create `/partners` page on the website explaining the referral programme
+- Headline: "Let's Grow Together"
+- Explain the referral arrangement: 10% fee on first project (paid after client pays) or reciprocal referrals
+- Include a simple partner signup form (Name, Company, Email, "How do you serve your clients?")
+- Form POSTs to `/api/contact` with `service: 'partnership'`
+
+**Step 2: Research and list target partners** 🤖 AUTONOMOUS
+- Agent searches LinkedIn and Google for Johannesburg-based:
+  - Branding/graphic design agencies (they need web dev partners)
+  - Marketing/PR agencies (they need landing pages and website builds)
+  - Business consultants and accountants (they get asked "know a good web person?")
+- Save a target list of 20-30 potential partners to `marketing/partnership-targets.md` with names, websites, contact info, and why they'd be a good fit
+
+**Step 3: Draft outreach messages** 👁️ REVIEW-ONLY
+- Agent drafts personalised outreach emails/LinkedIn messages for each target partner
+- Tinashe does a single batch review of all messages before they're sent
+- Template approach: lead with value ("I noticed you do great branding work — we often get clients who need branding before we build their website. Would love to refer them your way...")
+
+**Step 4: Send outreach** 🔐 REQUIRES AUTH (LinkedIn/email access)
+- Agent sends the approved messages
+- Tracks responses in `marketing/partnership-tracker.md`
+
+**Industry-specific partnership angles:**
+- Property developers → website + virtual tour packages
+- Law firms → POPIA-compliant websites with accessibility
+- Healthcare → HPCSA-compliant medical practice websites
+- Accounting firms → client portal + dashboard solutions
+
+### Task 10.5: Cold Outreach — "Website Roast" Approach
+
+This is outbound prospecting disguised as value delivery. Instead of cold pitching, identify businesses with poor websites and offer unsolicited helpful feedback.
+
+**Step 1: Find and audit targets** 🤖 AUTONOMOUS
+- Agent searches Google for businesses in target verticals (page 2-3 results = they need SEO help):
+  - "law firm Johannesburg", "property developer Gauteng", "accounting firm Sandton", "private hospital Johannesburg", "engineering company Gauteng"
+- For each, agent runs a quick PageSpeed Insights check and notes specific issues
+- Agent compiles a weekly hit list of 10 targets with: business name, website URL, contact person (from LinkedIn/website), email, and 3 specific website issues found
+- Save to `marketing/outreach-targets-week-[N].md`
+
+**Step 2: Generate personalised audit summaries** 🤖 AUTONOMOUS
+- For each target, agent generates a concise 3-4 paragraph email/message highlighting:
+  - "I noticed your site loads in X seconds (should be under 2.5s)"
+  - "Your site is missing schema markup, which means AI search engines like ChatGPT can't recommend you"
+  - "Your mobile experience has [specific issue]"
+  - Close: "These are all fixable. Happy to jump on a 15-minute call if you'd like to discuss. No pressure."
+
+**Step 3: Loom video recording** 🧑 HUMAN REQUIRED
+- Tinashe records 2-minute Loom videos for the highest-priority targets (the ones the agent flagged as most likely to convert based on company size/industry)
+- Agent provides a script/talking points for each video based on the audit
+- Target: 5-10 videos per week — Tinashe can batch-record these in one 30-minute session
+
+**Step 4: Send outreach** 🔐 REQUIRES AUTH
+- Agent sends the personalised emails/LinkedIn messages with the Loom link
+- For targets where Tinashe didn't record a video, agent sends the text-only audit summary instead (still effective, just lower response rate)
+- Track all outreach in `marketing/outreach-tracker.md`
+- Expected response rate: 15-25% with video, 8-12% text-only
+
+**Alternative: Skip Loom entirely** — If Tinashe doesn't have time for videos, the agent sends the text-based audit emails autonomously. This is still a strong outreach approach. Videos can be added later when the pipeline needs more volume.
+
+### Task 10.6: Content Repurposing Engine 🤖 AUTONOMOUS
+
+Every piece of content should be repurposed across multiple channels to maximise reach. **The agent does this automatically every time new content is created — no human input needed.**
+
+**When a new blog post is published, agent automatically:**
+```
+1 Blog Post
+  ├── LinkedIn text post (key takeaway + link) → draft and queue
+  ├── LinkedIn carousel outline (5-7 slide talking points) → save to marketing/
+  ├── Google Business Profile post (short version + CTA) → publish directly
+  ├── Email newsletter snippet (for next monthly send) → save to marketing/newsletter-queue.md
+  └── Quora/Reddit answer (if relevant question exists) → draft and save
+```
+
+**When a new project is completed, agent automatically:**
+```
+1 Completed Project (Tinashe tells the agent about it)
+  ├── Case study blog post (challenge → approach → results) → write and publish
+  ├── LinkedIn before/after post → draft and queue
+  ├── Google Business Profile photo + post → publish directly
+  ├── Portfolio page update on website → code and deploy
+  ├── Email to leads list ("Here's what we just built") → send via Brevo
+  └── Review request email to client → draft for Tinashe to send
+```
+
+The agent should maintain a `marketing/content-calendar.md` file tracking what's been published where and what's queued.
+
+### Task 10.7: Newsletter / Email List Building
+
+Build an email list of people interested in digital insights — not just leads with active projects.
+
+**Step 1: Build newsletter signup component** 🤖 AUTONOMOUS
+- Add a newsletter signup section to the website footer and blog post footers
+- Simple form: Email address + "Subscribe" button
+- POST to a new `/api/newsletter` route that adds to Brevo list #4 (Newsletter Subscribers)
+- Confirmation message: "You're in! Expect monthly insights on web design, SEO, and AI."
+- Add to blog post template: "Enjoyed this? Get monthly insights like this delivered to your inbox"
+
+**Step 2: Write monthly newsletter** 🤖 AUTONOMOUS
+- Agent writes and sends the newsletter on the 1st of each month via Brevo
+- Newsletter name: "The Digital Edge"
+- Structure:
+  - 1 main insight or trend (300-400 words)
+  - 2-3 links to recent blog posts
+  - 1 portfolio highlight or case study
+  - 1 actionable tip they can implement immediately
+  - CTA: "Need help implementing any of this? Let's talk"
+- Agent uses the Brevo `sendTransactionalEmail()` function or Brevo's campaign feature
+- No human review needed — agent writes in the established brand voice
+
+**Step 3: Grow the list** 🤖 AUTONOMOUS
+- Agent mentions the newsletter in LinkedIn posts periodically
+- Agent includes newsletter CTA in free audit follow-up emails
+- Agent updates subscriber count in marketing materials as it grows
+
+### Task 10.8: Local SEO & Community Presence
+
+**Online communities** 🤖 AUTONOMOUS
+- Agent identifies relevant SA business forums, Facebook groups, Quora topics, and Reddit threads
+- Agent drafts helpful, non-salesy answers to questions about websites, SEO, AI, digital marketing
+- Agent shares blog posts where genuinely relevant
+- Agent saves drafted answers to `marketing/community-responses.md` — for platforms requiring auth, Tinashe posts them
+
+**Local networking** 🧑 HUMAN REQUIRED
+- Tinashe attends 1-2 business networking events per month in Johannesburg/Bedfordview
+- Agent researches upcoming events and provides a shortlist: `marketing/networking-events.md`
+- Agent drafts a 5-minute talk outline for speaking opportunities: "Why your website isn't working" or "AI for small business"
+- Agent prepares business cards / leave-behind materials (digital PDF)
+
+### Task 10.9: Retargeting (Paid — Month 2+)
+
+After the organic strategies are running, add paid retargeting to stay top-of-mind with visitors who didn't convert.
+
+**Step 1: Google Ads retargeting** 🤖 AUTONOMOUS
+- Create a remarketing audience in Google Ads of website visitors (past 30 days)
+- Create display ad campaign: "Still looking for a web design partner? Let's talk" with portfolio screenshots
+- Budget: R30-50/day
+- Landing page: `/contact`
+
+**Step 2: Meta Pixel installation** 🤖 AUTONOMOUS
+- Install Meta Pixel on the website (add to `src/app/layout.tsx`)
+- Create a retargeting audience of website visitors
+- Draft ad copy and creative concepts
+- Budget: R20-30/day
+- Note: Meta Business account creation may need 🔐 REQUIRES AUTH
+
+### Task 10.10: Blog Content — Ongoing SEO Machine 🤖 AUTONOMOUS
+
+The agent should write and publish 2-4 new blog posts per month targeting long-tail keywords. No human review needed — the agent writes in the established voice and follows the SEO requirements from CLAUDE.md.
+
+**Keyword research process (agent does this autonomously):**
+1. Use Google Search Console data to find queries the site is getting impressions for but not ranking well
+2. Research competitor blogs to find gaps
+3. Target keywords with local intent: "[service] + Johannesburg/South Africa/Gauteng"
+4. Prioritise informational keywords that lead to commercial intent (top-of-funnel → bottom-of-funnel)
+
+**Upcoming blog post targets (agent should write these next):**
+- "Best website builders vs custom development — which is right for your SA business?"
+- "5 signs your business website needs a redesign in 2026"
+- "What is AI search and how does it affect your business?"
+- "How to choose between a freelancer and an agency for your website"
+- "Website maintenance: what it costs and why it matters"
+- "The complete guide to Google Business Profile for South African businesses"
+- "How to get your business recommended by ChatGPT and Perplexity"
+- "React vs WordPress: which is better for a business website in 2026?"
+
+**Per-post requirements:**
+- 1,200-2,000 words
+- Target 1 primary keyword + 2-3 secondary keywords
+- Include internal links to relevant service pages and other blog posts
+- Include a CTA linking to `/contact` or `/get-started/free-audit`
+- Proper frontmatter with meta title, description, OG image reference
+- Save to `src/content/posts/[slug].mdx`
+
+---
+
+### Lead Generation — Priority Execution Order
+
+Execute these in order of effort-to-impact ratio:
+
+| Priority | Task | Autonomy | Tinashe's Effort | Expected Impact | Timeline |
+|---|---|---|---|---|---|
+| 1 | Free Audit Offer (10.1) | 🤖 Autonomous | None — agent builds everything | HIGH | Week 1 |
+| 2 | LinkedIn Content (10.2) | 👁️ Review-only | 5 min/week batch review | HIGH | Week 1, ongoing |
+| 3 | Blog Posts (10.10) | 🤖 Autonomous | None | HIGH (compounds over time) | Week 1, ongoing |
+| 4 | GBP Active Use (10.3) | 🤖 Autonomous | Initial login only | MEDIUM | Week 1, ongoing |
+| 5 | Content Repurposing (10.6) | 🤖 Autonomous | None | MEDIUM | Week 2, ongoing |
+| 6 | Cold Outreach (10.5) | 🤖 + 🧑 | 30 min/week (Loom videos, optional) | HIGH | Week 2, ongoing |
+| 7 | Newsletter Setup (10.7) | 🤖 Autonomous | None | MEDIUM-LOW (compounds) | Week 3 |
+| 8 | Partnership Outreach (10.4) | 👁️ Review-only | 10 min batch review of messages | HIGH (long-term) | Week 3-4 |
+| 9 | LinkedIn Outreach (10.2) | 🔐 Auth needed | Provide LinkedIn login once | HIGH | Week 2, ongoing |
+| 10 | Local Networking (10.8) | 🧑 Human | 2-3 hours/month attending events | MEDIUM | Week 4, ongoing |
+| 11 | Retargeting Ads (10.9) | 🤖 Autonomous | None | MEDIUM | Month 2 |
+
+**Tinashe's total weekly time commitment: ~1-2 hours**
+- 5 min: Review weekly LinkedIn posts batch
+- 10 min: Review partnership outreach messages (when applicable)
+- 30 min: Record Loom outreach videos (optional — agent can do text-only)
+- 15 min: Attend to any flagged items
+- Everything else runs autonomously
+
+### Monthly Lead Generation Targets
+
+| Month | Target Leads | Target Consultations | Target Proposals | Target Closes |
+|---|---|---|---|---|
+| Month 1 | 15-20 | 5-8 | 2-3 | 0-1 |
+| Month 2 | 25-35 | 8-12 | 3-5 | 1-2 |
+| Month 3 | 35-50 | 12-18 | 5-8 | 2-3 |
+| Month 6 | 50-80 | 15-25 | 8-12 | 3-5 |
+
+### Weekly Time Allocation
+
+| Activity | Time/Week | Day |
+|---|---|---|
+| LinkedIn content creation | 1.5 hours | Monday |
+| LinkedIn engagement/outreach | 1 hour | Daily (15 min) |
+| Cold outreach (Loom videos) | 2 hours | Tuesday/Thursday |
+| GBP posts + review requests | 30 min | Wednesday |
+| Blog post writing/repurposing | 2 hours | Friday |
+| Free audit delivery | 1-2 hours | As needed |
+| **Total** | **~8-9 hours/week** | |
+
+---
+
 ## EXECUTION ORDER SUMMARY
 
-Run tasks in this order (respecting dependencies). Status reflects actual completion as of 2026-04-15:
+Run tasks in this order (respecting dependencies). Status reflects actual completion as of 2026-04-16:
 
 1. ✅ Phase 9: Analytics verification — GA4 (`G-X38KXW2JYC`) installed, Google Ads conversion tracking (`AW-17524264437`) on all forms
 2. 🟡 Phase 1: Google Business Profile — created and linked, but needs description update and photos
@@ -789,9 +1170,35 @@ Run tasks in this order (respecting dependencies). Status reflects actual comple
 4. ❌ Phase 2: Directory listings — NOT YET DONE (Clutch, GoodFirms, DesignRush, TechBehemoths, Sortlist)
 5. ✅ Phase 4: Blog content — ALL 5 posts written and published in `src/content/posts/`
 6. ❌ Phase 5: LinkedIn — NOT YET DONE (profile optimisation, company page, posts)
-7. ❌ Phase 6: Email setup — NOT YET DONE (Brevo account not created)
+7. ✅ Phase 6: Email setup — Brevo fully configured with API integration + welcome automation active
 8. ❌ Phase 7: Lead magnet — NOT YET DONE (email nurture content drafted but PDF not generated)
 9. ✅ Phase 8: Google Ads — 3 landing pages built and live. 6 campaigns configured in Google Ads account 702-187-8945. GEO audit landing page NOT YET BUILT.
+10. ❌ Phase 10: Lead generation — Strategy drafted (see above). Ready for execution.
+
+**Next actions for a cloud Claude agent — DO THESE IN ORDER:**
+
+🤖 **Do immediately (no human input needed):**
+1. Build the free audit landing page at `/get-started/free-audit` (Task 10.1, Step 1)
+2. Build the GEO audit landing page at `/get-started/geo-audit` (Phase 8, Task 8.3)
+3. Build newsletter signup component and `/api/newsletter` route (Task 10.7, Step 1)
+4. Build the partners page at `/partners` (Task 10.4, Step 1)
+5. Write 2-3 new blog posts from the keyword list (Task 10.10)
+6. Research and compile outreach target lists (Task 10.5, Step 1)
+7. Research partnership targets (Task 10.4, Step 2)
+8. Generate the lead magnet PDF (Phase 7)
+9. Create the content calendar file (Task 10.6)
+10. Repurpose existing blog posts into LinkedIn post drafts (Task 10.6)
+
+👁️ **Draft for Tinashe's quick review:**
+11. Batch-create first week of LinkedIn posts (Task 10.2, Step 1)
+12. Draft partnership outreach messages (Task 10.4, Step 3)
+13. Draft cold outreach emails for first batch of targets (Task 10.5, Step 2)
+
+🔐 **Needs Tinashe to provide access (ask once, then proceed autonomously):**
+14. Complete GBP setup — description, photos, services (Task 10.3, Step 1)
+15. Complete directory listings — Clutch, GoodFirms, etc. (Phase 2)
+16. LinkedIn profile + company page setup (Phase 5)
+17. Bing Webmaster Tools completion (Phase 3)
 
 **GEO content is strategically distributed across ALL phases:**
 - Blog: 2 dedicated GEO posts (pillar page + comparison post)
@@ -805,11 +1212,28 @@ Run tasks in this order (respecting dependencies). Status reflects actual comple
 
 ## IMPORTANT NOTES FOR CLAUDE CODE
 
+### Autonomy Principles
+- **Be proactive, not reactive.** Don't ask "should I do X?" — check the autonomy tag. If it's 🤖, just do it. If it's 👁️, do it and present the result for approval. Only pause for 🔐 (needs credentials) or 🧑 (needs human).
+- **Make decisions.** If something is ambiguous (e.g., which headline to use, what keyword to target), make a reasonable choice and note it. Tinashe will course-correct if needed. Don't block on decisions.
+- **Batch work for review.** Never interrupt Tinashe for individual items. Batch-create content (e.g., all LinkedIn posts for the week) and present them together for a single review session.
+- **Track everything.** Maintain `marketing/PROGRESS.md` with timestamps and status. Maintain `marketing/content-calendar.md` with what's published where.
+
+### Safety Rules
 - **NEVER enter passwords or sensitive credentials without asking the user first.** Pause and request them.
 - **NEVER submit payment information.** All tasks in this plan use free tiers only.
-- **NEVER publish content without user review.** Draft and save content to files, then ask user to review before publishing.
 - **For directory listings:** If a site requires email verification, pause and notify the user.
 - **For Google Business Profile:** Verification may require a phone call or postcard — notify the user about the method and let them handle verification.
-- **Save all drafted content** to a `marketing/` folder in the project root so the user can review everything.
-- **Take screenshots** of completed profile setups and save them to `marketing/screenshots/` for the user's records.
-- **Log progress** by creating/updating a file `marketing/PROGRESS.md` with timestamps and status for each task.
+
+### Content Publishing Rules
+- **Blog posts:** Publish directly. No review needed. Agent writes in the brand voice defined in CLAUDE.md.
+- **LinkedIn posts:** Batch-create and present for quick review before publishing. Tinashe may want to add personal touches.
+- **Email campaigns:** Send autonomously for automated sequences (welcome, follow-up). Newsletter sends should be reviewed.
+- **GBP posts:** Publish directly. No review needed.
+- **Cold outreach emails:** Present first batch for review. Once Tinashe approves the tone/approach, subsequent batches can be sent autonomously.
+
+### File Organisation
+- **Save all drafted content** to a `marketing/` folder in the project root.
+- **Take screenshots** of completed profile setups and save them to `marketing/screenshots/`.
+- **Log progress** by creating/updating `marketing/PROGRESS.md` with timestamps and status for each task.
+- **Content calendar** in `marketing/content-calendar.md` — track what's published where and what's queued.
+- **Outreach trackers** in `marketing/outreach-tracker.md` and `marketing/partnership-tracker.md`.
