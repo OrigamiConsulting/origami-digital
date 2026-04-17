@@ -34,7 +34,17 @@ const serviceLabels: Record<string, string> = {
   'seo': 'SEO',
   'google-ads': 'Google Ads',
   'ai-automation': 'AI Automation',
+  'free-audit': 'Free Website Audit',
+  'geo-audit': 'GEO Audit (AI Search)',
+  'partnership': 'Partnership Enquiry',
   'other': 'Other',
+}
+
+// Maps service value → Brevo LEAD_SOURCE so the CRM can segment by campaign.
+const serviceSources: Record<string, string> = {
+  'free-audit': 'free_audit',
+  'geo-audit': 'geo_audit',
+  'partnership': 'partnership',
 }
 
 const budgetLabels: Record<string, string> = {
@@ -203,7 +213,7 @@ export async function POST(request: Request) {
       phone: body.phone,
       service: serviceLabel,
       budget: budgetLabel,
-      source: 'contact_form',
+      source: serviceSources[body.service] || 'contact_form',
     }).catch((err) => {
       console.error('Brevo contact creation failed (non-blocking):', err)
     })

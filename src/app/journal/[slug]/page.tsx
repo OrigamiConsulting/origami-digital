@@ -4,6 +4,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getPost, getAllSlugs } from '@/lib/blog'
 import { generatePageMetadata } from '@/lib/metadata'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
+import { NewsletterSignup } from '@/components/sections/newsletter-signup'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -146,6 +147,13 @@ export default async function BlogPostPage({ params }: PageProps) {
           <MDXRemote source={post.content} components={mdxComponents} />
         </div>
       </article>
+
+      {/* Newsletter signup */}
+      <section className="bg-white pb-16 px-6 md:pb-24">
+        <div className="mx-auto max-w-3xl">
+          <NewsletterSignup variant="card" source="blog_post_footer" />
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="noise-texture bg-[#141414] py-16 md:py-24 px-6">

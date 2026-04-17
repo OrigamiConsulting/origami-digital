@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { NewsletterSignup } from '@/components/sections/newsletter-signup'
 
 const quickLinks = [
   { label: 'Home', href: '/' },
@@ -17,6 +18,11 @@ export function Footer() {
 
       <div className="py-20 md:py-24 px-6">
         <div className="max-w-7xl mx-auto">
+          {/* Newsletter row — spans the full footer width above the columns */}
+          <div className="mb-16 rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-10">
+            <NewsletterSignup variant="footer" source="footer" />
+          </div>
+
           <div className="grid md:grid-cols-[2fr_1fr_1.2fr] gap-12 md:gap-16">
             {/* Column 1: Brand */}
             <div>
