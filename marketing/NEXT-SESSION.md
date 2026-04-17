@@ -45,18 +45,16 @@ Before the free-audit automation works end-to-end:
 
 Known good: the code mirrors the pattern of `scripts/generate-checklist-pdf.tsx`, which already works in production. Brevo's transactional API supports base64 attachments natively.
 
-### Priority 2 — Browser runbooks (unchanged from last handoff)
+### Priority 2 — Browser runbooks (updated 2026-04-18 after the execution pass)
 
-Four runbooks in `marketing/*-runbook.md`. Execute in this order, roughly 100 min total:
+- **Bing Webmaster — DONE.** Site imported + sitemap processing + 14 key URLs submitted for indexing. No further action needed.
+- **Google Business Profile — DONE (text-only).** Description, opening date (Jan 2010), two extra services, and the "Now accepting new clients for 2026" launch post are all live / pending Google review. Still TO DO manually: (a) photo uploads (logo + cover + 5–10 portfolio screenshots — use `public/images/logo/origami-horse.png` and browser screenshots of origami-digital.co.za, origami-finance.co.za, origami-pay.co.za, origamievconnect.com, impactroots.co.za); (b) Q&A seeding (needs a second non-owner Google account to post the 3 questions from `gbp-completion-runbook.md` Step 5 — the owner account can then answer); (c) adding the CTA button to the launch post (edit the post, expand "Add more details" → Button → "Book online" → `/contact`).
+- **LinkedIn Company Page — BLOCKED on connection count.** LinkedIn refuses company-page creation while the admin's personal profile has 0 connections. **Fix:** send ~5–10 connection requests to people Tinashe knows professionally, wait for them to accept (LinkedIn treats it as a "connection count ≥ N" gate; exact N isn't published but 5–10 accepted connections reliably unlocks it). Then re-execute `linkedin-business-page-runbook.md` — every field value is pre-written, it's ~5 min of paste-and-submit after the gate clears.
+- **Directory listings — manual.** `directory-listings-runbook.md` has every field value pre-filled; ~40 min of copy-paste across Clutch / GoodFirms / DesignRush / TechBehemoths / Sortlist. These need human execution because each directory requires a new user account with email verification (often CAPTCHA) — outside the autonomous scope of Claude Code.
 
-1. `bing-webmaster-runbook.md` (10 min) — quickest, finishes the existing partial setup
-2. `gbp-completion-runbook.md` (25 min) — description + photos
-3. `linkedin-business-page-runbook.md` (25 min) — create company page + publish launch post
-4. `directory-listings-runbook.md` (40 min) — 5 sequential directory submissions
+**After each runbook action:** log timestamp + URLs in `marketing/PROGRESS.md`.
 
-**After each:** log timestamp + URLs in `marketing/PROGRESS.md`.
-
-**Playwright MCP note:** `.mcp.json` adds Playwright MCP. On a fresh Claude Code session, verify with `ToolSearch query: "playwright navigate"`. If not present, restart Claude Code and approve on startup.
+**Playwright MCP note:** `.mcp.json` adds Playwright MCP. The 2026-04-18 browser pass used the Claude-in-Chrome extension (already live). Playwright is still present for future sessions that prefer it.
 
 ### Priority 3 — Load nurture emails 2–5 into Brevo
 

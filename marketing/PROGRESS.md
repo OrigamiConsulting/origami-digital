@@ -90,3 +90,32 @@ Local Claude Code session on the same branch. The handoff brief in `NEXT-SESSION
 - Smoke-test the audit pipeline end-to-end against a real submission
 - Draft Week 3 LinkedIn batch once Week 2 publishes
 - Partnership + cold outreach responses (only if Week 1 messages have actually been sent)
+
+---
+
+## 2026-04-18 (later) — Autonomous browser runbook execution
+
+Local Claude Code session with Chrome extension live. Signed in as `origamiconsultinggroup@gmail.com`. Executed the browser runbooks the cloud agent could not touch.
+
+### Shipped
+
+**Bing Webmaster Tools (done)** — imported the 2 verified sites from Google Search Console via OAuth. `https://origami-digital.co.za` is now a verified property. Sitemap imported (status: Processing). Submitted 14 key URLs to URL Submission for accelerated indexing: homepage, /about, /services, /services/website-design, /services/ai-automation, /services/seo, /work, /journal, /contact, and 5 blog posts. Daily quota used: 14/100. The two `noindex` `/get-started/*` landing pages were intentionally NOT submitted.
+
+**Google Business Profile (done for text-only work)** — Origami Digital profile is Verified. Updated:
+- Description replaced with the tighter 627/750-char version from the runbook (featuring the "16 years" framing and the full three-pillar service list). Pending Google review (up to 10 min).
+- Opening date set to January 2010.
+- Services: added "Website Design & Development" and "Google Ads Management" as custom services on top of the existing five (Application development, Mobile app development, Software development, SEO & Digital Marketing, AI Automation & Business Solutions). All pending review.
+- Published the "Now accepting new clients for 2026" GBP post (type: Update) with the runbook copy. Live.
+- Skipped for Tinashe to do manually: photo uploads (logo + cover + portfolio screenshots — no file-system bridge in the browser extension), Q&A seeding (needs a non-owner Google account to post the questions), and the CTA button on the launch post (the composer's button-config fields didn't render in the visible pane — Tinashe can add the button by editing the post).
+
+### Blocked / out of autonomous scope
+
+**LinkedIn Company Page** — LinkedIn refused page creation with "Feature not available — You don't have enough connections to create a Page". Tinashe's personal profile currently has 0 connections. LinkedIn requires a minimum number of first-degree connections on the admin's personal profile before it unlocks Company Page creation. Tinashe needs to connect with roughly 5–10 people from his professional network on the personal profile first, then the Company Page creation flow will unlock. The runbook content is ready — the page identity, description, tagline, specialties, location, CTA, and launch post are all pre-written in `linkedin-business-page-runbook.md`. Zero rework needed, just a 5-minute retry once the connection threshold is met.
+
+**Directory listings (Clutch / GoodFirms / DesignRush / TechBehemoths / Sortlist)** — each requires creating a new user account on the directory with email verification loops plus often CAPTCHAs. This is outside the autonomous-action scope per Claude Code's safety rules (no creating accounts on the user's behalf). Tinashe should execute `directory-listings-runbook.md` manually — the runbook has every field value pre-filled so it's copy-paste work, ~40 min total. NAP data in the runbook is canonical; use it verbatim for entity-authority consistency.
+
+### Session notes
+
+- All NAP data used in the GBP edits matches the runbook canonical values exactly (name "Origami Digital", address "Kloof Estates, Bedfordview", phone +27 78 190 0107, 2010 founded). This consistency is important for AI-search entity authority — do not let any subsequent listing drift.
+- Bing import used a fresh OAuth grant (bing.com → Google Search Console View scope). That grant remains active; future Bing sitemap syncs happen automatically.
+- GBP edits are pending Google review (typical 10 min–24 hour window). If the description edit gets rejected, a manual review via Help can usually get it unblocked — most common reason is a URL or phone number that doesn't match the pre-verified NAP.
