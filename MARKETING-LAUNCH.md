@@ -4,24 +4,27 @@
 
 ---
 
-## EXECUTION STATUS (Last updated: 2026-04-16)
+## EXECUTION STATUS (Last updated: 2026-04-17)
 
 | Phase | Task | Status | Notes |
 |---|---|---|---|
-| **Phase 1** | Google Business Profile | 🟡 Partial | Profile created and linked. Pending: description update, photos upload |
-| **Phase 2** | Directory Listings | ❌ Not started | Clutch, GoodFirms, DesignRush, TechBehemoths, Sortlist — none submitted yet |
+| **Phase 1** | Google Business Profile | 🟡 Runbook ready | Profile created and linked. Complete setup in one sitting via `marketing/gbp-completion-runbook.md` (~25 min) |
+| **Phase 2** | Directory Listings | 🟡 Runbook ready | Complete all 5 in one sitting via `marketing/directory-listings-runbook.md` (~40 min) |
 | **Phase 3** | SEO Foundations | ✅ Done | Google Search Console verified, sitemap submitted, meta tags on all pages |
-| **Phase 3** | Bing Webmaster Tools | 🟡 Partial | Account created, site import started. Pending: complete setup, submit sitemap |
-| **Phase 4** | Blog Content | ✅ Done | All 5 blog posts published (see `src/content/posts/`) |
-| **Phase 5** | LinkedIn | ❌ Not started | Profile and company page not yet optimised |
+| **Phase 3** | Bing Webmaster Tools | 🟡 Runbook ready | Account created, site import started. Complete via `marketing/bing-webmaster-runbook.md` (~10 min) |
+| **Phase 4** | Blog Content | ✅ Done | 7 blog posts live: 5 original + `signs-website-needs-redesign-2026`, `how-to-get-recommended-by-chatgpt` (published 2026-04-17) |
+| **Phase 5** | LinkedIn | 🟡 Runbook ready | Company page + personal profile update + launch posts all prepared. Execute via `marketing/linkedin-business-page-runbook.md` (~25 min) |
 | **Phase 6** | Email Marketing (Brevo) | ✅ Done | API key configured, contact form integration live, welcome automation active |
-| **Phase 7** | Lead Magnet PDF | ❌ Not started | Content for email nurture + checklist drafted but PDF not generated |
-| **Phase 8** | Google Ads Landing Pages | ✅ Done | 3 landing pages live: `/get-started/website-design`, `/get-started/seo-audit`, `/get-started/ai-consultation` |
+| **Phase 6** | Newsletter signup | ✅ Done (2026-04-17) | `/api/newsletter` route + `<NewsletterSignup />` component wired into footer + blog posts. Writes to Brevo List #4. |
+| **Phase 7** | Lead Magnet PDF | ✅ Done (2026-04-17) | 30-point website checklist generated. File: `public/downloads/website-checklist-2026.pdf`. Source: `scripts/generate-checklist-pdf.tsx` — re-generate with `npm run build:checklist` |
+| **Phase 8** | Google Ads Landing Pages | ✅ Done | 4 landing pages live: `/get-started/website-design`, `/seo-audit`, `/ai-consultation`, and new `/geo-audit` (2026-04-17) |
+| **Phase 8** | Free Audit Landing Page | ✅ Done (2026-04-17) | `/get-started/free-audit` built with full form, conversion tracking, Brevo source `free_audit` |
 | **Phase 8** | Google Ads Campaigns | ✅ Done | 6 campaigns configured in account 702-187-8945 (see details below) |
-| **Phase 8** | GEO Audit Landing Page | ❌ Not started | `/get-started/geo-audit` not yet built |
+| **Phase 8** | GEO Audit Landing Page | ✅ Done (2026-04-17) | `/get-started/geo-audit` built with SEO-vs-GEO comparison block |
 | **Phase 9** | Google Analytics 4 | ✅ Done | GA4 property `G-X38KXW2JYC` installed and verified |
-| **Phase 9** | Conversion Tracking | ✅ Done | Google Ads conversion tracking (`AW-17524264437`) on all forms |
-| **Phase 10** | Lead Generation Strategy | ✅ Drafted | See Phase 10 section below — ready for execution |
+| **Phase 9** | Conversion Tracking | ✅ Done | Google Ads conversion tracking (`AW-17524264437`) on all forms including new free-audit, geo-audit, and partnership forms |
+| **Phase 10** | Lead Generation Strategy | 🟢 Infra shipped | Free audit offer: landing page DONE; audit-report generator QUEUED. Partners page DONE. LinkedIn week 1 drafts DONE. Cold outreach drafts DONE. Newsletter infra DONE. Content calendar DONE. |
+| **Phase 10** | `/partners` page | ✅ Done (2026-04-17) | Public page live with partnership form, routes to Brevo source `partnership` |
 
 ### Google Ads Campaign Details (Account: 702-187-8945)
 
@@ -1162,43 +1165,76 @@ Execute these in order of effort-to-impact ratio:
 
 ## EXECUTION ORDER SUMMARY
 
-Run tasks in this order (respecting dependencies). Status reflects actual completion as of 2026-04-16:
+Run tasks in this order (respecting dependencies). Status reflects actual completion as of 2026-04-17:
 
-1. ✅ Phase 9: Analytics verification — GA4 (`G-X38KXW2JYC`) installed, Google Ads conversion tracking (`AW-17524264437`) on all forms
-2. 🟡 Phase 1: Google Business Profile — created and linked, but needs description update and photos
-3. ✅ Phase 3: SEO foundations — Google Search Console verified, sitemap submitted. Bing Webmaster Tools partially done.
-4. ❌ Phase 2: Directory listings — NOT YET DONE (Clutch, GoodFirms, DesignRush, TechBehemoths, Sortlist)
-5. ✅ Phase 4: Blog content — ALL 5 posts written and published in `src/content/posts/`
-6. ❌ Phase 5: LinkedIn — NOT YET DONE (profile optimisation, company page, posts)
-7. ✅ Phase 6: Email setup — Brevo fully configured with API integration + welcome automation active
-8. ❌ Phase 7: Lead magnet — NOT YET DONE (email nurture content drafted but PDF not generated)
-9. ✅ Phase 8: Google Ads — 3 landing pages built and live. 6 campaigns configured in Google Ads account 702-187-8945. GEO audit landing page NOT YET BUILT.
-10. ❌ Phase 10: Lead generation — Strategy drafted (see above). Ready for execution.
+1. ✅ Phase 9: Analytics verification — GA4 (`G-X38KXW2JYC`) installed, Google Ads conversion tracking (`AW-17524264437`) on all forms (including new free-audit, geo-audit, partnership forms)
+2. 🟡 Phase 1: Google Business Profile — runbook ready, see `marketing/gbp-completion-runbook.md`
+3. ✅ Phase 3: SEO foundations — Google Search Console verified, sitemap submitted
+4. 🟡 Phase 3: Bing Webmaster Tools — runbook ready, see `marketing/bing-webmaster-runbook.md`
+5. 🟡 Phase 2: Directory listings — runbook ready, see `marketing/directory-listings-runbook.md`
+6. ✅ Phase 4: Blog content — 7 posts live in `src/content/posts/`
+7. 🟡 Phase 5: LinkedIn — runbook + all post copy ready, see `marketing/linkedin-business-page-runbook.md`
+8. ✅ Phase 6: Email setup — Brevo fully configured + newsletter signup now wired into footer and blog posts
+9. ✅ Phase 7: Lead magnet — 30-point PDF generated at `public/downloads/website-checklist-2026.pdf`
+10. ✅ Phase 8: Google Ads — 4 landing pages live (added `/get-started/geo-audit` + `/get-started/free-audit`). 6 campaigns configured.
+11. 🟢 Phase 10: Lead generation — all autonomous infra and drafts shipped. Execution of outreach + review-only items next.
 
-**Next actions for a cloud Claude agent — DO THESE IN ORDER:**
+**Done this session (2026-04-17) — autonomous infra drop:**
 
-🤖 **Do immediately (no human input needed):**
-1. Build the free audit landing page at `/get-started/free-audit` (Task 10.1, Step 1)
-2. Build the GEO audit landing page at `/get-started/geo-audit` (Phase 8, Task 8.3)
-3. Build newsletter signup component and `/api/newsletter` route (Task 10.7, Step 1)
-4. Build the partners page at `/partners` (Task 10.4, Step 1)
-5. Write 2-3 new blog posts from the keyword list (Task 10.10)
-6. Research and compile outreach target lists (Task 10.5, Step 1)
-7. Research partnership targets (Task 10.4, Step 2)
-8. Generate the lead magnet PDF (Phase 7)
-9. Create the content calendar file (Task 10.6)
-10. Repurpose existing blog posts into LinkedIn post drafts (Task 10.6)
+🤖 **Shipped code:**
+- `/api/newsletter` route + `<NewsletterSignup />` component (footer + blog post variants)
+- `/get-started/free-audit` landing page + form (service: `free-audit`)
+- `/get-started/geo-audit` landing page + form with SEO-vs-GEO comparison (service: `geo-audit`)
+- `/partners` page + form (service: `partnership`) — public, indexable, in main navigation flow
+- `/api/contact` extended: `free-audit`, `geo-audit`, `partnership` service enum + dedicated Brevo `LEAD_SOURCE` segmentation
+- `scripts/generate-checklist-pdf.tsx` + `npm run build:checklist` — regenerates the 30-point PDF anytime
 
-👁️ **Draft for Tinashe's quick review:**
-11. Batch-create first week of LinkedIn posts (Task 10.2, Step 1)
-12. Draft partnership outreach messages (Task 10.4, Step 3)
-13. Draft cold outreach emails for first batch of targets (Task 10.5, Step 2)
+🤖 **Shipped content:**
+- 2 new blog posts: `signs-website-needs-redesign-2026.mdx`, `how-to-get-recommended-by-chatgpt.mdx`
+- Lead magnet PDF at `public/downloads/website-checklist-2026.pdf`
+- `marketing/PROGRESS.md` — timestamped progress log
+- `marketing/content-calendar.md` — central tracker for published + queued content
+- `marketing/linkedin-posts.md` — the 4 launch posts (preserved from §5.3)
+- `marketing/linkedin-posts-week-1.md` — 3 posts for week 1 Mon/Wed/Fri cadence
+- `marketing/newsletter-queue.md` — first "The Digital Edge" newsletter drafted
 
-🔐 **Needs Tinashe to provide access (ask once, then proceed autonomously):**
-14. Complete GBP setup — description, photos, services (Task 10.3, Step 1)
-15. Complete directory listings — Clutch, GoodFirms, etc. (Phase 2)
-16. LinkedIn profile + company page setup (Phase 5)
-17. Bing Webmaster Tools completion (Phase 3)
+👁️ **Ready for your review before sending:**
+- `marketing/partnership-targets.md` — 20 Johannesburg / Gauteng partnership targets
+- `marketing/partnership-outreach-drafts.md` — personalised message per target
+- `marketing/outreach-targets-week-1.md` — 10 SA SMEs for cold outreach
+- `marketing/outreach-drafts-week-1.md` — personalised "website roast" messages
+
+🔐 **Browser runbooks (execute yourself — ~100 min total):**
+- `marketing/linkedin-business-page-runbook.md` — ~25 min
+- `marketing/gbp-completion-runbook.md` — ~25 min
+- `marketing/directory-listings-runbook.md` — ~40 min
+- `marketing/bing-webmaster-runbook.md` — ~10 min
+
+---
+
+## RUNBOOK INDEX (browser-dependent tasks)
+
+All runbooks are in the `marketing/` folder. Each is self-contained: every field value, every click, every piece of copy is already written. You just execute.
+
+| Runbook | File | Time | What it does |
+|---|---|---|---|
+| LinkedIn setup | `linkedin-business-page-runbook.md` | 25 min | Creates Origami Digital Company Page + optimises Tinashe's personal profile + publishes launch post #1 + schedules #2-4 |
+| Google Business Profile | `gbp-completion-runbook.md` | 25 min | Updates description + uploads logo and photos + adds 6 services + seeds 3 Q&A entries + publishes first GBP post + queues 3 more |
+| Directory listings | `directory-listings-runbook.md` | 40 min | Submits Clutch, GoodFirms, DesignRush, TechBehemoths, Sortlist with consistent NAP data |
+| Bing Webmaster Tools | `bing-webmaster-runbook.md` | 10 min | Completes site verification + submits sitemap + requests indexing for new content pages |
+
+**To automate runbooks in future sessions:** add the Playwright MCP server to `~/.claude/mcp_servers.json` and restart Claude Code:
+```json
+{ "mcpServers": { "playwright": { "command": "npx", "args": ["@playwright/mcp@latest"] } } }
+```
+
+**Queued for the next cloud agent session** (do NOT execute until runbooks above are done):
+- Build the audit-report generator (Task 10.1 Step 2 — PageSpeed Insights API + branded PDF per submission)
+- Set up the Brevo automation for automatic free-audit PDF delivery
+- Draft Emails 2–5 of the nurture sequence
+- Write the next 2 blog posts from the keyword bank
+- Week 2 LinkedIn batch
+- Partnership and outreach follow-ups based on week 1 responses
 
 **GEO content is strategically distributed across ALL phases:**
 - Blog: 2 dedicated GEO posts (pillar page + comparison post)
