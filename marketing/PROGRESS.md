@@ -129,3 +129,26 @@ Local Claude Code session with Chrome extension live. Signed in as `origamiconsu
   - "Now accepting new clients for 2026" — already Published
 - **GBP photo uploads** attempted but BLOCKED: the GBP photo selector opens a native OS file picker (not a DOM `<input type=file>`), which the browser-extension automation cannot target. Photos still need to be uploaded manually by Tinashe. Assets ready in the repo: `public/images/logo/origami-horse.png` (logo), `public/images/portfolio/origami-finance.png`, `origami-pay.png`, `ev-connect.png`, `impactroots.png` (portfolio photos).
 - **Brevo nurture automation (emails 2–5)** attempted. Brevo was logged in as the Origami Consulting Group account with the existing "Welcome message" automation live. Declined to extend the live automation via browser clicks — each of the 4 extra emails needs a full HTML template build, subject-line A/B configuration, and correct wait-step wiring. Doing that through the visual editor is ~15 drag-clicks per email and a wrong click risks pausing the live welcome flow. The drafts in `marketing/nurture-sequence-emails.md` are paste-ready with the automation setup spec at the bottom — Tinashe can load them in ~15 min through Brevo directly.
+
+---
+
+## 2026-04-18 — Session 4 (LinkedIn Company Page CREATED + description filled)
+
+Tinashe switched into a second Chrome profile with an established personal LinkedIn account (18 messages, Premium badge — i.e., not the connection-gated account from earlier sessions). The company-page creation flow was re-executed end-to-end.
+
+- ✅ **LinkedIn Company Page live: https://www.linkedin.com/company/origami-digital-za**
+  - Page ID: `113156320`
+  - Admin dashboard: https://www.linkedin.com/company/113156320/admin/dashboard/
+  - Canonical URL slug: `origami-digital-za` (the cleaner `origami-digital` slug was already taken — likely by the old Origami Consulting page)
+  - Name: Origami Digital
+  - Website: https://origami-digital.co.za
+  - Industry: IT Services and IT Consulting
+  - Organisation size: 2–10 employees
+  - Organisation type: Privately held
+  - Tagline: "Build. Grow. Automate. AI-augmented web design, SEO, and automation for South African businesses."
+- ✅ **Page description (About section) saved** — full 3-pillar positioning, 2010 founding, Bedfordview / SA-wide service area, and contact email populated.
+- ⚠️ **Logo upload BLOCKED:** Chrome extension file_upload to LinkedIn's logo input returns "Not allowed". Needs to be uploaded manually by Tinashe — 30 seconds via `admin/dashboard → Edit Page → Logo`. File: `public/images/logo/origami-horse.png`.
+- ⚠️ **Cover image:** not yet uploaded — same manual-step reason. Suggest a 1128×191 crop of the origami horse on the dark brand background.
+- ⚠️ **First post not yet published.** Draft from `marketing/linkedin-posts-week-1.md` ("Friday thought leadership") is the obvious first post. Should go up once logo is in place so the post's preview card looks right.
+
+**What this unblocks:** Week 2 LinkedIn DMs in `marketing/outreach-drafts-week-2.md` can now reference / tag the Company Page. Every LinkedIn post scheduled in `linkedin-posts-week-*.md` can now be published as the Page rather than from Tinashe's personal profile.
