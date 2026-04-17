@@ -104,6 +104,7 @@ interface SendTransactionalEmailParams {
   subject: string
   htmlContent: string
   sender?: { name: string; email: string }
+  attachment?: Array<{ name: string; content: string }>
 }
 
 /**
@@ -117,6 +118,7 @@ export async function sendTransactionalEmail({
   subject,
   htmlContent,
   sender = { name: 'Origami Digital', email: 'hello@origami-digital.co.za' },
+  attachment,
 }: SendTransactionalEmailParams): Promise<{ success: boolean; error?: string }> {
   try {
     const apiKey = getApiKey()
@@ -133,6 +135,7 @@ export async function sendTransactionalEmail({
         to,
         subject,
         htmlContent,
+        ...(attachment && attachment.length > 0 ? { attachment } : {}),
       }),
     })
 

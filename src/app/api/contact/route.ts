@@ -218,6 +218,18 @@ export async function POST(request: Request) {
       console.error('Brevo contact creation failed (non-blocking):', err)
     })
 
+    // Free-audit submissions trigger the automated PDF audit (non-blocking).
+    // The URL is parsed out of the message body the form assembles.
+    if (body.service === 'free-audit') {
+      triggerAuditReport({
+        message: body.message,
+        email: body.email,
+        name: body.name,
+      }).catch((err) => {
+        console.error('Audit report trigger failed (non-blocking):', err)
+      })
+    }
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Contact form error:', error)
@@ -226,4 +238,42 @@ export async function POST(request: Request) {
       { status: 500 }
     )
   }
+}
+
+async function triggerAuditReport({
+  message,
+  email,
+  name,
+}: {
+  message: string
+  email: string
+  name: string
+}): Promise<void> {
+  const url = extractUrl(message)
+  if (!url) return
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://origami-digital.co.za'
+  const secret = process.env.AUDIT_WEBHOOK_SECRET
+
+  const res = await fetch(`${siteUrl}/api/generate-audit`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      ...(secret ? { 'x-audit-secret': secret } : {}),
+    },
+    body: JSON.stringify({ url, recipientEmail: email, recipientName: name }),
+  })
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+    console.error('generate-audit returned non-OK:', res.status, text)
+  }
+}
+
+function extractUrl(message: string): string | null {
+  const match = message.match(/\bhttps?:\/\/\S+/i)
+  if (match) return match[0].replace(/[.,;]+$/, '')
+  // Fallback: look for "Website: ..." line the free-audit form produces.
+  const line = message.match(/Website:\s*(\S+)/i)
+  if (line && line[1]) return line[1].replace(/[.,;]+$/, '')
+  return null
 }
