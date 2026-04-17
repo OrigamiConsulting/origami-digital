@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useRef, useEffect, type FormEvent } from 'react';
 import { trackConversion, trackEvent } from '@/lib/analytics';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
@@ -49,6 +49,13 @@ export function ContactForm() {
     message: '',
   });
   const [status, setStatus] = useState<FormStatus>('idle');
+  // Honeypot: if this gets filled, it's a bot.
+  const [fax, setFax] = useState('');
+  // Render timestamp — server rejects submissions faster than 2.5s.
+  const renderedAt = useRef<number>(0);
+  useEffect(() => {
+    renderedAt.current = Date.now();
+  }, []);
 
   function handleChange(
     e: React.ChangeEvent<
@@ -67,7 +74,11 @@ export function ContactForm() {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          fax, // honeypot
+          _ts: renderedAt.current,
+        }),
       });
 
       if (!response.ok) {
@@ -119,7 +130,29 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      {/* Honeypot — hidden from humans, irresistible to bots. Do not remove. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden',
+        }}
+      >
+        <label htmlFor="fax">Fax number (leave blank)</label>
+        <input
+          type="text"
+          id="fax"
+          name="fax"
+          tabIndex={-1}
+          autoComplete="off"
+          value={fax}
+          onChange={(e) => setFax(e.target.value)}
+        />
+      </div>
       {status === 'error' && (
         <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
           Something went wrong. Please try again or email us directly at{' '}

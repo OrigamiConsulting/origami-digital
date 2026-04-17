@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, useRef, useEffect, type FormEvent } from 'react'
 import { trackConversion, trackEvent } from '@/lib/analytics'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
@@ -23,6 +23,9 @@ export function SeoAuditForm() {
     website: '',
   })
   const [status, setStatus] = useState<FormStatus>('idle')
+  const [fax, setFax] = useState('') // honeypot
+  const renderedAt = useRef<number>(0)
+  useEffect(() => { renderedAt.current = Date.now() }, [])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target
@@ -44,6 +47,8 @@ export function SeoAuditForm() {
           service: 'seo',
           budget: '',
           message: `Free SEO Audit Request\n\nWebsite: ${formData.website}`,
+          fax, // honeypot
+          _ts: renderedAt.current,
         }),
       })
 
@@ -81,6 +86,11 @@ export function SeoAuditForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      {/* Honeypot — hidden from humans, bait for bots. Do not remove. */}
+      <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+        <label htmlFor="seo-fax">Fax number (leave blank)</label>
+        <input type="text" id="seo-fax" name="fax" tabIndex={-1} autoComplete="off" value={fax} onChange={(e) => setFax(e.target.value)} />
+      </div>
       {status === 'error' && (
         <div className="rounded-xl border border-red-800/50 bg-red-900/20 p-4 text-sm text-red-300">
           Something went wrong. Email us at{' '}

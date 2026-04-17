@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createContact } from '@/lib/brevo'
+import { checkSpam } from '@/lib/spam-filter'
 
 function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY
@@ -17,6 +18,10 @@ interface ContactFormData {
   service: string
   budget?: string
   message: string
+  /** Honeypot field — must be empty. Bots fill it, humans never see it. */
+  fax?: string
+  /** Client-set render timestamp (ms since epoch) for timing check. */
+  _ts?: number
 }
 
 const serviceLabels: Record<string, string> = {
@@ -54,6 +59,28 @@ export async function POST(request: Request) {
     if (!emailRegex.test(body.email)) {
       return NextResponse.json(
         { error: 'Invalid email address' },
+        { status: 400 }
+      )
+    }
+
+    // Spam filter — reject bot/spam submissions BEFORE firing any downstream
+    // side effects (Resend emails, Brevo contact, Google Ads conversion on client).
+    // We return a 400 so the client's error branch runs and conversion doesn't fire.
+    const spamCheck = checkSpam({
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      message: body.message,
+      fax: body.fax,
+      _ts: body._ts,
+    })
+    if (spamCheck.spam) {
+      console.warn('Contact form spam blocked:', spamCheck.reason, {
+        email: body.email,
+        name: body.name,
+      })
+      return NextResponse.json(
+        { error: 'Submission rejected' },
         { status: 400 }
       )
     }
