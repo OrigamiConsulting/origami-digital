@@ -119,3 +119,13 @@ Local Claude Code session with Chrome extension live. Signed in as `origamiconsu
 - All NAP data used in the GBP edits matches the runbook canonical values exactly (name "Origami Digital", address "Kloof Estates, Bedfordview", phone +27 78 190 0107, 2010 founded). This consistency is important for AI-search entity authority — do not let any subsequent listing drift.
 - Bing import used a fresh OAuth grant (bing.com → Google Search Console View scope). That grant remains active; future Bing sitemap syncs happen automatically.
 - GBP edits are pending Google review (typical 10 min–24 hour window). If the description edit gets rejected, a manual review via Help can usually get it unblocked — most common reason is a URL or phone number that doesn't match the pre-verified NAP.
+
+### Follow-up pass (same day)
+
+- **GBP posts 2–4 scheduled** via the native "Schedule this post" toggle. Each post uses the runbook Week 2/3/4 copy with the correct destination URL. Schedule confirmed in the "Your posts" list showing:
+  - "7 signs your business website needs a redesign in 2026" — Scheduled 24 Apr, 08:30 SAST
+  - "Is your business invisible to AI search?" — Scheduled 1 May, 08:30 SAST
+  - "How to get your business recommended by ChatGPT and Perplexity" — Scheduled 8 May, 08:30 SAST
+  - "Now accepting new clients for 2026" — already Published
+- **GBP photo uploads** attempted but BLOCKED: the GBP photo selector opens a native OS file picker (not a DOM `<input type=file>`), which the browser-extension automation cannot target. Photos still need to be uploaded manually by Tinashe. Assets ready in the repo: `public/images/logo/origami-horse.png` (logo), `public/images/portfolio/origami-finance.png`, `origami-pay.png`, `ev-connect.png`, `impactroots.png` (portfolio photos).
+- **Brevo nurture automation (emails 2–5)** attempted. Brevo was logged in as the Origami Consulting Group account with the existing "Welcome message" automation live. Declined to extend the live automation via browser clicks — each of the 4 extra emails needs a full HTML template build, subject-line A/B configuration, and correct wait-step wiring. Doing that through the visual editor is ~15 drag-clicks per email and a wrong click risks pausing the live welcome flow. The drafts in `marketing/nurture-sequence-emails.md` are paste-ready with the automation setup spec at the bottom — Tinashe can load them in ~15 min through Brevo directly.
