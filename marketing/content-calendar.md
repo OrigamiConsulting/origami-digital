@@ -15,17 +15,18 @@ Central tracking of what is published, where, and what is queued. Update as new 
 | 2026-04-13 | `geo-vs-seo-difference` | GEO vs SEO: What's the Difference? | GEO vs SEO difference |
 | 2026-04-17 | `signs-website-needs-redesign-2026` | 7 Signs Your Business Website Needs a Redesign in 2026 | signs your website needs a redesign |
 | 2026-04-17 | `how-to-get-recommended-by-chatgpt` | How to Get Your Business Recommended by ChatGPT and Perplexity | how to get recommended by ChatGPT |
+| 2026-04-18 | `wix-vs-custom-development-south-africa` | Website Builders vs Custom Development — Which Is Right for Your SA Business? | Wix vs custom development South Africa |
+| 2026-04-18 | `what-is-ai-search-south-africa` | What Is AI Search and How Does It Affect Your South African Business? | AI search South Africa |
 
 ## Queued — next to write
 
 From MARKETING-LAUNCH.md upcoming blog post list, in priority order:
 
-1. **"Best website builders vs custom development — which is right for your SA business?"** — target "website builder vs custom development", "Wix vs custom development"
-2. **"What is AI search and how does it affect your business?"** — target "AI search", "AI search engines"
+1. **"How much does SEO cost in South Africa?"** — target "SEO cost South Africa", "how much does SEO cost"
+2. **"WordPress vs Webflow vs custom — what SA agencies actually recommend in 2026"** — target "WordPress vs Webflow", "React vs WordPress business website"
 3. **"How to choose between a freelancer and an agency for your website"** — target "freelancer vs agency website"
 4. **"Website maintenance: what it costs and why it matters"** — target "website maintenance cost South Africa"
 5. **"The complete guide to Google Business Profile for South African businesses"** — target "Google Business Profile South Africa"
-6. **"React vs WordPress: which is better for a business website in 2026?"** — target "React vs WordPress business website"
 
 Cadence target: 2 posts per month. Next batch target: end of May 2026.
 
@@ -40,6 +41,7 @@ Cadence target: 2 posts per month. Next batch target: end of May 2026.
 ## LinkedIn — queued (drafted, awaiting publish)
 
 Week 1 posts (see `marketing/linkedin-posts-week-1.md`) — 3 posts for Mon/Wed/Fri cadence.
+Week 2 posts (see `marketing/linkedin-posts-week-2.md`) — 3 posts, DM-CTA pattern (no body links) as engagement experiment.
 Launch posts 1–4 (see `marketing/linkedin-posts.md`, copied from MARKETING-LAUNCH.md §5.3).
 
 ---
