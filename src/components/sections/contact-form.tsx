@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect, type FormEvent } from 'react';
+import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react';
 import { trackConversion, trackEvent } from '@/lib/analytics';
+import { Turnstile } from '@/components/ui/turnstile';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -56,6 +57,10 @@ export function ContactForm() {
   useEffect(() => {
     renderedAt.current = Date.now();
   }, []);
+  // Turnstile token — set by the widget, submitted with the form.
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const handleVerify = useCallback((token: string) => setTurnstileToken(token), []);
+  const handleExpire = useCallback(() => setTurnstileToken(''), []);
 
   function handleChange(
     e: React.ChangeEvent<
@@ -78,6 +83,7 @@ export function ContactForm() {
           ...formData,
           fax, // honeypot
           _ts: renderedAt.current,
+          turnstileToken,
         }),
       });
 
@@ -268,6 +274,9 @@ export function ContactForm() {
           className={`${inputClasses} resize-y`}
         />
       </div>
+
+      {/* Cloudflare Turnstile — invisible CAPTCHA */}
+      <Turnstile onVerify={handleVerify} onExpire={handleExpire} theme="light" />
 
       {/* Submit */}
       <button

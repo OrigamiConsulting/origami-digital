@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect, type FormEvent } from 'react'
+import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react'
 import { trackConversion, trackEvent } from '@/lib/analytics'
+import { Turnstile } from '@/components/ui/turnstile'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -41,6 +42,9 @@ export function AiConsultationForm() {
   const [fax, setFax] = useState('') // honeypot
   const renderedAt = useRef<number>(0)
   useEffect(() => { renderedAt.current = Date.now() }, [])
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const handleVerify = useCallback((token: string) => setTurnstileToken(token), [])
+  const handleExpire = useCallback(() => setTurnstileToken(''), [])
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -70,6 +74,7 @@ export function AiConsultationForm() {
           message: `AI Consultation Request\n\nBusiness type: ${businessTypeLabel}\n\nBiggest pain point / challenge:\n${formData.painPoint}`,
           fax, // honeypot
           _ts: renderedAt.current,
+          turnstileToken,
         }),
       })
 
@@ -195,6 +200,9 @@ export function AiConsultationForm() {
           className={`${inputClasses} resize-y`}
         />
       </div>
+
+      {/* Cloudflare Turnstile */}
+      <Turnstile onVerify={handleVerify} onExpire={handleExpire} theme="dark" />
 
       {/* Submit */}
       <button

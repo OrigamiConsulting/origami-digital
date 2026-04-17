@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect, type FormEvent } from 'react'
+import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react'
 import { trackConversion, trackEvent } from '@/lib/analytics'
+import { Turnstile } from '@/components/ui/turnstile'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -26,6 +27,9 @@ export function SeoAuditForm() {
   const [fax, setFax] = useState('') // honeypot
   const renderedAt = useRef<number>(0)
   useEffect(() => { renderedAt.current = Date.now() }, [])
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const handleVerify = useCallback((token: string) => setTurnstileToken(token), [])
+  const handleExpire = useCallback(() => setTurnstileToken(''), [])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target
@@ -49,6 +53,7 @@ export function SeoAuditForm() {
           message: `Free SEO Audit Request\n\nWebsite: ${formData.website}`,
           fax, // honeypot
           _ts: renderedAt.current,
+          turnstileToken,
         }),
       })
 
@@ -175,6 +180,9 @@ export function SeoAuditForm() {
           ))}
         </ul>
       </div>
+
+      {/* Cloudflare Turnstile */}
+      <Turnstile onVerify={handleVerify} onExpire={handleExpire} theme="dark" />
 
       {/* Submit */}
       <button

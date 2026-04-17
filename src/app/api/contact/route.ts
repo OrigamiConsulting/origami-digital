@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { createContact } from '@/lib/brevo'
 import { checkSpam } from '@/lib/spam-filter'
+import { verifyTurnstileToken } from '@/lib/turnstile'
 
 function getResendClient() {
   const apiKey = process.env.RESEND_API_KEY
@@ -22,6 +23,8 @@ interface ContactFormData {
   fax?: string
   /** Client-set render timestamp (ms since epoch) for timing check. */
   _ts?: number
+  /** Cloudflare Turnstile token from the widget. */
+  turnstileToken?: string
 }
 
 const serviceLabels: Record<string, string> = {
@@ -63,9 +66,28 @@ export async function POST(request: Request) {
       )
     }
 
-    // Spam filter — reject bot/spam submissions BEFORE firing any downstream
-    // side effects (Resend emails, Brevo contact, Google Ads conversion on client).
-    // We return a 400 so the client's error branch runs and conversion doesn't fire.
+    // Layer 1: Cloudflare Turnstile — verify the token before doing anything else.
+    // This blocks virtually all automated bots before they can trigger any downstream
+    // side effects (Resend, Brevo, Google Ads). If the Turnstile secret isn't
+    // configured (local dev), this is skipped and the other spam filters still apply.
+    const remoteip =
+      request.headers.get('cf-connecting-ip') ||
+      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      undefined
+    const turnstile = await verifyTurnstileToken(body.turnstileToken, remoteip)
+    if (!turnstile.success) {
+      console.warn('Turnstile verification failed:', turnstile.errors, {
+        email: body.email,
+      })
+      return NextResponse.json(
+        { error: 'Verification failed. Please refresh the page and try again.' },
+        { status: 400 }
+      )
+    }
+
+    // Layer 2: Heuristic spam filter — honeypot, timing, content patterns.
+    // Second line of defence for anything Turnstile let through.
+    // Returns 400 so the client's error branch runs and conversion doesn't fire.
     const spamCheck = checkSpam({
       name: body.name,
       email: body.email,
