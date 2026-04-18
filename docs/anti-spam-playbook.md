@@ -87,6 +87,9 @@ NEXT_PUBLIC_TURNSTILE_SITE_KEY=0x4AAAAAAC-xxxxxxxxxx
 TURNSTILE_SECRET_KEY=0x4AAAAAAC-xxxxxxxxxx
 ```
 
+> **⚠️ Gotcha: never `echo` a key into a CLI env setter.**
+> `echo "value" | vercel env add ...` (or the equivalent for other CLIs) appends a trailing newline to the value. The key gets stored as `"0x4AAAAAAC-...\n"` and Cloudflare's JS rejects it with `TurnstileError: Invalid input for parameter "sitekey"`. Use `printf "value" | …` (no `\n`), or paste the key into the dashboard UI, or write it to a file and read from there. **Verify byte-level** after setting: `vercel env pull .env.check && grep TURNSTILE .env.check | od -c | head` — any trailing `\n` inside the quoted value means it's broken.
+
 Adapt the `NEXT_PUBLIC_` prefix to your framework:
 - **Next.js:** `NEXT_PUBLIC_*`
 - **Vite / Remix / React:** `VITE_*` or `PUBLIC_*` (check your bundler's convention)
