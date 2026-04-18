@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react'
 import { trackConversion, trackEvent } from '@/lib/analytics'
-import { Turnstile } from '@/components/ui/turnstile'
+import { Turnstile, type TurnstileHandle } from '@/components/ui/turnstile'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -28,6 +28,7 @@ export function SeoAuditForm() {
   const renderedAt = useRef<number>(0)
   useEffect(() => { renderedAt.current = Date.now() }, [])
   const [turnstileToken, setTurnstileToken] = useState('')
+  const turnstileRef = useRef<TurnstileHandle>(null)
   const handleVerify = useCallback((token: string) => setTurnstileToken(token), [])
   const handleExpire = useCallback(() => setTurnstileToken(''), [])
 
@@ -69,6 +70,7 @@ export function SeoAuditForm() {
       })
     } catch {
       setStatus('error')
+      turnstileRef.current?.reset()
     }
   }
 
@@ -183,7 +185,7 @@ export function SeoAuditForm() {
       </div>
 
       {/* Cloudflare Turnstile */}
-      <Turnstile onVerify={handleVerify} onExpire={handleExpire} theme="dark" />
+      <Turnstile ref={turnstileRef} onVerify={handleVerify} onExpire={handleExpire} theme="dark" />
 
       {/* Submit */}
       <button

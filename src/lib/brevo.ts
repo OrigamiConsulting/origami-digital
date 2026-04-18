@@ -41,6 +41,10 @@ interface CreateContactParams {
  *
  * Uses the Brevo Contacts API with `updateEnabled: true`
  * so existing contacts are updated rather than throwing errors.
+ *
+ * Retries once on transient failures (network errors, 5xx responses, or
+ * 429 rate limits) with a short backoff. Silently losing a lead because
+ * of a flaky single call is worse than taking an extra second.
  */
 export async function createContact({
   email,
@@ -52,51 +56,63 @@ export async function createContact({
   source = 'website',
   listIds = [BREVO_LISTS.LEADS],
 }: CreateContactParams): Promise<{ success: boolean; error?: string }> {
-  try {
-    const apiKey = getApiKey()
+  const apiKey = getApiKey()
 
-    const attributes: Record<string, string> = {
-      FIRSTNAME: firstName,
-    }
+  const attributes: Record<string, string> = { FIRSTNAME: firstName }
+  if (lastName) attributes.LASTNAME = lastName
+  if (phone) attributes.SMS = phone
+  if (service) attributes.SERVICE_INTEREST = service
+  if (budget) attributes.BUDGET = budget
+  attributes.LEAD_SOURCE = source
 
-    if (lastName) attributes.LASTNAME = lastName
-    if (phone) attributes.SMS = phone
-    if (service) attributes.SERVICE_INTEREST = service
-    if (budget) attributes.BUDGET = budget
-    attributes.LEAD_SOURCE = source
+  const payload = JSON.stringify({ email, attributes, listIds, updateEnabled: true })
 
-    const response = await fetch(`${BREVO_API_URL}/contacts`, {
-      method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'content-type': 'application/json',
-        'api-key': apiKey,
-      },
-      body: JSON.stringify({
-        email,
-        attributes,
-        listIds,
-        updateEnabled: true,
-      }),
-    })
+  async function attempt(attemptNo: number): Promise<{ success: boolean; error?: string; retryable: boolean }> {
+    try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 8000)
+      const response = await fetch(`${BREVO_API_URL}/contacts`, {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          'api-key': apiKey,
+        },
+        body: payload,
+        signal: controller.signal,
+      }).finally(() => clearTimeout(timeoutId))
 
-    if (!response.ok) {
+      if (response.ok) return { success: true, retryable: false }
+
       const errorData = await response.json().catch(() => ({}))
-      console.error('Brevo API error:', response.status, errorData)
+      console.error(`Brevo API error (attempt ${attemptNo}, email=${email}):`, response.status, errorData)
+      // 429 (rate limit) and 5xx are worth retrying; 4xx client errors are not.
+      const retryable = response.status === 429 || response.status >= 500
       return {
         success: false,
         error: `Brevo API error: ${response.status}`,
+        retryable,
       }
-    }
-
-    return { success: true }
-  } catch (error) {
-    console.error('Brevo createContact error:', error)
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      console.error(`Brevo fetch threw (attempt ${attemptNo}, email=${email}):`, msg)
+      // Network errors, aborts, DNS failures, etc. — all retryable
+      return { success: false, error: msg, retryable: true }
     }
   }
+
+  const first = await attempt(1)
+  if (first.success || !first.retryable) {
+    return { success: first.success, error: first.error }
+  }
+
+  // Backoff briefly, then retry once
+  await new Promise((resolve) => setTimeout(resolve, 600))
+  const second = await attempt(2)
+  if (!second.success) {
+    console.error(`Brevo createContact FINAL failure for ${email}: ${second.error}`)
+  }
+  return { success: second.success, error: second.error }
 }
 
 interface SendTransactionalEmailParams {

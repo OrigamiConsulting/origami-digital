@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react';
 import { trackConversion, trackEvent } from '@/lib/analytics';
-import { Turnstile } from '@/components/ui/turnstile';
+import { Turnstile, type TurnstileHandle } from '@/components/ui/turnstile';
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -59,6 +59,7 @@ export function ContactForm() {
   }, []);
   // Turnstile token — set by the widget, submitted with the form.
   const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileRef = useRef<TurnstileHandle>(null);
   const handleVerify = useCallback((token: string) => setTurnstileToken(token), []);
   const handleExpire = useCallback(() => setTurnstileToken(''), []);
 
@@ -108,6 +109,9 @@ export function ContactForm() {
     } catch (error) {
       console.error('Contact form error:', error);
       setStatus('error');
+      // Reset Turnstile — tokens are single-use, so a retry needs a fresh one.
+      // This fixes the "first click fails, second works" issue on iOS Safari.
+      turnstileRef.current?.reset();
     }
   }
 
@@ -281,7 +285,7 @@ export function ContactForm() {
       </div>
 
       {/* Cloudflare Turnstile — invisible CAPTCHA */}
-      <Turnstile onVerify={handleVerify} onExpire={handleExpire} theme="light" />
+      <Turnstile ref={turnstileRef} onVerify={handleVerify} onExpire={handleExpire} theme="light" />
 
       {/* Submit */}
       <button
