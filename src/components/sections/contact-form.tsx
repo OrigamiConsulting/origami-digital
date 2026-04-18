@@ -73,6 +73,11 @@ export function ContactForm() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!turnstileToken) {
+      // Shouldn't happen — button is disabled — but guard anyway.
+      setStatus('error');
+      return;
+    }
     setStatus('submitting');
 
     try {
@@ -281,7 +286,7 @@ export function ContactForm() {
       {/* Submit */}
       <button
         type="submit"
-        disabled={status === 'submitting'}
+        disabled={status === 'submitting' || !turnstileToken}
         className="inline-flex w-full items-center justify-center rounded-xl bg-[#E8503E] px-8 py-4 text-lg font-bold text-white transition-all duration-200 ease-out hover:scale-[1.02] hover:bg-[#D14535] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8503E] focus-visible:ring-offset-2 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
       >
         {status === 'submitting' ? (
@@ -307,6 +312,8 @@ export function ContactForm() {
             </svg>
             Sending...
           </>
+        ) : !turnstileToken ? (
+          'Verifying…'
         ) : (
           'Send Message'
         )}
