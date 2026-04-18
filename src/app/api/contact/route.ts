@@ -201,12 +201,20 @@ export async function POST(request: Request) {
       `,
     })
 
-    // Add contact to Brevo for email marketing (non-blocking)
+    // Add contact to Brevo for email marketing.
+    // We await so the HTTP request actually completes — Vercel serverless
+    // functions terminate as soon as the response is returned, which kills
+    // any still-pending promises. .catch() keeps Brevo errors from breaking
+    // the form submission (Resend confirmation already sent by this point).
     const nameParts = body.name.trim().split(/\s+/)
     const firstName = nameParts[0]
     const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : undefined
 
-    createContact({
+    // Await the Brevo write so the HTTP request actually completes before the
+    // Vercel function terminates — fire-and-forget promises are killed when
+    // the response is sent. Errors are swallowed so Brevo downtime never
+    // breaks the form submission (Resend confirmation has already fired).
+    const brevoResult = await createContact({
       email: body.email,
       firstName,
       lastName,
@@ -215,13 +223,17 @@ export async function POST(request: Request) {
       budget: budgetLabel,
       source: serviceSources[body.service] || 'contact_form',
     }).catch((err) => {
-      console.error('Brevo contact creation failed (non-blocking):', err)
+      console.error('Brevo contact creation threw:', err)
+      return { success: false as const, error: err instanceof Error ? err.message : String(err) }
     })
+    if (!brevoResult.success) {
+      console.error('Brevo contact creation failed:', brevoResult.error)
+    }
 
-    // Free-audit submissions trigger the automated PDF audit (non-blocking).
-    // The URL is parsed out of the message body the form assembles.
+    // Free-audit submissions trigger the automated PDF audit.
+    // Awaited for the same reason as the Brevo call above.
     if (body.service === 'free-audit') {
-      triggerAuditReport({
+      await triggerAuditReport({
         message: body.message,
         email: body.email,
         name: body.name,
