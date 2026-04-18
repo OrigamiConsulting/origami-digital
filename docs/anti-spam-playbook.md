@@ -87,8 +87,11 @@ NEXT_PUBLIC_TURNSTILE_SITE_KEY=0x4AAAAAAC-xxxxxxxxxx
 TURNSTILE_SECRET_KEY=0x4AAAAAAC-xxxxxxxxxx
 ```
 
-> **⚠️ Gotcha: never `echo` a key into a CLI env setter.**
+> **⚠️ Gotcha 1: never `echo` a key into a CLI env setter.**
 > `echo "value" | vercel env add ...` (or the equivalent for other CLIs) appends a trailing newline to the value. The key gets stored as `"0x4AAAAAAC-...\n"` and Cloudflare's JS rejects it with `TurnstileError: Invalid input for parameter "sitekey"`. Use `printf "value" | …` (no `\n`), or paste the key into the dashboard UI, or write it to a file and read from there. **Verify byte-level** after setting: `vercel env pull .env.check && grep TURNSTILE .env.check | od -c | head` — any trailing `\n` inside the quoted value means it's broken.
+>
+> **⚠️ Gotcha 2: never transcribe keys from a screenshot.**
+> Turnstile keys contain `0`/`O` and `1`/`l`/`I` which are visually indistinguishable in most fonts. OCR and manual reading WILL produce typos that look correct but fail server-side verification with `invalid-input-secret`. Always **copy the key from the dashboard** (click the input field → select all → copy) or **extract via browser JavaScript**: `document.querySelectorAll('input')[n].value`. If you've already got a stored key and something's failing, compare character codes: `Array.from(yourKey).map(c => c.charCodeAt(0))` against the source. A charcode of 48 (`0`) where there should be 79 (`O`) is the classic failure.
 
 Adapt the `NEXT_PUBLIC_` prefix to your framework:
 - **Next.js:** `NEXT_PUBLIC_*`
