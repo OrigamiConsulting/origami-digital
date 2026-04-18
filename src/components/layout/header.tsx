@@ -1,9 +1,26 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef, useCallback } from 'react'
+
+function OrigamiHorse({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 72 64"
+      fill="none"
+      aria-hidden="true"
+      className={className}
+    >
+      {/* Build — inherits parent text color; flips between ink/white */}
+      <path d="M10 18 L58 14 L62 22 L14 26 Z" fill="currentColor" />
+      {/* Grow — teal */}
+      <path d="M10 30 L58 26 L62 34 L14 38 Z" fill="#297373" />
+      {/* Automate — coral */}
+      <path d="M10 42 L58 38 L62 46 L14 50 Z" fill="#E8503E" />
+    </svg>
+  )
+}
 
 type NavLink = {
   label: string
@@ -103,18 +120,10 @@ export function Header() {
           {/* Logo — horse emblem + text */}
           <Link
             href="/"
-            className="flex items-center gap-2 transition-opacity hover:opacity-80"
+            className="flex items-center gap-2 transition-opacity hover:opacity-80 text-white"
             aria-label="Origami Digital - Home"
           >
-            <Image
-              src="/images/logo/origami-horse.png"
-              alt=""
-              width={32}
-              height={18}
-              className="h-[18px] w-auto brightness-0 invert"
-              aria-hidden="true"
-              priority
-            />
+            <OrigamiHorse className="h-[22px] w-auto" />
             <span className="text-xl text-white font-[family-name:var(--font-display)]">
               <span className="font-bold">Origami</span>{' '}
               <span className="font-normal">Digital</span>
