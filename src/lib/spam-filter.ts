@@ -91,6 +91,23 @@ const DISPOSABLE_DOMAINS = new Set([
   'maildrop.cc',
 ])
 
+/** Allowed TLDs — a truncated domain like `.c` or `.ne` is a strong spam signal. */
+const VALID_TLD_RE = /\.([a-z]{2,24})$/i
+const COMMON_TLDS = new Set([
+  'com', 'net', 'org', 'io', 'co', 'ai', 'app', 'dev', 'me', 'tech', 'agency',
+  'studio', 'design', 'digital', 'marketing', 'consulting', 'solutions',
+  'co.za', 'org.za', 'net.za', 'ac.za', 'gov.za', 'web.za', 'edu.za',
+  'info', 'biz', 'name', 'pro', 'us', 'uk', 'de', 'fr', 'nl', 'it', 'es',
+  'ca', 'au', 'nz', 'jp', 'cn', 'in', 'br', 'mx', 'se', 'no', 'fi', 'dk',
+  'pl', 'ru', 'tr', 'gr', 'pt', 'cz', 'hu', 'ro', 'at', 'be', 'ch', 'ie',
+  'edu', 'gov', 'mil', 'int',
+])
+
+/** Normalise a name string for pattern matching (lowercase, strip non-alpha). */
+function normaliseName(s: string): string {
+  return s.toLowerCase().replace(/[^a-z]/g, '')
+}
+
 export function checkSpam(input: SpamCheckInput): SpamCheckResult {
   const { name = '', email = '', message = '', fax, _ts } = input
 
@@ -147,6 +164,53 @@ export function checkSpam(input: SpamCheckInput): SpamCheckResult {
   // 8. Extremely short message with URL (low-effort spam)
   if (message.trim().length < 30 && urlCount > 0) {
     return { spam: true, reason: 'short_message_with_url' }
+  }
+
+  // 9. Truncated / invalid TLD. Real emails end in .com, .co.za, .net, etc.
+  //    Spammers submit forms with `.c` or `.ne` to bypass weak regex validation.
+  if (emailDomain) {
+    const tldMatch = emailDomain.match(VALID_TLD_RE)
+    if (!tldMatch) {
+      return { spam: true, reason: 'no_tld' }
+    }
+    const tld = tldMatch[1].toLowerCase()
+    // Accept the common TLDs or anything ≥3 chars (ccTLDs like .za, .uk are also ok via the common-tlds set)
+    if (tld.length < 3 && !COMMON_TLDS.has(tld)) {
+      return { spam: true, reason: `short_tld:${tld}` }
+    }
+    // If the full domain is in common-tld set (e.g. co.za) treat that separately
+    if (tld.length === 1) {
+      return { spam: true, reason: `truncated_tld:${tld}` }
+    }
+  }
+
+  // 10. "First name looks like email local-part" — bots often send FIRSTNAME
+  //     identical to the email's local-part when they can't generate a name.
+  //     e.g. email=bingadyson474@gmail.com, name=bingadyson474.
+  const localPart = email.split('@')[0] || ''
+  if (name && localPart.length >= 8) {
+    const normalisedName = normaliseName(name)
+    const normalisedLocal = normaliseName(localPart)
+    // If the submitted name is the email local-part with 80%+ overlap, flag it.
+    if (normalisedName.length >= 8 && normalisedName === normalisedLocal) {
+      return { spam: true, reason: 'name_equals_email_local_part' }
+    }
+  }
+
+  // 11. Gibberish name detection. Real names rarely:
+  //     - lack ANY vowels in sequences ≥6 chars
+  //     - contain digits mid-word
+  //     - run 15+ consonants without a vowel
+  if (name && name.trim().length >= 8) {
+    const cleaned = normaliseName(name)
+    // Too long without any vowel break → random characters
+    if (cleaned.length >= 15 && !/[aeiou]/i.test(cleaned)) {
+      return { spam: true, reason: 'name_no_vowels' }
+    }
+    // Name contains embedded numbers AND is all lowercase (e.g. "bingadyson474") — bot signature
+    if (/\d/.test(name) && name === name.toLowerCase() && name.length >= 10) {
+      return { spam: true, reason: 'name_has_digits_lowercase' }
+    }
   }
 
   return { spam: false }

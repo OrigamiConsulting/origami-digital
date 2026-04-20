@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect, type FormEvent } from 'react'
+import { useState, useRef, useEffect, useCallback, type FormEvent } from 'react'
 import { trackEvent } from '@/lib/analytics'
+import { Turnstile, type TurnstileHandle } from '@/components/ui/turnstile'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -25,9 +26,17 @@ export function NewsletterSignup({
   useEffect(() => {
     renderedAt.current = Date.now()
   }, [])
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const turnstileRef = useRef<TurnstileHandle>(null)
+  const handleVerify = useCallback((token: string) => setTurnstileToken(token), [])
+  const handleExpire = useCallback(() => setTurnstileToken(''), [])
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
+    if (!turnstileToken) {
+      setStatus('error')
+      return
+    }
     setStatus('submitting')
 
     try {
@@ -39,6 +48,7 @@ export function NewsletterSignup({
           fax,
           _ts: renderedAt.current,
           source,
+          turnstileToken,
         }),
       })
 
@@ -47,6 +57,8 @@ export function NewsletterSignup({
       trackEvent('newsletter_signup', { event_category: 'engagement', event_label: source })
     } catch {
       setStatus('error')
+      // Tokens are single-use. Refresh so a retry gets a fresh one.
+      turnstileRef.current?.reset()
     }
   }
 
@@ -83,26 +95,29 @@ export function NewsletterSignup({
             You&apos;re in. Expect the next edition on the 1st.
           </p>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2 sm:flex-row" noValidate>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2" noValidate>
             {Honeypot}
-            <input
-              type="email"
-              name="email"
-              required
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.co.za"
-              className="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-[#4A4A4A] transition-colors focus:border-[#0A8FBF] focus:outline-none focus:ring-2 focus:ring-[#0A8FBF]/30"
-              aria-label="Email address"
-            />
-            <button
-              type="submit"
-              disabled={status === 'submitting'}
-              className="rounded-lg bg-[#0A8FBF] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#087CA7] disabled:opacity-50"
-            >
-              {status === 'submitting' ? 'Subscribing…' : 'Subscribe'}
-            </button>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <input
+                type="email"
+                name="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.co.za"
+                className="flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-[#4A4A4A] transition-colors focus:border-[#0A8FBF] focus:outline-none focus:ring-2 focus:ring-[#0A8FBF]/30"
+                aria-label="Email address"
+              />
+              <button
+                type="submit"
+                disabled={status === 'submitting' || !turnstileToken}
+                className="rounded-lg bg-[#0A8FBF] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#087CA7] disabled:opacity-50"
+              >
+                {status === 'submitting' ? 'Subscribing…' : !turnstileToken ? 'Verifying…' : 'Subscribe'}
+              </button>
+            </div>
+            <Turnstile ref={turnstileRef} onVerify={handleVerify} onExpire={handleExpire} theme="dark" />
           </form>
         )}
         {status === 'error' && (
@@ -146,26 +161,29 @@ export function NewsletterSignup({
           <p className="mt-1 text-sm text-[#B0B0B0]">Expect the next edition on the 1st of the month.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row" noValidate>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate>
           {Honeypot}
-          <input
-            type="email"
-            name="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.co.za"
-            className="flex-1 rounded-xl border border-[#3A3A3A] bg-[#1E1E1E] px-4 py-3 text-white placeholder-[#4A4A4A] transition-colors focus:border-[#0A8FBF] focus:outline-none focus:ring-2 focus:ring-[#0A8FBF]/30"
-            aria-label="Email address"
-          />
-          <button
-            type="submit"
-            disabled={status === 'submitting'}
-            className="rounded-xl bg-[#E8503E] px-6 py-3 font-bold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[#D14535] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
-          >
-            {status === 'submitting' ? 'Subscribing…' : 'Subscribe'}
-          </button>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <input
+              type="email"
+              name="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your@email.co.za"
+              className="flex-1 rounded-xl border border-[#3A3A3A] bg-[#1E1E1E] px-4 py-3 text-white placeholder-[#4A4A4A] transition-colors focus:border-[#0A8FBF] focus:outline-none focus:ring-2 focus:ring-[#0A8FBF]/30"
+              aria-label="Email address"
+            />
+            <button
+              type="submit"
+              disabled={status === 'submitting' || !turnstileToken}
+              className="rounded-xl bg-[#E8503E] px-6 py-3 font-bold text-white transition-all duration-200 hover:scale-[1.02] hover:bg-[#D14535] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50"
+            >
+              {status === 'submitting' ? 'Subscribing…' : !turnstileToken ? 'Verifying…' : 'Subscribe'}
+            </button>
+          </div>
+          <Turnstile ref={turnstileRef} onVerify={handleVerify} onExpire={handleExpire} theme="dark" />
         </form>
       )}
       {status === 'error' && (
