@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { Button } from "@/components/ui/button";
 import { generatePageMetadata } from "@/lib/metadata";
@@ -137,10 +138,14 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
             <ScrollReveal direction="left">
               <div className="flex items-center justify-center">
-                <div className="w-64 h-64 md:w-80 md:h-80 rounded-2xl bg-[#1E1E1E] flex items-center justify-center">
-                  <span className="text-5xl md:text-6xl font-bold text-[#0A8FBF] font-[family-name:var(--font-display)]">
-                    TM
-                  </span>
+                <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden bg-[#1E1E1E]">
+                  <Image
+                    src="/images/team/tinashe-munyaka.jpg"
+                    alt="Tinashe Munyaka, Founder of Origami Digital"
+                    fill
+                    sizes="(max-width: 768px) 256px, 320px"
+                    className="object-cover"
+                  />
                 </div>
               </div>
             </ScrollReveal>
@@ -153,7 +158,7 @@ export default function AboutPage() {
                   Tinashe Munyaka
                 </h2>
                 <p className="text-[#4A4A4A] text-lg leading-relaxed mb-4 font-[family-name:var(--font-body)]">
-                  Expert UI/UX Designer and Full-Stack Developer based in
+                  Expert UI/UX Designer and Software Engineer based in
                   Johannesburg, South Africa. Since 2010, I&apos;ve been designing
                   and building digital products — from complex enterprise
                   platforms to lean SaaS applications.
