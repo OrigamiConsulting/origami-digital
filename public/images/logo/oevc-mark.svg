@@ -1,0 +1,27 @@
+<!--
+  Origami EV Connect — compact brand mark for email signatures and small surfaces.
+  Distilled from the OEVC proposal design (green→teal gradient + Type-2 plug glyph).
+  Tokens: --green #10B981 → --teal #087CA7 (90deg gradient at full opacity for a
+  legible mark, vs the 70%-opacity gradient used on the wordmark backplate).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" width="56" height="56" fill="none" role="img" aria-label="Origami EV Connect">
+  <title>Origami EV Connect</title>
+  <defs>
+    <linearGradient id="oevc-grad" x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#10B981"/>
+      <stop offset="1" stop-color="#087CA7"/>
+    </linearGradient>
+  </defs>
+  <!-- Token disc -->
+  <circle cx="28" cy="28" r="26" fill="url(#oevc-grad)"/>
+  <!-- Outer ring (subtle, suggests a charge cable wrap) -->
+  <circle cx="28" cy="28" r="20.5" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1" stroke-dasharray="2 4"/>
+  <!-- Type-2 EV plug glyph: 5 dots in the standard SAE J3068 / IEC 62196 layout -->
+  <g fill="#FFFFFF">
+    <circle cx="22" cy="22" r="3.2"/>
+    <circle cx="34" cy="22" r="3.2"/>
+    <circle cx="28" cy="30" r="3.2"/>
+    <circle cx="23" cy="38" r="3.2"/>
+    <circle cx="33" cy="38" r="3.2"/>
+  </g>
+</svg>
