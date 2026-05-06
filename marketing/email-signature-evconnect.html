@@ -1,0 +1,46 @@
+<!-- Gmail email signature for Tinashe @ Origami EV Connect — installed only
+     on the hello@origamievconnect.com alias under origamiconsultinggroup@gmail.com.
+
+     Brand tokens (from the OEVC proposal handoff):
+       ink #0B1220 / ink-2 #1E293B / muted #475569 / line #E2E8F0
+       green #10B981 / green-2 #34D399 / teal #087CA7
+       fonts: DM Sans (body), Fraunces (display), DM Mono (overline / metadata)
+       gradient: linear-gradient(90deg, #10B981, #087CA7) — the brand pill.
+
+     Layout notes for any future agent picking this up:
+     - The wordmark logo (the green-to-teal gradient pill containing
+       "ORIGAMI EV CONNECT" with the leaf "C") is loaded from the canonical
+       brand asset at origamievconnect.com/logo.svg, which is publicly
+       served. We initially used a synthesized compact mark hosted on
+       origami-digital.co.za; that was removed once we got the real logo URL.
+     - Inline <svg> gets stripped by Gmail's signature sanitiser, so the
+       wordmark must be loaded as <img>, not embedded.
+     - CSS gradients on <td> backgrounds are unreliable across Outlook and
+       Apple Mail, so the green→teal accent at the bottom is approximated
+       with three colour-stop spans.
+     - DM Sans / Fraunces / DM Mono aren't pre-installed everywhere; the
+       system fallbacks cover Apple Mail (SF Pro), Outlook (Segoe UI), and
+       Gmail web (Helvetica). The signature still reads correctly without them.
+-->
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:'DM Sans','Helvetica Neue',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0B1220;line-height:1.5;border-collapse:collapse;">
+  <tr>
+    <td style="padding:0 0 14px 0;border-bottom:1px solid #E2E8F0;">
+      <img src="https://www.origamievconnect.com/logo.svg" width="220" height="31" alt="Origami EV Connect" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;">
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:0;">
+      <div style="font-family:'Fraunces','DM Sans','Helvetica Neue',serif;font-size:18px;font-weight:600;letter-spacing:-0.01em;color:#0B1220;margin:14px 0 2px;line-height:1.2;">Tinashe Munyaka</div>
+      <div style="font-family:'DM Mono','SFMono-Regular',Menlo,Consolas,monospace;font-size:11px;color:#475569;margin:0 0 12px;letter-spacing:0.08em;text-transform:uppercase;">EV Charging Specialist</div>
+      <div style="font-size:12.5px;color:#1E293B;line-height:1.75;">
+        <a href="mailto:hello@origamievconnect.com" style="color:#1E293B;text-decoration:none;">hello@origamievconnect.com</a><br>
+        <a href="tel:+27781900107" style="color:#1E293B;text-decoration:none;">+27 (0)78 190 0107</a><br>
+        <a href="https://origamievconnect.com" style="color:#087CA7;text-decoration:none;">origamievconnect.com</a>
+      </div>
+      <div style="margin-top:14px;line-height:0;">
+        <span style="display:inline-block;width:36px;height:3px;background:#10B981;border-radius:2px;margin-right:4px;"></span><span style="display:inline-block;width:36px;height:3px;background:#34D399;border-radius:2px;margin-right:4px;"></span><span style="display:inline-block;width:36px;height:3px;background:#087CA7;border-radius:2px;"></span>
+      </div>
+      <div style="font-family:'DM Mono','SFMono-Regular',Menlo,Consolas,monospace;font-size:10.5px;letter-spacing:0.2em;text-transform:uppercase;color:#475569;margin-top:8px;font-weight:600;">Powering the EV Transition</div>
+    </td>
+  </tr>
+</table>
