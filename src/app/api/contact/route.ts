@@ -125,8 +125,11 @@ export async function POST(request: Request) {
     // Use verified domain or Resend onboarding address as fallback
     const fromAddress = process.env.RESEND_FROM_EMAIL || 'Origami Digital <onboarding@resend.dev>'
 
-    // Send notification email to Origami Digital
-    await resend.emails.send({
+    // Resend's SDK returns { data, error } and does NOT throw on rejected sends
+    // (deliverability holds, suppression-list hits, domain blocks). Without this
+    // check, a failed prospect confirmation looks like success — we'd see leads
+    // disappearing into the void. Logging surfaces it without breaking the form.
+    const notif = await resend.emails.send({
       from: fromAddress,
       to: ['hello@origami-digital.co.za'],
       replyTo: body.email,
@@ -173,9 +176,15 @@ export async function POST(request: Request) {
         </div>
       `,
     })
+    if (notif.error) {
+      console.error('Resend notification send failed:', notif.error, {
+        recipient: 'hello@origami-digital.co.za',
+        enquirer: body.email,
+      })
+    }
 
     // Send confirmation email to the enquirer
-    await resend.emails.send({
+    const confirm = await resend.emails.send({
       from: fromAddress,
       to: [body.email],
       subject: `Thanks for reaching out, ${body.name.split(' ')[0]}!`,
@@ -200,6 +209,11 @@ export async function POST(request: Request) {
         </div>
       `,
     })
+    if (confirm.error) {
+      console.error('Resend confirmation send failed:', confirm.error, {
+        recipient: body.email,
+      })
+    }
 
     // Add contact to Brevo for email marketing.
     // We await so the HTTP request actually completes — Vercel serverless
