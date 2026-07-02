@@ -26,17 +26,26 @@ const projects: Project[] = [
     description:
       'Streamlined payslip generation for SA businesses with automated calculations, SARS compliance, and bulk processing.',
     tags: ['React', 'SaaS', 'HR Tech'],
-    image: '/images/portfolio/origami-pay.png',
+    image: '/images/portfolio/origami-pay-v2.png',
     url: 'https://origami-pay.co.za',
   },
   {
     slug: 'ev-connect',
     title: 'EV Connect',
     description:
-      'Developed a charge point management system with real-time monitoring, payment integration, and fleet management.',
-    tags: ['Next.js', 'IoT', 'Dashboard'],
-    image: '/images/portfolio/ev-connect.png',
+      'Professional EV charger installation and smart energy site for homes, businesses and complexes across Gauteng.',
+    tags: ['Next.js', 'EV', 'Lead Gen'],
+    image: '/images/portfolio/ev-connect-v2.png',
     url: 'https://www.origamievconnect.com',
+  },
+  {
+    slug: 'ev-connect-cpms',
+    title: 'EV Connect CPMS',
+    description:
+      'Charge point management platform with live network monitoring, driver payments, and revenue reporting for EV charging operators.',
+    tags: ['SaaS', 'IoT', 'Dashboard'],
+    image: '/images/portfolio/cpms-v2.png',
+    url: 'https://cpms.origamievconnect.com',
   },
   {
     slug: 'impactroots',
@@ -44,7 +53,7 @@ const projects: Project[] = [
     description:
       'Designed and built a professional web presence for a skills development consultancy.',
     tags: ['Web Design', 'B2B'],
-    image: '/images/portfolio/impactroots.png',
+    image: '/images/portfolio/impactroots-v2.png',
     url: 'https://www.impactroots.co.za',
   },
   {
@@ -53,7 +62,7 @@ const projects: Project[] = [
     description:
       'Built a comprehensive invoicing solution tailored for South African businesses with automated tax calculations and multi-currency support.',
     tags: ['Next.js', 'SaaS', 'Fintech'],
-    image: '/images/portfolio/origami-finance.png',
+    image: '/images/portfolio/origami-finance-v2.png',
     url: 'https://origami-finance.co.za',
   },
 ];

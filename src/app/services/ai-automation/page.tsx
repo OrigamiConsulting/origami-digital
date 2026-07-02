@@ -1,5 +1,6 @@
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { Button } from "@/components/ui/button";
+import { AgentConsole } from "@/components/sections/ai-showcase";
 import { generatePageMetadata } from "@/lib/metadata";
 
 export const metadata = generatePageMetadata({
@@ -67,23 +68,29 @@ export default function AiAutomationPage() {
   return (
     <>
       {/* Hero */}
-      <section className="noise-texture bg-[#141414] py-24 md:py-32 px-6">
+      <section className="noise-texture bg-[#0A0A0B] py-24 md:py-32 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl">
-            <ScrollReveal>
-              <span className="inline-block text-sm font-semibold tracking-widest uppercase text-[#E8503E] mb-4">
-                Automate
-              </span>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
-                AI-Powered Business Automation
-              </h1>
-            </ScrollReveal>
-            <ScrollReveal delay={100}>
-              <p className="mt-6 text-lg md:text-xl text-[#B0B0B0] max-w-2xl">
-                Workflow automation, AI chatbots, and intelligent document
-                processing that save your team hours every week — so you can
-                focus on growing your business.
-              </p>
+          <div className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+            <div className="min-w-0">
+              <ScrollReveal>
+                <span className="inline-block text-sm font-semibold tracking-widest uppercase text-[#E8503E] mb-4">
+                  Automate
+                </span>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white">
+                  AI-Powered Business Automation
+                </h1>
+              </ScrollReveal>
+              <ScrollReveal delay={100}>
+                <p className="mt-6 text-lg md:text-xl text-[#B0B0B0] max-w-2xl">
+                  Workflow automation, AI chatbots, and intelligent document
+                  processing that save your team hours every week — so you can
+                  focus on growing your business. Below: a live picture of the
+                  kind of system we build.
+                </p>
+              </ScrollReveal>
+            </div>
+            <ScrollReveal delay={200} className="min-w-0">
+              <AgentConsole />
             </ScrollReveal>
           </div>
         </div>

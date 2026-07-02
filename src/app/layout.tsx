@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import { fontVariables } from '@/lib/fonts'
 import { Header, Footer } from '@/components/layout'
+import { SmoothScrollProvider } from '@/components/ui/smooth-scroll-provider'
+import { CustomCursor } from '@/components/ui/custom-cursor'
 import './globals.css'
 
 const GA_MEASUREMENT_ID = 'G-X38KXW2JYC'
@@ -58,6 +60,8 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="min-h-full flex flex-col font-[family-name:var(--font-body)]">
+        <SmoothScrollProvider />
+        <CustomCursor />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

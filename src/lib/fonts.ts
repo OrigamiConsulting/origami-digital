@@ -1,13 +1,13 @@
-import { Instrument_Sans, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google'
+import { Space_Grotesk, Outfit, JetBrains_Mono } from 'next/font/google'
 
-export const fontDisplay = Instrument_Sans({
+export const fontDisplay = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
 })
 
-export const fontBody = Plus_Jakarta_Sans({
+export const fontBody = Outfit({
   subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
@@ -18,7 +18,7 @@ export const fontMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
-  weight: ['400', '500'],
+  weight: ['400', '500', '700'],
 })
 
 export const fontVariables = `${fontDisplay.variable} ${fontBody.variable} ${fontMono.variable}`

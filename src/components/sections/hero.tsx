@@ -1,179 +1,235 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { AnimatedCounter } from '@/components/ui/animated-counter'
+import { useRef } from 'react'
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useReducedMotion,
+} from 'framer-motion'
 import { MagneticButton } from '@/components/ui/magnetic-button'
+import { Marquee } from '@/components/ui/marquee'
 
-const HEADLINE_WORDS = ['We', 'Build', 'Digital', 'Products', 'That', 'Perform']
+const HEADLINE_LINES = [
+  { text: 'We design.', className: 'text-white' },
+  { text: 'We engineer.', className: 'text-outline' },
+  { text: 'We automate.', className: 'text-gradient-brand' },
+]
 
 const STATS = [
-  { value: 16, suffix: '+', label: 'Years Experience' },
-  { value: 50, suffix: '+', label: 'Projects Delivered' },
-  { value: 95, suffix: '+', label: 'Lighthouse Scores' },
+  { value: '16+', label: 'Years of craft' },
+  { value: '50+', label: 'Projects shipped' },
+  { value: '95+', label: 'Lighthouse scores' },
+]
+
+const MARQUEE_ITEMS = [
+  'Web Design',
+  'Development',
+  'AI Automation',
+  'SEO & GEO',
+  'UI/UX',
+  'Mobile Apps',
+  'Custom Software',
+  'Google Ads',
+]
+
+/* Origami fold shards — folded-paper planes drifting behind the type */
+const SHARDS = [
+  {
+    className: 'right-[6%] top-[16%] h-40 w-56 md:h-56 md:w-80',
+    clip: 'polygon(0 35%, 62% 0, 100% 55%, 30% 100%)',
+    gradient: 'linear-gradient(135deg, rgba(10,143,191,0.28), rgba(10,143,191,0.02))',
+    depth: 34,
+    rotate: '-8deg',
+    duration: '11s',
+  },
+  {
+    className: 'right-[22%] bottom-[24%] h-28 w-40 md:h-40 md:w-60',
+    clip: 'polygon(0 0, 100% 18%, 72% 100%, 8% 78%)',
+    gradient: 'linear-gradient(135deg, rgba(41,115,115,0.35), rgba(41,115,115,0.03))',
+    depth: 60,
+    rotate: '10deg',
+    duration: '14s',
+  },
+  {
+    className: 'right-[38%] top-[10%] hidden h-24 w-32 md:block md:h-32 md:w-44',
+    clip: 'polygon(20% 0, 100% 30%, 80% 100%, 0 65%)',
+    gradient: 'linear-gradient(135deg, rgba(232,80,62,0.30), rgba(232,80,62,0.02))',
+    depth: 90,
+    rotate: '18deg',
+    duration: '9s',
+  },
 ]
 
 export function Hero() {
-  const [mounted, setMounted] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+  const reducedMotion = useReducedMotion()
 
-  useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 50)
-    return () => clearTimeout(timer)
-  }, [])
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 })
+  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 })
+
+  // Per-shard parallax offsets, deeper shards move more
+  const shard0X = useTransform(springX, (v) => v * SHARDS[0].depth)
+  const shard0Y = useTransform(springY, (v) => v * SHARDS[0].depth)
+  const shard1X = useTransform(springX, (v) => v * SHARDS[1].depth)
+  const shard1Y = useTransform(springY, (v) => v * SHARDS[1].depth)
+  const shard2X = useTransform(springX, (v) => v * SHARDS[2].depth)
+  const shard2Y = useTransform(springY, (v) => v * SHARDS[2].depth)
+  const shardTransforms = [
+    { x: shard0X, y: shard0Y },
+    { x: shard1X, y: shard1Y },
+    { x: shard2X, y: shard2Y },
+  ]
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (reducedMotion) return
+    const rect = sectionRef.current?.getBoundingClientRect()
+    if (!rect) return
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5)
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5)
+  }
 
   return (
-    <section className="noise-texture relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#141414]">
-      {/* Keyframes */}
-      <style>{`
-        @keyframes hero-orb-drift {
-          0%   { transform: translate(-50%, -50%) scale(1); }
-          25%  { transform: translate(-45%, -55%) scale(1.08); }
-          50%  { transform: translate(-55%, -48%) scale(0.95); }
-          75%  { transform: translate(-48%, -52%) scale(1.05); }
-          100% { transform: translate(-50%, -50%) scale(1); }
-        }
-        @keyframes hero-scroll-dot {
-          0%, 100% { transform: translateY(0); opacity: 1; }
-          50%      { transform: translateY(12px); opacity: 0.3; }
-        }
-      `}</style>
+    <section
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      className="noise-texture relative flex min-h-[100svh] flex-col overflow-hidden bg-[#0A0A0B]"
+    >
+      {/* Structural grid lines */}
+      <div className="grid-lines absolute inset-0 opacity-60" aria-hidden="true" />
 
-      {/* Dot-grid background texture */}
+      {/* Aurora wash */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.04]"
         aria-hidden="true"
+        className="absolute -top-[20%] left-[8%] h-[70vmax] w-[70vmax] rounded-full"
         style={{
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          background:
+            'radial-gradient(circle at 35% 35%, rgba(10,143,191,0.16) 0%, rgba(41,115,115,0.10) 45%, transparent 70%)',
+          filter: 'blur(70px)',
+          animation: 'aurora-drift 22s ease-in-out infinite',
+          willChange: 'transform',
         }}
       />
-
-      {/* Animated gradient orb */}
       <div
         aria-hidden="true"
-        className="absolute pointer-events-none"
+        className="absolute -bottom-[30%] right-[-10%] h-[55vmax] w-[55vmax] rounded-full"
         style={{
-          left: '50%',
-          top: '50%',
-          width: '900px',
-          height: '900px',
           background:
-            'radial-gradient(circle at 40% 40%, rgba(10, 143, 191, 0.15) 0%, rgba(41, 115, 115, 0.1) 40%, transparent 70%)',
-          borderRadius: '50%',
+            'radial-gradient(circle at 60% 40%, rgba(232,80,62,0.10) 0%, rgba(10,143,191,0.07) 50%, transparent 72%)',
           filter: 'blur(80px)',
-          animation: 'hero-orb-drift 18s ease-in-out infinite',
+          animation: 'aurora-drift 28s ease-in-out infinite reverse',
           willChange: 'transform',
         }}
       />
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 py-32 sm:px-10 lg:px-16">
-        <div className="flex flex-col items-center text-center">
-
-          {/* Floating pill badge */}
+      {/* Origami fold shards — parallax on mouse */}
+      {SHARDS.map((shard, i) => (
+        <motion.div
+          key={i}
+          aria-hidden="true"
+          className={`pointer-events-none absolute ${shard.className}`}
+          style={{ x: shardTransforms[i].x, y: shardTransforms[i].y }}
+        >
           <div
-            className="mb-10"
-            style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? 'translateY(0)' : 'translateY(12px)',
-              transition: 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)',
-              transitionDelay: '0ms',
-            }}
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#0A8FBF]/30 bg-[#0A8FBF]/10 px-5 py-2 text-xs tracking-widest uppercase text-[#0A8FBF] sm:text-sm font-semibold">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#0A8FBF]" />
-              AI-Augmented Digital Agency
-            </span>
-          </div>
+            className="h-full w-full"
+            style={
+              {
+                clipPath: shard.clip,
+                background: shard.gradient,
+                border: '1px solid rgba(255,255,255,0.06)',
+                backdropFilter: 'blur(2px)',
+                '--shard-r': shard.rotate,
+                animation: `shard-float ${shard.duration} ease-in-out infinite`,
+              } as React.CSSProperties
+            }
+          />
+        </motion.div>
+      ))}
 
-          {/* Headline — word-by-word reveal */}
-          <h1 className="hero-headline mb-8 flex flex-wrap items-center justify-center gap-x-[0.25em] gap-y-1">
-            {HEADLINE_WORDS.map((word, i) => (
-              <span key={word} className="inline-block overflow-hidden py-1">
+      {/* Main content */}
+      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col justify-center px-6 pt-32 pb-16 sm:px-10 lg:px-16">
+        {/* Badge */}
+        <div className="anim-fade-up mb-10 md:mb-14" style={{ '--d': '100ms' } as React.CSSProperties}>
+          <span className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.22em] uppercase text-white/70 backdrop-blur-sm sm:text-xs">
+            <span
+              className="inline-block h-2 w-2 rounded-full bg-[#E8503E]"
+              style={{ animation: 'pulse-dot 2s ease-in-out infinite' }}
+            />
+            AI-Augmented Digital Studio — Johannesburg
+          </span>
+        </div>
+
+        {/* Headline — accessible sentence, kinetic visual */}
+        <h1 className="mb-0">
+          <span className="sr-only">
+            We design, engineer and automate — high-performance websites, apps
+            and AI automation for South African businesses.
+          </span>
+          <span aria-hidden="true" className="block">
+            {HEADLINE_LINES.map((line, i) => (
+              <span key={line.text} className="block overflow-hidden pb-[0.06em]">
                 <span
-                  className="inline-block text-white"
-                  style={{
-                    transform: mounted ? 'translateY(0)' : 'translateY(110%)',
-                    opacity: mounted ? 1 : 0,
-                    transition: 'transform 0.8s cubic-bezier(0.16,1,0.3,1), opacity 0.8s cubic-bezier(0.16,1,0.3,1)',
-                    transitionDelay: `${200 + i * 70}ms`,
-                  }}
+                  className={`anim-rise display-xl block text-[clamp(2.6rem,10.5vw,8.75rem)] ${line.className}`}
+                  style={{ '--d': `${200 + i * 110}ms` } as React.CSSProperties}
                 >
-                  {word}
+                  {line.text}
                 </span>
               </span>
             ))}
-          </h1>
+          </span>
+        </h1>
 
-          {/* Subheading */}
-          <p
-            className="mx-auto mb-12 max-w-2xl text-base leading-relaxed text-[#B8B8B8] sm:text-lg md:text-xl"
-            style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-              transition: 'opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1)',
-              transitionDelay: '700ms',
-            }}
-          >
-            From websites and apps to SEO and AI automation — we help South
-            African businesses build, grow, and automate their digital presence.
-          </p>
+        {/* Sub row: copy + CTAs left, stats right */}
+        <div className="mt-12 flex flex-col gap-12 md:mt-16 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-xl">
+            <p
+              className="anim-fade-up text-base leading-relaxed text-white/60 sm:text-lg"
+              style={{ '--d': '750ms' } as React.CSSProperties}
+            >
+              High-performance websites, apps and intelligent automation —
+              crafted by a senior studio that builds with the same AI tools
+              used at Shopify and ServiceNow. No agency bloat. Just work that
+              performs.
+            </p>
 
-          {/* CTAs */}
-          <div
-            className="mb-16 flex flex-col items-center gap-4 sm:flex-row sm:gap-6"
-            style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-              transition: 'opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1)',
-              transitionDelay: '900ms',
-            }}
-          >
-            <MagneticButton href="/contact" strength={0.2}>
-              <span className="inline-flex items-center rounded-full bg-[#E8503E] px-8 py-4 text-sm font-bold text-white transition-colors duration-300 hover:bg-[#D14535] sm:text-base">
-                Get a Free Consultation
-                <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </span>
-            </MagneticButton>
-
-            <MagneticButton href="/work" strength={0.2}>
-              <span className="inline-flex items-center rounded-full border-2 border-white/20 px-8 py-4 text-sm font-semibold text-white/80 transition-colors duration-300 hover:border-white/40 hover:text-white sm:text-base">
-                See Our Work
-              </span>
-            </MagneticButton>
-          </div>
-
-          {/* Horizontal line that draws across */}
-          <div className="mx-auto mb-16 w-full max-w-4xl">
             <div
-              className="mx-auto h-px"
-              style={{
-                background: 'linear-gradient(90deg, transparent, rgba(10,143,191,0.4), transparent)',
-                width: mounted ? '100%' : '0%',
-                transition: 'width 1.2s cubic-bezier(0.16,1,0.3,1)',
-                transitionDelay: '1100ms',
-              }}
-            />
+              className="anim-fade-up mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6"
+              style={{ '--d': '900ms' } as React.CSSProperties}
+            >
+              <MagneticButton href="/contact" strength={0.25}>
+                <span
+                  className="inline-flex items-center gap-2 rounded-full bg-[#E8503E] px-8 py-4 text-sm font-bold text-white transition-colors duration-300 hover:bg-[#D14535] sm:text-base"
+                  style={{ animation: 'pulse-ring 3s ease-out infinite' }}
+                >
+                  Start your project
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </span>
+              </MagneticButton>
+
+              <MagneticButton href="/work" strength={0.25}>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-8 py-4 text-sm font-semibold text-white/80 transition-colors duration-300 hover:border-white/40 hover:text-white sm:text-base">
+                  See our work
+                </span>
+              </MagneticButton>
+            </div>
           </div>
 
-          {/* Stats row */}
+          {/* Stats */}
           <div
-            className="grid w-full max-w-3xl grid-cols-1 gap-8 sm:grid-cols-3"
-            style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-              transition: 'opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1)',
-              transitionDelay: '1300ms',
-            }}
+            className="anim-fade-up flex items-start gap-8 sm:gap-12"
+            style={{ '--d': '1050ms' } as React.CSSProperties}
           >
             {STATS.map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center">
-                <span className="text-3xl font-bold tracking-tight text-white font-[family-name:var(--font-display)] sm:text-4xl">
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} duration={1800} />
+              <div key={stat.label} className="flex flex-col border-l border-white/10 pl-4 sm:pl-6">
+                <span className="font-[family-name:var(--font-display)] text-3xl font-bold text-white sm:text-4xl">
+                  {stat.value}
                 </span>
-                <span className="mt-1 text-xs tracking-widest uppercase text-[#8A8A8A]">
+                <span className="mt-1 font-[family-name:var(--font-mono)] text-[10px] tracking-[0.18em] uppercase text-white/40 sm:text-[11px]">
                   {stat.label}
                 </span>
               </div>
@@ -182,22 +238,24 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Capability marquee */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        aria-hidden="true"
-        style={{
-          opacity: mounted ? 0.4 : 0,
-          transition: 'opacity 1s ease',
-          transitionDelay: '1800ms',
-        }}
+        className="anim-fade-up relative z-10 border-t border-white/[0.07] py-5 md:py-6"
+        style={{ '--d': '1200ms' } as React.CSSProperties}
       >
-        <div className="flex h-9 w-5 items-start justify-center rounded-full border border-white/20 p-1">
-          <div
-            className="h-1.5 w-1 rounded-full bg-white/50"
-            style={{ animation: 'hero-scroll-dot 2s ease-in-out infinite' }}
-          />
-        </div>
+        <Marquee speed={40}>
+          {MARQUEE_ITEMS.map((item) => (
+            <span
+              key={item}
+              className="display-xl flex items-center gap-8 whitespace-nowrap text-3xl text-white/90 md:text-4xl"
+            >
+              {item}
+              <svg viewBox="0 0 24 24" className="h-4 w-4 text-[#E8503E]" fill="currentColor" aria-hidden="true">
+                <path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6L12 0z" />
+              </svg>
+            </span>
+          ))}
+        </Marquee>
       </div>
     </section>
   )

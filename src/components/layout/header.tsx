@@ -51,13 +51,19 @@ const navLinks: NavLink[] = [
 export function Header() {
   const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastScrollY = useRef(0)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      const y = window.scrollY
+      setScrolled(y > 50)
+      // Hide when scrolling down past the hero, reveal on any upward scroll
+      setHidden(y > 160 && y > lastScrollY.current + 4)
+      lastScrollY.current = y
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
@@ -107,10 +113,11 @@ export function Header() {
     <>
       <header
         className={[
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+          'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
           scrolled
-            ? 'bg-[#141414]/80 backdrop-blur-xl border-b border-white/5 shadow-lg'
+            ? 'bg-[#0A0A0B]/80 backdrop-blur-xl border-b border-white/5 shadow-lg'
             : 'bg-transparent',
+          hidden && !mobileMenuOpen ? '-translate-y-full' : 'translate-y-0',
         ].join(' ')}
       >
         <nav
@@ -215,7 +222,7 @@ export function Header() {
             <div className="hidden lg:block">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-2.5 text-sm font-bold text-[#D14535] transition-all duration-200 hover:bg-neutral-100 hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center justify-center rounded-full bg-[#E8503E] px-6 py-2.5 text-sm font-bold text-white transition-all duration-200 hover:bg-[#D14535] hover:scale-[1.02] active:scale-[0.98]"
               >
                 Get Started
               </Link>

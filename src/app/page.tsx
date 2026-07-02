@@ -1,8 +1,10 @@
 import {
   Hero,
-  ServicesOverview,
-  PortfolioPreview,
-  WhyWorkWithUs,
+  Manifesto,
+  PillarsStack,
+  AIShowcase,
+  WorkShowcase,
+  CraftProof,
   CTASection,
   FAQSection,
 } from '@/components/sections'
@@ -13,9 +15,11 @@ export default function HomePage() {
     <>
       <OrganisationJsonLd />
       <Hero />
-      <ServicesOverview />
-      <PortfolioPreview />
-      <WhyWorkWithUs />
+      <Manifesto />
+      <PillarsStack />
+      <AIShowcase />
+      <WorkShowcase />
+      <CraftProof />
       <FAQSection />
       <CTASection />
     </>

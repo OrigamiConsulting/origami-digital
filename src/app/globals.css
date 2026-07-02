@@ -1,5 +1,5 @@
 /* ============================================
-   Origami Digital — Design System (styling update)
+   Origami Digital — Design System v3 "Bold Fold"
    ============================================ */
 
 @import "tailwindcss";
@@ -10,11 +10,17 @@
   --color-primary-darker: #141414;
   --color-surface-dark:   #222224;
 
+  /* Cinematic ink series (v3) */
+  --color-ink:      #0A0A0B;
+  --color-ink-2:    #101013;
+  --color-ink-3:    #16161A;
+  --color-ink-line: rgba(255, 255, 255, 0.08);
+
   /* Brand — accents */
   --color-accent-blue:       #0A8FBF;
   --color-accent-blue-dark:  #087CA7;
   --color-accent-teal:       #297373;
-  --color-accent-teal-light: #347F7F;
+  --color-accent-teal-light: #35A3A3;
 
   /* Signature pop */
   --color-coral:      #E8503E;
@@ -53,18 +59,26 @@
 }
 
 :root {
-  --font-display-family: 'Instrument Sans', sans-serif;
-  --font-body-family:    'Plus Jakarta Sans', sans-serif;
+  --font-display-family: 'Space Grotesk', sans-serif;
+  --font-body-family:    'Outfit', sans-serif;
   --font-mono-family:    'JetBrains Mono', monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html { scroll-behavior: smooth; }
+
+/* Lenis smooth scroll (recommended base styles) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
 body {
   font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--font-size-base);
   color: var(--color-primary-dark);
-  background-color: var(--color-neutral-150);
+  background-color: #0A0A0B;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -87,7 +101,7 @@ h6 { font-size: var(--font-size-base); }
 a { text-decoration: none; transition: color 0.2s ease; }
 code, pre { font-family: var(--font-mono); }
 
-::selection { background-color: rgba(10, 143, 191, 0.3); color: white; }
+::selection { background-color: rgba(232, 80, 62, 0.9); color: white; }
 :focus-visible { outline: 2px solid #0A8FBF; outline-offset: 2px; border-radius: 4px; }
 
 .hero-headline {
@@ -107,6 +121,44 @@ code, pre { font-family: var(--font-mono); }
   letter-spacing: 0.15em; text-transform: uppercase;
 }
 
+/* ---- v3 display-type utilities ---- */
+
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.9);
+}
+.text-outline-faint {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.22);
+}
+.text-outline-ink {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(30, 30, 30, 0.85);
+}
+
+.text-gradient-brand {
+  background: linear-gradient(92deg, #0A8FBF 0%, #35A3A3 42%, #E8503E 92%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-gradient-cool {
+  background: linear-gradient(92deg, #7CD4F5 0%, #0A8FBF 50%, #35A3A3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- textures ---- */
+
 .noise-texture { position: relative; isolation: isolate; }
 .noise-texture::before {
   content: ''; position: absolute; inset: 0; opacity: 0.035; pointer-events: none;
@@ -119,16 +171,78 @@ code, pre { font-family: var(--font-mono); }
   background-size: 24px 24px;
 }
 
-/* Three-Folds divider — bonus utility for section breaks (optional; not yet used) */
+.grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 88px 88px;
+}
+
+/* Three-Folds divider */
 .three-folds-divider { display: inline-flex; flex-direction: column; gap: 4px; }
 .three-folds-divider span { display: block; width: 64px; height: 4px; border-radius: 2px; }
 .three-folds-divider span:nth-child(1) { background: var(--color-fold-build); }
 .three-folds-divider span:nth-child(2) { background: var(--color-fold-grow); }
 .three-folds-divider span:nth-child(3) { background: var(--color-fold-automate); }
 
+/* ---- keyframes ---- */
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
+}
+
+@keyframes aurora-drift {
+  0%   { transform: translate3d(-8%, -4%, 0) scale(1); }
+  33%  { transform: translate3d(6%, 5%, 0) scale(1.12); }
+  66%  { transform: translate3d(-4%, 8%, 0) scale(0.94); }
+  100% { transform: translate3d(-8%, -4%, 0) scale(1); }
+}
+
+@keyframes shard-float {
+  0%, 100% { transform: translateY(0) rotate(var(--shard-r, 0deg)); }
+  50%      { transform: translateY(-18px) rotate(calc(var(--shard-r, 0deg) + 3deg)); }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.75); }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(232, 80, 62, 0.5); }
+  70%  { box-shadow: 0 0 0 10px rgba(232, 80, 62, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 80, 62, 0); }
+}
+
+@keyframes blink-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* CSS-only entrance: rendered server-side, animates without JS.
+   Use --d for delay. fill:both keeps the hidden state until delay elapses. */
+@keyframes rise-in {
+  from { transform: translateY(110%); }
+  to   { transform: translateY(0); }
+}
+.anim-rise {
+  animation: rise-in 1s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim-fade-up {
+  animation: fade-up 0.9s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -136,4 +250,5 @@ code, pre { font-family: var(--font-mono); }
     animation: none !important; transition: none !important;
     opacity: 1 !important; transform: none !important;
   }
+  html { scroll-behavior: auto; }
 }

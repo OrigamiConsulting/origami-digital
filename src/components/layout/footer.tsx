@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { NewsletterSignup } from '@/components/sections/newsletter-signup'
 
 const quickLinks = [
@@ -13,8 +12,18 @@ const quickLinks = [
 
 export function Footer() {
   return (
-    <footer className="noise-texture bg-[#141414] relative" role="contentinfo">
+    <footer className="noise-texture bg-[#0A0A0B] relative overflow-hidden" role="contentinfo">
       <div className="h-px bg-gradient-to-r from-transparent via-[#0A8FBF]/30 to-transparent" />
+
+      {/* Giant wordmark */}
+      <div className="pointer-events-none select-none px-6 pt-16 md:pt-20" aria-hidden="true">
+        <p
+          className="display-xl whitespace-nowrap text-center text-[clamp(3rem,10.5vw,10rem)] leading-none"
+          style={{ color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.13)' }}
+        >
+          Origami Digital
+        </p>
+      </div>
 
       <div className="py-20 md:py-24 px-6">
         <div className="max-w-7xl mx-auto">
@@ -26,15 +35,17 @@ export function Footer() {
           <div className="grid md:grid-cols-[2fr_1fr_1.2fr] gap-12 md:gap-16">
             {/* Column 1: Brand */}
             <div>
-              <Link href="/" className="inline-flex items-center gap-2">
-                <Image
-                  src="/images/logo/origami-horse.png"
-                  alt=""
-                  width={32}
-                  height={18}
-                  className="h-[18px] w-auto brightness-0 invert"
+              <Link href="/" className="inline-flex items-center gap-2 text-white">
+                <svg
+                  viewBox="0 0 72 64"
+                  fill="none"
                   aria-hidden="true"
-                />
+                  className="h-[22px] w-auto"
+                >
+                  <path d="M10 18 L58 14 L62 22 L14 26 Z" fill="currentColor" />
+                  <path d="M10 30 L58 26 L62 34 L14 38 Z" fill="#297373" />
+                  <path d="M10 42 L58 38 L62 46 L14 50 Z" fill="#E8503E" />
+                </svg>
                 <span className="text-xl text-white font-[family-name:var(--font-display)]">
                   <span className="font-bold">Origami</span>{' '}
                   <span className="font-normal">Digital</span>

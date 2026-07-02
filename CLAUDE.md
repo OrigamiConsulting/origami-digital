@@ -545,7 +545,7 @@ Before going live, verify:
 
 ## COMPLETED WORK LOG
 
-> **Last updated:** 2026-04-15
+> **Last updated:** 2026-07-02
 > **Purpose:** This section documents all development and marketing work completed to date, so that any Claude agent (local or cloud) can understand the current state of the project and continue from where the last session left off.
 
 ### Website Development — COMPLETED
@@ -587,6 +587,14 @@ Before going live, verify:
 10. **Google Ads landing pages** — 3 conversion-optimised landing pages built (website-design, seo-audit, ai-consultation) with stripped navigation and focused CTAs
 11. **Experience updated** — 16+ years displayed across the site
 12. **Smooth scroll fix** — Removed Lenis (was causing blank page), hero visibility fix
+13. **v3 "Bold Fold" redesign (2026-07-02)** — Full homepage redesign in an award-site direction:
+    - Fonts switched to Space Grotesk (display) + Outfit (body); deep-ink `#0A0A0B` canvas with warm-paper `#F5F2EC` contrast sections; new display utilities (`.display-xl`, `.text-outline`, `.text-gradient-brand`) in `globals.css`
+    - New homepage flow: kinetic hero (CSS-only entrances for fast LCP, origami fold shards with mouse parallax, capability marquee) → scroll-scrubbed `Manifesto` → sticky-stacking `PillarsStack` (Build/Grow/Automate full-screen panels, sticky on `lg+` only) → `AIShowcase` → scroll-driven horizontal `WorkShowcase` (native snap fallback on mobile/reduced-motion) → `CraftProof` (animated Lighthouse gauges) → restyled FAQ → big-type CTA with background ticker
+    - **`AgentConsole`** (`src/components/sections/ai-showcase.tsx`) — self-running "AI agents at work" demo: pipeline map with travelling pulses, 3 agents cycling scripted states, self-typing terminal log, live counters; deterministic 12-tick loop, starts in-view only, static snapshot under reduced motion. Also embedded in `/services/ai-automation` hero
+    - Lenis smooth scroll re-added correctly (renders-nothing provider, skipped for reduced motion, `anchors: true`; instance exposed as `window.lenis`); custom cursor ring (fine pointers only); header hides on scroll down; footer got a giant outlined wordmark
+    - Old sections (`ServicesOverview`, `PortfolioPreview`, `WhyWorkWithUs`) kept in repo but no longer used on the homepage
+    - Note: dev machine changed — `node_modules` needed reinstall for ARM64 natives; `.claude/launch.json` paths updated
+14. **Portfolio refresh + footer logo fix (2026-07-02)** — Re-captured all portfolio screenshots from the live sites (EV Connect "Power your electric life", Origami Pay "Pay your people with precision", Origami Finance, ImpactRoots) and added **EV Connect CPMS** (cpms.origamievconnect.com) as a fifth project on the homepage showcase and `/work`. Images use versioned filenames (`*-v2.png`) to bust browser/CDN caches. Footer logo corrected from the horse PNG to the inline three-stripes mark (same SVG as the header)
 
 #### Blog Posts Published (5 posts in `src/content/posts/`)
 
