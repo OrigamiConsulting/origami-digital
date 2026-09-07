@@ -45,7 +45,7 @@ export const hero = {
   primaryCta: 'Book a demo',
   secondaryCta: 'See fleet mode',
   lockupAlt:
-    'Origami Mobility: a folded-paper car beside the wordmark, on the product’s blue',
+    'Origami Mobility: a folded-paper car with blue glass beside the wordmark, on ink',
 }
 
 export const capabilities = [

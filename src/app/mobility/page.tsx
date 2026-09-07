@@ -217,11 +217,10 @@ function MobilityHero() {
             style={{ '--d': '300ms' } as React.CSSProperties}
           >
             <div
-              className="relative aspect-[2.1/1] overflow-hidden rounded-[28px] ring-1 ring-white/10 shadow-[0_40px_120px_rgba(8,124,167,0.35)]"
-              style={{ background: MOBILITY_BLUE }}
+              className="relative aspect-[2.1/1] overflow-hidden rounded-[28px] bg-[#141518] ring-1 ring-white/10 shadow-[0_40px_120px_rgba(8,124,167,0.28)]"
             >
               <Image
-                src="/mobility/lockup-car3d-brand-horizontal.png"
+                src="/mobility/lockup-car3d-ink-horizontal.png"
                 alt={hero.lockupAlt}
                 fill
                 priority
