@@ -145,26 +145,45 @@ function MobilityHero() {
     <section className="noise-texture relative overflow-hidden bg-[#0A0A0B] pt-32 pb-16 md:pt-40 md:pb-20">
       <div className="grid-lines pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
       <div
-        className="pointer-events-none absolute -top-40 right-[-10%] h-[520px] w-[520px] rounded-full opacity-30 blur-3xl"
+        className="pointer-events-none absolute -top-40 right-[-10%] h-[560px] w-[560px] rounded-full opacity-30 blur-3xl"
         style={{ background: `radial-gradient(circle, ${MOBILITY_BLUE} 0%, transparent 65%)` }}
         aria-hidden="true"
       />
 
       <div className="relative mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-16">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div className="grid items-center gap-14 lg:grid-cols-[1fr_1fr] lg:gap-12">
           <div className="min-w-0">
-            <p
-              className="anim-fade-up inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.22em] uppercase text-white/70"
+            {/* The name: the product's own mark, as an image so its typeface stays its own */}
+            <div
+              className="anim-fade-up flex flex-wrap items-center gap-x-5 gap-y-2"
               style={{ '--d': '0ms' } as React.CSSProperties}
             >
-              <span className="h-1.5 w-1.5 rounded-full" style={{ background: MOBILITY_BLUE }} aria-hidden="true" />
-              Origami Mobility
-              <span className="hidden text-white/60 sm:inline">{hero.overline}</span>
-            </p>
+              <Image
+                src="/mobility/logo-horizontal-dark@2x.png"
+                alt={hero.markAlt}
+                width={2400}
+                height={760}
+                priority
+                sizes="180px"
+                className="h-12 w-auto md:h-14"
+              />
+              <span className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.22em] uppercase text-white/60">
+                {hero.overline}
+              </span>
+            </div>
 
+            {/* Size set inline: globals.css styles h1 outside any cascade layer, so
+                Tailwind's font-size utilities lose to it. */}
             <h1
-              className="anim-fade-up mt-7 font-[family-name:var(--font-display)] text-[clamp(2.4rem,5.4vw,4.6rem)] leading-[1.02] font-bold tracking-[-0.03em] text-white"
-              style={{ '--d': '100ms' } as React.CSSProperties}
+              className="anim-fade-up mt-8 font-[family-name:var(--font-display)] font-bold text-white"
+              style={
+                {
+                  '--d': '100ms',
+                  fontSize: 'clamp(2.4rem, 4.4vw, 4rem)',
+                  lineHeight: 1.02,
+                  letterSpacing: '-0.03em',
+                } as React.CSSProperties
+              }
             >
               {hero.headline}
             </h1>
@@ -211,29 +230,39 @@ function MobilityHero() {
             </div>
           </div>
 
-          {/* The picture: the paper car and the wordmark, on the product's blue */}
+          {/* The picture: the product. The operator's console, with the driver's phone over its corner. */}
           <div
-            className="anim-fade-up relative min-w-0"
+            className="anim-fade-up relative mb-10 min-w-0 pl-4 sm:pl-8 lg:mb-0 lg:pl-10"
             style={{ '--d': '300ms' } as React.CSSProperties}
           >
-            <div
-              className="relative aspect-[2.1/1] overflow-hidden rounded-[28px] bg-[#141518] ring-1 ring-white/10 shadow-[0_40px_120px_rgba(8,124,167,0.28)]"
-            >
+            <div className="relative -mr-6 overflow-hidden rounded-[20px] bg-[#F4F5F7] ring-1 ring-white/15 shadow-[0_40px_120px_rgba(8,124,167,0.28)] sm:-mr-10 lg:-mr-[22%]">
               <Image
-                src="/mobility/lockup-car3d-ink-horizontal.png"
-                alt={hero.lockupAlt}
-                fill
+                src="/mobility/screens/console-10-overview-light.png"
+                alt={hero.boardAlt}
+                width={1440}
+                height={900}
                 priority
-                sizes="(max-width: 1024px) 100vw, 640px"
-                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                className="h-auto w-full"
               />
+            </div>
+            <div className="absolute -bottom-10 left-0 w-[128px] overflow-hidden rounded-[22px] bg-[#0A0A0B] ring-1 ring-white/20 shadow-[0_30px_70px_rgba(0,0,0,0.6)] sm:w-[160px] lg:w-[190px]">
+              <div className="relative aspect-[1206/1560]">
+                <Image
+                  src="/mobility/screens/driver-13-online.png"
+                  alt={hero.phoneAlt}
+                  fill
+                  sizes="190px"
+                  className="object-cover object-top"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Capability marquee, in the site's own voice */}
-      <div className="relative z-10 mt-16 border-t border-white/[0.07] py-5 md:mt-20 md:py-6" aria-hidden="true">
+      <div className="relative z-10 mt-16 border-t border-white/[0.07] py-5 md:mt-24 md:py-6" aria-hidden="true">
         <Marquee speed={45}>
           {capabilities.map((item) => (
             <span
@@ -259,8 +288,18 @@ function DoorCard({ door, delay }: { door: Door; delay: number }) {
     <ScrollReveal delay={delay} className="h-full">
       <article
         id={door.id}
-        className="group flex h-full scroll-mt-28 flex-col rounded-[28px] border border-[#1E1E1E]/10 bg-white p-8 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl md:p-10"
+        className="group flex h-full scroll-mt-28 flex-col overflow-hidden rounded-[28px] border border-[#1E1E1E]/10 bg-white shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
       >
+        <div className="relative aspect-[1.9/1] overflow-hidden bg-[#0A0A0B]">
+          <Image
+            src={door.image.src}
+            alt={door.image.alt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 640px"
+            className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          />
+        </div>
+        <div className="flex flex-1 flex-col p-8 md:p-10">
         <div className="flex items-center justify-between gap-4">
           <span
             className="font-[family-name:var(--font-mono)] text-[11px] tracking-[0.24em] uppercase"
@@ -302,6 +341,7 @@ function DoorCard({ door, delay }: { door: Door; delay: number }) {
           {door.cta}
           <ArrowIcon className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
         </a>
+        </div>
       </article>
     </ScrollReveal>
   )
@@ -349,7 +389,15 @@ function SixCentsPanel() {
         <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <div>
             <ScrollReveal>
-              <h2 className="display-xl text-[clamp(3rem,8vw,7rem)] text-white">
+              <p className="font-[family-name:var(--font-mono)] text-[clamp(3.6rem,9vw,7.5rem)] leading-none font-bold tracking-[-0.04em] text-white tabular-nums">
+                {sixCents.figure}
+              </p>
+              <p className="mt-3 font-[family-name:var(--font-mono)] text-[11px] tracking-[0.22em] uppercase" style={{ color: MOBILITY_BLUE }}>
+                {sixCents.figureLabel}
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={60}>
+              <h2 className="display-xl mt-8 text-[clamp(2.2rem,4.5vw,3.6rem)] text-white">
                 Six cents <span className="text-outline">a ride.</span>
               </h2>
             </ScrollReveal>

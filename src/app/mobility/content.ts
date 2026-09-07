@@ -29,7 +29,7 @@ export function demoHref(offer?: Offer): string {
 
 export const hero = {
   overline: 'An Origami Digital product',
-  headline: 'White-label e\u2011hailing and fleet dispatch, built cash-first.',
+  headline: 'White-label e\u2011hailing and fleet dispatch, built cash\u2011first.',
   offers: [
     {
       id: 'marketplace' as Offer,
@@ -44,8 +44,11 @@ export const hero = {
   ],
   primaryCta: 'Book a demo',
   secondaryCta: 'See fleet mode',
-  lockupAlt:
-    'Origami Mobility: a folded-paper car with blue glass beside the wordmark, on ink',
+  markAlt: 'Origami Mobility',
+  boardAlt:
+    'Operator console overview: drivers online, waiting, on trip and commission today, a live map of Harare, and the list of what needs the office',
+  phoneAlt:
+    'Driver app home: the driver’s name and plate, the online switch, the cash wallet, and a paper car waiting for a trip',
 }
 
 export const capabilities = [
@@ -70,6 +73,7 @@ export interface Door {
   proof: { title: string; body: string }[]
   candid: string
   cta: string
+  image: { src: string; alt: string; width: number; height: number }
 }
 
 export const doors: Door[] = [
@@ -95,6 +99,12 @@ export const doors: Door[] = [
     ],
     candid: 'You bring the drivers and the budget to keep them online. We bring the platform.',
     cta: 'Book a marketplace demo',
+    image: {
+      src: '/mobility/welcome-scene.png',
+      alt: 'The rider and driver apps’ first screen: a folded-paper car on a road under a pin, on ink',
+      width: 1206,
+      height: 715,
+    },
   },
   {
     id: 'fleet',
@@ -118,11 +128,19 @@ export const doors: Door[] = [
     ],
     candid: 'Keep the booking process that already works. Add the ledger and the driver app.',
     cta: 'Book a fleet demo',
+    image: {
+      src: '/mobility/screens/console-03-live.png',
+      alt: 'Operator console, Live map: every car and every trip as they are right now, with the trips in flight listed beside the map',
+      width: 1440,
+      height: 900,
+    },
   },
 ]
 
 /** docs/04-COMMERCIAL-MODEL.md §3, on a typical US$3.50 ride with commission at 12%. */
 export const sixCents = {
+  figure: 'US$0.06',
+  figureLabel: 'Origami’s share of a US$3.50 ride',
   heading: 'Six cents a ride.',
   intro:
     'On a typical US$3.50 marketplace ride, with the operator’s commission at 12%, this is where the money goes.',
