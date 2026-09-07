@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { type ReactNode, useState, useEffect } from 'react'
+import { type ReactNode } from 'react'
+import { useHydrated } from '@/lib/use-hydrated'
 
 type Direction = 'up' | 'down' | 'left' | 'right'
 
@@ -27,12 +28,8 @@ export function FadeIn({
   direction = 'up',
   duration = 0.5,
 }: FadeInProps) {
-  const [mounted, setMounted] = useState(false)
+  const mounted = useHydrated()
   const offset = directionOffsets[direction]
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   // Before hydration, render fully visible (no animation)
   if (!mounted) {

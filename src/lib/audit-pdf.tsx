@@ -297,7 +297,7 @@ function AuditDocument({ result }: { result: AuditResult }) {
           <View style={styles.footer}>
             <Text style={styles.muted}>
               This report is a starting point. Every finding above has a recommended action; the top-priority items are
-              the ones we'd tackle first on your behalf. Questions? Reply to the email this was attached to —
+              the ones we&apos;d tackle first on your behalf. Questions? Reply to the email this was attached to —
               that inbox is monitored by a human.
             </Text>
           </View>

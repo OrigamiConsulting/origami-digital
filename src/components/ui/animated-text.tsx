@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { type ElementType, useState, useEffect } from 'react'
+import { type ElementType } from 'react'
+import { useHydrated } from '@/lib/use-hydrated'
 
 interface AnimatedTextProps {
   text: string
@@ -18,11 +19,7 @@ export function AnimatedText({
 }: AnimatedTextProps) {
   const Tag = tag as ElementType
   const words = text.split(' ')
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useHydrated()
 
   // Before hydration, render fully visible
   if (!mounted) {

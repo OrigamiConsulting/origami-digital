@@ -53,6 +53,13 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  // Close the mobile menu on route change. Derived during render from the
+  // previous pathname (the React pattern for "reset state when a prop changes").
+  const [menuPathname, setMenuPathname] = useState(pathname)
+  if (pathname !== menuPathname) {
+    setMenuPathname(pathname)
+    setMobileMenuOpen(false)
+  }
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastScrollY = useRef(0)
@@ -69,11 +76,6 @@ export function Header() {
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileMenuOpen(false)
-  }, [pathname])
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {

@@ -15,8 +15,6 @@ import {
   View,
   StyleSheet,
   renderToFile,
-  Svg,
-  Path,
 } from '@react-pdf/renderer'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -261,7 +259,12 @@ function Checkbox() {
 }
 
 function ChecklistDocument() {
-  let itemCounter = 0
+  // Running item numbers, computed ahead of render (1..30 across categories).
+  let nextNumber = 1
+  const numbered = CATEGORIES.map((cat) => ({
+    ...cat,
+    items: cat.items.map((item) => ({ item, number: nextNumber++ })),
+  }))
   return (
     <Document title="2026 Website Checklist" author="Origami Digital">
       <Page size="A4" style={styles.page}>
@@ -284,7 +287,7 @@ function ChecklistDocument() {
             honestly &mdash; if you cannot tick at least 22 of 30 boxes, you have work to do.
           </Text>
 
-          {CATEGORIES.map((cat, ci) => (
+          {numbered.map((cat, ci) => (
             <View key={cat.title} wrap={false}>
               <View style={styles.categoryHeader}>
                 <Text style={styles.categoryNumber}>
@@ -293,13 +296,12 @@ function ChecklistDocument() {
                 <Text style={styles.categoryTitle}>{cat.title}</Text>
                 <View style={styles.categoryLine} />
               </View>
-              {cat.items.map((item) => {
-                itemCounter += 1
+              {cat.items.map(({ item, number }) => {
                 return (
-                  <View key={`${cat.title}-${itemCounter}`} style={styles.item}>
+                  <View key={`${cat.title}-${number}`} style={styles.item}>
                     <Checkbox />
                     <Text style={styles.itemText}>
-                      <Text style={styles.itemNum}>{itemCounter}. </Text>
+                      <Text style={styles.itemNum}>{number}. </Text>
                       {item}
                     </Text>
                   </View>
