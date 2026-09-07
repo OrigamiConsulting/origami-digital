@@ -76,5 +76,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    // Origami Mobility lives on its own host (src/proxy.ts rewrites it to /mobility);
+    // the canonical is the subdomain, so that is what the sitemap lists.
+    {
+      url: 'https://mobility.origami-digital.co.za/',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
   ]
 }

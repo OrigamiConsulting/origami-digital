@@ -23,6 +23,14 @@ const PROJECTS = [
     accent: '#35A3A3',
   },
   {
+    title: 'Origami Mobility',
+    description: 'White-label e-hailing platform for cash-first markets, with fleet dispatch for operators who already have drivers',
+    tags: ['Platform', 'React Native', 'Dispatch'],
+    image: '/images/portfolio/origami-mobility.png',
+    url: 'https://mobility.origami-digital.co.za',
+    accent: '#087CA7',
+  },
+  {
     title: 'Origami Finance',
     description: 'SaaS invoicing platform for South African businesses',
     tags: ['SaaS', 'Fintech', 'Next.js'],

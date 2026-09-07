@@ -15,6 +15,26 @@ interface FormData {
   message: string;
 }
 
+/**
+ * Product tag, read from the URL (`/contact?product=mobility&offer=fleet`).
+ * Origami Mobility (mobility.origami-digital.co.za) sends its "Book a demo"
+ * traffic here; the tag makes those enquiries recognisable in the inbox.
+ */
+const PRODUCT_TAGS = ['mobility'] as const;
+type ProductTag = (typeof PRODUCT_TAGS)[number];
+const OFFER_TAGS = ['marketplace', 'fleet'] as const;
+type OfferTag = (typeof OFFER_TAGS)[number];
+
+function readProductTag(): { product: ProductTag | ''; offer: OfferTag | '' } {
+  const params = new URLSearchParams(window.location.search);
+  const product = params.get('product') ?? '';
+  const offer = params.get('offer') ?? '';
+  return {
+    product: (PRODUCT_TAGS as readonly string[]).includes(product) ? (product as ProductTag) : '',
+    offer: (OFFER_TAGS as readonly string[]).includes(offer) ? (offer as OfferTag) : '',
+  };
+}
+
 const serviceOptions = [
   { value: '', label: 'Select a service...' },
   { value: 'website-design', label: 'Website Design' },
@@ -23,6 +43,7 @@ const serviceOptions = [
   { value: 'seo', label: 'SEO' },
   { value: 'google-ads', label: 'Google Ads' },
   { value: 'ai-automation', label: 'AI Automation' },
+  { value: 'mobility', label: 'Origami Mobility demo' },
   { value: 'other', label: 'Other' },
 ];
 
@@ -50,6 +71,19 @@ export function ContactForm() {
     message: '',
   });
   const [status, setStatus] = useState<FormStatus>('idle');
+  // Product tag from the URL (see readProductTag). Read after mount so the
+  // page stays statically rendered.
+  const [productTag, setProductTag] = useState<{ product: ProductTag | ''; offer: OfferTag | '' }>({
+    product: '',
+    offer: '',
+  });
+  useEffect(() => {
+    const tag = readProductTag();
+    if (!tag.product) return;
+    setProductTag(tag);
+    setFormData((prev) => (prev.service ? prev : { ...prev, service: tag.product }));
+  }, []);
+  const isMobility = productTag.product === 'mobility';
   // Honeypot: if this gets filled, it's a bot.
   const [fax, setFax] = useState('');
   // Render timestamp — server rejects submissions faster than 2.5s.
@@ -87,6 +121,8 @@ export function ContactForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
+          product: productTag.product || undefined,
+          offer: productTag.offer || undefined,
           fax, // honeypot
           _ts: renderedAt.current,
           turnstileToken,
@@ -247,25 +283,27 @@ export function ContactForm() {
         </select>
       </div>
 
-      {/* Budget Range */}
-      <div>
-        <label htmlFor="budget" className={labelClasses}>
-          Budget Range
-        </label>
-        <select
-          id="budget"
-          name="budget"
-          value={formData.budget}
-          onChange={handleChange}
-          className={inputClasses}
-        >
-          {budgetOptions.map((opt) => (
-            <option key={opt.value} value={opt.value} disabled={!opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-      </div>
+      {/* Budget Range. Hidden for Mobility: its fares are in US$ and its terms are for the call. */}
+      {!isMobility && (
+        <div>
+          <label htmlFor="budget" className={labelClasses}>
+            Budget Range
+          </label>
+          <select
+            id="budget"
+            name="budget"
+            value={formData.budget}
+            onChange={handleChange}
+            className={inputClasses}
+          >
+            {budgetOptions.map((opt) => (
+              <option key={opt.value} value={opt.value} disabled={!opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* Message */}
       <div>
@@ -279,7 +317,11 @@ export function ContactForm() {
           rows={5}
           value={formData.message}
           onChange={handleChange}
-          placeholder="Tell us about your project, goals, and any specific requirements..."
+          placeholder={
+            isMobility
+              ? 'Tell us about your operation: the city, how many drivers, how bookings come in today, and when you would like the demo.'
+              : 'Tell us about your project, goals, and any specific requirements...'
+          }
           className={`${inputClasses} resize-y`}
         />
       </div>

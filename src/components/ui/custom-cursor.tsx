@@ -1,24 +1,27 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useSyncExternalStore } from 'react'
 
 /**
  * Trailing cursor ring for fine-pointer devices. The native cursor stays
  * visible — this is an accent that grows over interactive elements and can
  * show a label via [data-cursor-label] on the hovered element (or ancestor).
  */
+const subscribeToNothing = () => () => {}
+
 export function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null)
   const dotRef = useRef<HTMLDivElement>(null)
   const labelRef = useRef<HTMLSpanElement>(null)
-  const [enabled, setEnabled] = useState(false)
-
-  useEffect(() => {
-    const fine = window.matchMedia('(pointer: fine)').matches
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!fine || reduced) return
-    setEnabled(true)
-  }, [])
+  // Fine pointer and no reduced-motion preference. Read once on the client;
+  // false on the server and during hydration.
+  const enabled = useSyncExternalStore(
+    subscribeToNothing,
+    () =>
+      window.matchMedia('(pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    () => false
+  )
 
   useEffect(() => {
     if (!enabled) return
