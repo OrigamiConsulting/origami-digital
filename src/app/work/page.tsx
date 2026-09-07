@@ -48,6 +48,15 @@ const projects: Project[] = [
     url: 'https://cpms.origamievconnect.com',
   },
   {
+    slug: 'origami-mobility',
+    title: 'Origami Mobility',
+    description:
+      'White-label e-hailing platform for cash-first markets: rider and driver apps, an operator console and an agent cash rail, with a fleet mode for operators who already have drivers and customers.',
+    tags: ['Platform', 'React Native', 'Dispatch'],
+    image: '/images/portfolio/origami-mobility.png',
+    url: 'https://mobility.origami-digital.co.za',
+  },
+  {
     slug: 'impactroots',
     title: 'ImpactRoots',
     description:

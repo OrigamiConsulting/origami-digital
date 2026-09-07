@@ -25,6 +25,19 @@ interface ContactFormData {
   _ts?: number
   /** Cloudflare Turnstile token from the widget. */
   turnstileToken?: string
+  /** Product tag, e.g. 'mobility' for enquiries from mobility.origami-digital.co.za. */
+  product?: string
+  /** Which door of a product the enquiry came through, e.g. 'fleet' or 'marketplace'. */
+  offer?: string
+}
+
+const productLabels: Record<string, string> = {
+  mobility: 'Origami Mobility',
+}
+
+const offerLabels: Record<string, string> = {
+  marketplace: 'Marketplace',
+  fleet: 'Fleet mode',
 }
 
 const serviceLabels: Record<string, string> = {
@@ -34,6 +47,7 @@ const serviceLabels: Record<string, string> = {
   'seo': 'SEO',
   'google-ads': 'Google Ads',
   'ai-automation': 'AI Automation',
+  'mobility': 'Origami Mobility demo',
   'free-audit': 'Free Website Audit',
   'geo-audit': 'GEO Audit (AI Search)',
   'partnership': 'Partnership Enquiry',
@@ -45,6 +59,7 @@ const serviceSources: Record<string, string> = {
   'free-audit': 'free_audit',
   'geo-audit': 'geo_audit',
   'partnership': 'partnership',
+  'mobility': 'mobility',
 }
 
 const budgetLabels: Record<string, string> = {
@@ -120,6 +135,14 @@ export async function POST(request: Request) {
     const serviceLabel = serviceLabels[body.service] || body.service
     const budgetLabel = body.budget ? (budgetLabels[body.budget] || body.budget) : 'Not specified'
 
+    // Product tag: only known values are trusted (they go into an HTML email).
+    const productLabel = body.product ? productLabels[body.product] : undefined
+    const offerLabel = body.offer ? offerLabels[body.offer] : undefined
+    const productTag = productLabel
+      ? `${productLabel}${offerLabel ? ` · ${offerLabel}` : ''}`
+      : undefined
+    const subjectPrefix = productTag ? `[${productTag}] ` : ''
+
     const resend = getResendClient()
 
     // Use verified domain or Resend onboarding address as fallback
@@ -133,7 +156,7 @@ export async function POST(request: Request) {
       from: fromAddress,
       to: ['hello@origami-digital.co.za'],
       replyTo: body.email,
-      subject: `New Enquiry: ${serviceLabel} — ${body.name}`,
+      subject: `${subjectPrefix}New Enquiry: ${serviceLabel} — ${body.name}`,
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #f9f9f9; border-radius: 12px; overflow: hidden;">
           <div style="background: #141414; padding: 32px; text-align: center;">
@@ -154,6 +177,10 @@ export async function POST(request: Request) {
                 <td style="padding: 12px 0; border-bottom: 1px solid #eee; color: #8A8A8A; font-size: 14px;">Phone</td>
                 <td style="padding: 12px 0; border-bottom: 1px solid #eee; color: #1E1E1E; font-size: 14px;">${body.phone || 'Not provided'}</td>
               </tr>
+              ${productTag ? `<tr>
+                <td style="padding: 12px 0; border-bottom: 1px solid #eee; color: #8A8A8A; font-size: 14px;">Product</td>
+                <td style="padding: 12px 0; border-bottom: 1px solid #eee; color: #1E1E1E; font-size: 14px; font-weight: 600;">${productTag}</td>
+              </tr>` : ''}
               <tr>
                 <td style="padding: 12px 0; border-bottom: 1px solid #eee; color: #8A8A8A; font-size: 14px;">Service</td>
                 <td style="padding: 12px 0; border-bottom: 1px solid #eee; color: #1E1E1E; font-size: 14px;">${serviceLabel}</td>
@@ -235,7 +262,7 @@ export async function POST(request: Request) {
       phone: body.phone,
       service: serviceLabel,
       budget: budgetLabel,
-      source: serviceSources[body.service] || 'contact_form',
+      source: (body.product && serviceSources[body.product]) || serviceSources[body.service] || 'contact_form',
     }).catch((err) => {
       console.error('Brevo contact creation threw:', err)
       return { success: false as const, error: err instanceof Error ? err.message : String(err) }

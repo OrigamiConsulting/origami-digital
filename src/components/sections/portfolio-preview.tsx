@@ -20,6 +20,13 @@ const projects = [
     url: 'https://www.origamievconnect.com',
   },
   {
+    title: 'Origami Mobility',
+    description: 'White-label e-hailing platform for cash-first markets, with fleet dispatch for operators who already have drivers',
+    tags: ['Platform', 'React Native', 'Dispatch'],
+    image: '/images/portfolio/origami-mobility.png',
+    url: 'https://mobility.origami-digital.co.za',
+  },
+  {
     title: 'ImpactRoots',
     description: 'B2B consulting site for skills development',
     tags: ['Web Design', 'B2B'],
